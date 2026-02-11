@@ -442,6 +442,21 @@
             pointer-events: none;
         }
 
+        /* Full-height reflection canvas — sits behind teeth */
+        .zipper-reflection {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 100%;
+            z-index: 9;
+            opacity: 0.35;
+            mix-blend-mode: screen;
+            pointer-events: none;
+            border-radius: 2px;
+        }
+
         /* Teeth containers */
         .zipper-teeth-left,
         .zipper-teeth-right {
@@ -462,28 +477,29 @@
             margin-left: 1px;
         }
 
-        /* Glass tooth */
+        /* CLEAR glass tooth — NO blur, sharp reflections */
         .z-tooth {
             position: absolute;
             width: 14px;
             height: 6px;
-            border-radius: 2px;
+            border-radius: 1.5px;
+            /* CLEAR glass - sharp gradients, NO backdrop-filter */
             background: linear-gradient(
                 180deg,
-                rgba(255, 255, 255, 0.4) 0%,
-                rgba(255, 255, 255, 0.18) 40%,
-                rgba(255, 255, 255, 0.08) 100%
+                rgba(255, 255, 255, 0.25) 0%,
+                rgba(255, 255, 255, 0.04) 30%,
+                rgba(0, 0, 0, 0.1) 70%,
+                rgba(255, 255, 255, 0.12) 100%
             );
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 0.5px solid rgba(255, 255, 255, 0.25);
+            border: 0.5px solid rgba(255, 255, 255, 0.15);
             box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.5),
-                0 1px 4px rgba(0, 0, 0, 0.4);
+                inset 0 0.5px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -0.5px 0 rgba(255, 255, 255, 0.15),
+                0 0 4px rgba(255, 255, 255, 0.03);
             will-change: transform, opacity;
         }
 
-        /* Glass slider */
+        /* CLEAR glass slider — NO blur */
         .zipper-slider {
             position: absolute;
             left: 50%;
@@ -495,54 +511,42 @@
         .slider-body {
             width: 32px;
             height: 24px;
+            /* CLEAR glass with depth — NO backdrop-filter */
             background: linear-gradient(
-                135deg,
-                rgba(255, 255, 255, 0.5) 0%,
-                rgba(255, 255, 255, 0.22) 30%,
-                rgba(255, 255, 255, 0.12) 60%,
-                rgba(255, 255, 255, 0.3) 100%
+                145deg,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0.05) 25%,
+                rgba(0, 0, 0, 0.15) 50%,
+                rgba(255, 255, 255, 0.08) 75%,
+                rgba(255, 255, 255, 0.2) 100%
             );
-            backdrop-filter: blur(20px) saturate(1.6);
-            -webkit-backdrop-filter: blur(20px) saturate(1.6);
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            border-radius: 5px 5px 7px 7px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 4px 4px 6px 6px;
             box-shadow: 
                 inset 0 1px 0 rgba(255, 255, 255, 0.6),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.15),
-                0 4px 16px rgba(0, 0, 0, 0.5),
-                0 0 30px rgba(255, 255, 255, 0.05);
-            overflow: hidden;
+                inset 1px 0 0 rgba(255, 255, 255, 0.1),
+                inset -1px 0 0 rgba(255, 255, 255, 0.1),
+                0 4px 15px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(255, 255, 255, 0.03);
             position: relative;
         }
 
-        .slider-reflection-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.25;
-            mix-blend-mode: screen;
-            border-radius: inherit;
-            pointer-events: none;
-        }
-
+        /* CLEAR glass pull tab — NO blur */
         .slider-pull {
             width: 12px;
             height: 22px;
             margin: 3px auto 0;
             background: linear-gradient(
                 180deg,
-                rgba(255, 255, 255, 0.35) 0%,
+                rgba(255, 255, 255, 0.22) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
                 rgba(255, 255, 255, 0.12) 100%
             );
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 0.5px solid rgba(255, 255, 255, 0.25);
+            border: 0.5px solid rgba(255, 255, 255, 0.18);
             border-radius: 3px 3px 6px 6px;
             box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.4),
-                0 3px 8px rgba(0, 0, 0, 0.35);
+                inset 0 0.5px 0 rgba(255, 255, 255, 0.45),
+                0 2px 8px rgba(0, 0, 0, 0.4);
             position: relative;
         }
 
@@ -664,18 +668,18 @@
                 width: 44px;
             }
 
+            .zipper-reflection {
+                width: 44px;
+            }
+
             .z-tooth {
                 width: 10px;
                 height: 5px;
-                backdrop-filter: blur(4px);
-                -webkit-backdrop-filter: blur(4px);
             }
 
             .slider-body {
                 width: 26px;
                 height: 20px;
-                backdrop-filter: blur(12px);
-                -webkit-backdrop-filter: blur(12px);
             }
 
             .slider-pull {
@@ -684,7 +688,8 @@
             }
 
             .zipper-product-img {
-                max-width: 80%;
+                max-width: 88%;
+                max-height: 45vh;
             }
 
             .mark-content {
@@ -817,12 +822,14 @@
 
             <!-- Glass zipper -->
             <div class="glass-zipper" id="glassZipper">
+                <!-- Full-height reflection canvas behind teeth -->
+                <canvas id="zipperReflection" class="zipper-reflection"></canvas>
+                <!-- Teeth on top of reflection -->
                 <div class="zipper-teeth-left" id="teethLeft"></div>
                 <div class="zipper-teeth-right" id="teethRight"></div>
+                <!-- Slider -->
                 <div class="zipper-slider" id="zipperSlider">
-                    <div class="slider-body">
-                        <canvas id="sliderReflection" class="slider-reflection-canvas"></canvas>
-                    </div>
+                    <div class="slider-body"></div>
                     <div class="slider-pull"></div>
                 </div>
             </div>
@@ -947,7 +954,7 @@
         var updateWhiteBag = bindBagReveal('scene-birth', 'white-bag-reveal', 'whiteText');
         var updateBlueBag = bindBagReveal('scene-ritual', 'blue-bag-reveal', 'blueText');
 
-        // ===== GLASS ZIPPER V9 =====
+        // ===== CLEAR GLASS ZIPPER V10 =====
         function initGlassZipper() {
             var section = document.getElementById('scene-zipper');
             if (!section) return null;
@@ -959,7 +966,7 @@
             var pageRight = document.getElementById('zPageRight');
             var contentBehind = document.getElementById('zipperContent');
             var glassZipper = document.getElementById('glassZipper');
-            var sliderCanvas = document.getElementById('sliderReflection');
+            var reflectionCanvas = document.getElementById('zipperReflection');
             var video = document.getElementById('webcamFeed');
 
             if (!teethLeft || !teethRight || !slider || !pageLeft || !pageRight) {
@@ -992,26 +999,34 @@
                 rightTeeth.push(tR);
             }
 
-            // Webcam setup
-            var hasWebcam = false;
-            var sliderCtx = null;
-            if (sliderCanvas) {
-                sliderCanvas.width = 64;
-                sliderCanvas.height = 48;
-                sliderCtx = sliderCanvas.getContext('2d');
+            // Full-height reflection canvas setup
+            var reflectionCtx = null;
+            var canvasW = isMobileZip ? 44 : 60;
+            if (reflectionCanvas) {
+                var dpr = window.devicePixelRatio || 1;
+                reflectionCanvas.width = canvasW * dpr;
+                reflectionCanvas.height = viewH * dpr;
+                reflectionCanvas.style.width = canvasW + 'px';
+                reflectionCanvas.style.height = '100%';
+                reflectionCtx = reflectionCanvas.getContext('2d');
+                reflectionCtx.scale(dpr, dpr);
             }
 
-            // Request webcam when section enters viewport
+            // Webcam setup
+            var hasWebcam = false;
             var webcamRequested = false;
+            
             function requestWebcam() {
                 if (webcamRequested || !navigator.mediaDevices) return;
                 webcamRequested = true;
                 navigator.mediaDevices.getUserMedia({ 
-                    video: { width: 64, height: 48, facingMode: 'user' } 
+                    video: { width: { ideal: 120 }, height: { ideal: Math.round(viewH / 3) }, facingMode: 'user' } 
                 }).then(function(stream) {
                     video.srcObject = stream;
+                    video.play();
                     hasWebcam = true;
-                }).catch(function() {
+                }).catch(function(err) {
+                    console.log('Webcam unavailable:', err);
                     hasWebcam = false;
                 });
             }
@@ -1027,31 +1042,65 @@
                 obs.observe(section);
             }
 
-            function drawReflection(time) {
-                if (!sliderCtx) return;
+            // Draw full-height reflection
+            function drawZipperReflection() {
+                if (!reflectionCtx) return;
+                var w = canvasW;
+                var h = viewH;
+                reflectionCtx.clearRect(0, 0, w, h);
+
                 if (hasWebcam && video && video.readyState >= 2) {
-                    sliderCtx.save();
-                    sliderCtx.globalAlpha = 0.3;
-                    sliderCtx.filter = 'blur(2px) brightness(1.4) contrast(0.7)';
-                    sliderCtx.drawImage(video, 0, 0, 64, 48);
-                    sliderCtx.restore();
-                    sliderCtx.fillStyle = 'rgba(200, 220, 255, 0.06)';
-                    sliderCtx.fillRect(0, 0, 64, 48);
+                    reflectionCtx.save();
+                    // Mirror flip
+                    reflectionCtx.translate(w, 0);
+                    reflectionCtx.scale(-1, 1);
+                    // Draw webcam as narrow vertical strip
+                    var vw = video.videoWidth || 120;
+                    var vh = video.videoHeight || 160;
+                    var srcW = vw * 0.3;
+                    var srcX = (vw - srcW) / 2;
+                    reflectionCtx.drawImage(video, srcX, 0, srcW, vh, 0, 0, w, h);
+                    reflectionCtx.restore();
+                    // Glass tint
+                    reflectionCtx.fillStyle = 'rgba(180, 210, 240, 0.06)';
+                    reflectionCtx.fillRect(0, 0, w, h);
+                    // Light streaks
+                    var streakGrad = reflectionCtx.createLinearGradient(0, 0, w, 0);
+                    streakGrad.addColorStop(0, 'rgba(255,255,255,0)');
+                    streakGrad.addColorStop(0.3, 'rgba(255,255,255,0.08)');
+                    streakGrad.addColorStop(0.5, 'rgba(255,255,255,0)');
+                    streakGrad.addColorStop(0.7, 'rgba(255,255,255,0.05)');
+                    streakGrad.addColorStop(1, 'rgba(255,255,255,0)');
+                    reflectionCtx.fillStyle = streakGrad;
+                    reflectionCtx.fillRect(0, 0, w, h);
                 } else {
-                    sliderCtx.clearRect(0, 0, 64, 48);
-                    var sweep = (Math.sin((time || 0) * 0.001) + 1) / 2;
-                    var grad = sliderCtx.createLinearGradient(sweep * 64 - 20, 0, sweep * 64 + 20, 48);
-                    grad.addColorStop(0, 'rgba(255,255,255,0)');
-                    grad.addColorStop(0.5, 'rgba(255,255,255,0.18)');
-                    grad.addColorStop(1, 'rgba(255,255,255,0)');
-                    sliderCtx.fillStyle = grad;
-                    sliderCtx.fillRect(0, 0, 64, 48);
+                    // Fallback: animated light caustics
+                    var time = performance.now() * 0.0008;
+                    for (var i = 0; i < 3; i++) {
+                        var y = ((Math.sin(time + i * 2.1) + 1) / 2) * h;
+                        var grad = reflectionCtx.createRadialGradient(w / 2, y, 0, w / 2, y, 60);
+                        grad.addColorStop(0, 'rgba(255,255,255,0.1)');
+                        grad.addColorStop(1, 'rgba(255,255,255,0)');
+                        reflectionCtx.fillStyle = grad;
+                        reflectionCtx.fillRect(0, Math.max(0, y - 60), w, 120);
+                    }
+                    // Edge highlight
+                    reflectionCtx.strokeStyle = 'rgba(255,255,255,0.04)';
+                    reflectionCtx.lineWidth = 1;
+                    reflectionCtx.strokeRect(1, 0, w - 2, h);
                 }
             }
 
+            // Reflection animation loop
+            function reflectionLoop() {
+                drawZipperReflection();
+                requestAnimationFrame(reflectionLoop);
+            }
+            requestAnimationFrame(reflectionLoop);
+
             var lastProgress = -1;
 
-            return function(time) {
+            return function() {
                 var rect = section.getBoundingClientRect();
                 var totalScroll = section.offsetHeight - window.innerHeight;
                 var scrolled = Math.max(0, -rect.top);
@@ -1061,76 +1110,68 @@
                 lastProgress = progress;
 
                 viewH = window.innerHeight;
-                var sliderY = progress * (viewH - 60);
-                slider.style.top = sliderY + 'px';
 
-                // Teeth animation
-                var transitionZone = 45;
+                // SLIDER STAYS CENTERED — fixed at viewport middle
+                slider.style.top = (viewH / 2 - 20) + 'px';
+
+                // Split line moves from bottom to top based on progress
+                var splitLineY = viewH * (1 - progress);
+
+                // Teeth animation relative to splitLineY
+                var transitionZone = 35;
                 leftTeeth.forEach(function(tooth, i) {
                     var toothY = i * toothSpacing;
-                    var dist = toothY - sliderY;
-                    if (dist < -transitionZone) {
-                        tooth.style.transform = 'translateX(-20px)';
-                        tooth.style.opacity = '0.55';
-                    } else if (dist > transitionZone) {
+                    if (toothY < splitLineY - transitionZone) {
+                        // Below split = CLOSED
                         tooth.style.transform = 'translateX(0)';
                         tooth.style.opacity = '1';
+                    } else if (toothY > splitLineY + transitionZone) {
+                        // Above split = OPEN
+                        tooth.style.transform = 'translateX(-20px)';
+                        tooth.style.opacity = '0.5';
                     } else {
-                        var t = (dist + transitionZone) / (transitionZone * 2);
-                        tooth.style.transform = 'translateX(-' + ((1 - t) * 20) + 'px)';
-                        tooth.style.opacity = (0.55 + t * 0.45);
+                        var t = (toothY - (splitLineY - transitionZone)) / (transitionZone * 2);
+                        tooth.style.transform = 'translateX(-' + (t * 20) + 'px)';
+                        tooth.style.opacity = (1 - t * 0.5);
                     }
                 });
 
                 rightTeeth.forEach(function(tooth, i) {
                     var toothY = i * toothSpacing + toothSpacing / 2;
-                    var dist = toothY - sliderY;
-                    if (dist < -transitionZone) {
-                        tooth.style.transform = 'translateX(20px)';
-                        tooth.style.opacity = '0.55';
-                    } else if (dist > transitionZone) {
+                    if (toothY < splitLineY - transitionZone) {
                         tooth.style.transform = 'translateX(0)';
                         tooth.style.opacity = '1';
+                    } else if (toothY > splitLineY + transitionZone) {
+                        tooth.style.transform = 'translateX(20px)';
+                        tooth.style.opacity = '0.5';
                     } else {
-                        var t = (dist + transitionZone) / (transitionZone * 2);
-                        tooth.style.transform = 'translateX(' + ((1 - t) * 20) + 'px)';
-                        tooth.style.opacity = (0.55 + t * 0.45);
+                        var t = (toothY - (splitLineY - transitionZone)) / (transitionZone * 2);
+                        tooth.style.transform = 'translateX(' + (t * 20) + 'px)';
+                        tooth.style.opacity = (1 - t * 0.5);
                     }
                 });
 
-                // Page halves split — THIS IS THE KEY FIX
+                // Page halves split
                 var splitEase = progress * progress;
                 var maxSplit = window.innerWidth * 0.55;
                 var splitAmount = splitEase * maxSplit;
-                var curl = progress * 5;
 
-                pageLeft.style.transform = 'translateX(-' + splitAmount + 'px) perspective(1200px) rotateY(' + curl + 'deg)';
-                pageRight.style.transform = 'translateX(' + splitAmount + 'px) perspective(1200px) rotateY(-' + curl + 'deg)';
+                pageLeft.style.transform = 'translateX(-' + splitAmount + 'px) perspective(1200px) rotateY(' + (progress * 4) + 'deg)';
+                pageLeft.style.transformOrigin = 'right center';
+                pageRight.style.transform = 'translateX(' + splitAmount + 'px) perspective(1200px) rotateY(-' + (progress * 4) + 'deg)';
+                pageRight.style.transformOrigin = 'left center';
 
                 // Content reveal
                 if (contentBehind) {
-                    var cProg = Math.max(0, (progress - 0.12) / 0.55);
-                    var cBlur = Math.max(0, 14 * (1 - cProg));
-                    var cScale = 0.88 + (Math.min(1, cProg) * 0.12);
+                    var cProg = Math.max(0, (progress - 0.2) / 0.5);
                     contentBehind.style.opacity = Math.min(1, cProg);
-                    contentBehind.style.filter = 'blur(' + cBlur + 'px)';
-                    contentBehind.style.transform = 'scale(' + cScale + ')';
+                    contentBehind.style.filter = 'blur(' + Math.max(0, 10 * (1 - cProg)) + 'px)';
+                    contentBehind.style.transform = 'scale(' + (0.92 + Math.min(1, cProg) * 0.08) + ')';
                 }
 
-                // Zipper fade out when done
-                if (progress > 0.85) {
-                    var fade = (progress - 0.85) / 0.15;
-                    var zipOp = 1 - fade;
-                    teethLeft.style.opacity = zipOp;
-                    teethRight.style.opacity = zipOp;
-                    slider.style.opacity = zipOp;
-                } else {
-                    teethLeft.style.opacity = '1';
-                    teethRight.style.opacity = '1';
-                    slider.style.opacity = '1';
-                }
-
-                drawReflection(time);
+                // Zipper fade out
+                var zipperFade = progress > 0.85 ? 1 - ((progress - 0.85) / 0.15) : 1;
+                glassZipper.style.opacity = zipperFade;
             };
         }
 
