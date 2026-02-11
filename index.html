@@ -79,7 +79,7 @@
             will-change: transform;
         }
 
-        /* ===== SCENES WITH COLOR SHIFTS ===== */
+        /* ===== SCENES ===== */
         .scene {
             position: relative;
             display: flex;
@@ -90,7 +90,6 @@
             transition: background-color 1.5s ease;
         }
 
-        /* ===== MICRO-BOUNCE EASING ===== */
         .fade-up, .product-text, .mark-line, .manifesto-line {
             transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
                         transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -142,7 +141,7 @@
             transform: translateY(40px);
         }
 
-        /* ===== BAG REVEAL (Flap Opening) ===== */
+        /* ===== BAG REVEAL ===== */
         .bag-reveal {
             position: relative;
             width: 70vmin;
@@ -172,33 +171,21 @@
             will-change: transform, opacity;
         }
 
-        .flap-top {
-            top: 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .flap-bottom {
-            bottom: 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-        }
+        .flap-top { top: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
+        .flap-bottom { bottom: 0; border-top: 1px solid rgba(255, 255, 255, 0.04); }
 
         .zipper-line {
             position: absolute;
-            left: 0;
-            right: 0;
-            top: 50%;
+            left: 0; right: 0; top: 50%;
             height: 1px;
             background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.12) 20%, rgba(255, 255, 255, 0.12) 80%, transparent 100%);
             z-index: 3;
             transform: translateY(-50%);
-            will-change: opacity;
         }
 
-        /* ===== SCENE 2: THE BIRTH ===== */
-        .scene-birth {
-            height: 200vh;
-            background-color: #000000;
-        }
+        /* ===== SCENE 2-4 ===== */
+        .scene-birth, .scene-ritual { height: 200vh; background-color: #000; }
+        .scene-mark { height: 200vh; background-color: #000; }
 
         .birth-content, .ritual-content {
             position: sticky;
@@ -234,12 +221,6 @@
             color: var(--dim);
         }
 
-        /* ===== SCENE 3: THE MARK ===== */
-        .scene-mark {
-            height: 200vh;
-            background-color: #000000;
-        }
-
         .mark-content {
             position: sticky;
             top: 0;
@@ -256,7 +237,6 @@
             object-fit: contain;
             opacity: 0;
             transform: translateY(60px);
-            will-change: transform, filter, opacity;
         }
 
         .mark-text {
@@ -286,27 +266,10 @@
             line-height: 1.8;
         }
 
-        @media (max-width: 900px) {
-            .mark-content { flex-direction: column; }
-            .mark-text {
-                position: relative;
-                right: auto;
-                text-align: center;
-                padding: 20px;
-                margin-top: 30px;
-            }
-        }
-
-        /* ===== SCENE 4: THE RITUAL ===== */
-        .scene-ritual {
-            height: 200vh;
-            background-color: #000000;
-        }
-
-        /* ===== SCENE 5: THE GALLERY ===== */
+        /* ===== SCENE 5: GALLERY ===== */
         .scene-gallery {
             height: 300vh;
-            background-color: #000000;
+            background-color: #000;
         }
 
         .gallery-track {
@@ -314,7 +277,6 @@
             top: 0;
             height: 100vh;
             display: flex;
-            will-change: transform;
         }
 
         .gallery-panel {
@@ -324,7 +286,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            position: relative;
         }
 
         .gallery-panel img {
@@ -349,10 +310,10 @@
             text-transform: uppercase;
         }
 
-        /* ===== SCENE 5.5: CIRCULAR GLASS LOUPE ===== */
+        /* ===== SCENE 5.5: DETAIL LOUPE WITH 3 VIEWS ===== */
         .loupe-section {
             position: relative;
-            height: 250vh;
+            height: 350vh;
             background: #000;
             overflow: hidden;
         }
@@ -362,152 +323,167 @@
             top: 0;
             height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             overflow: hidden;
         }
 
-        /* The product being inspected */
-        .loupe-product {
-            position: absolute;
-            width: 80vmin;
-            height: 80vmin;
-            max-width: 700px;
-            max-height: 700px;
-            object-fit: contain;
-            opacity: 0.15;
-            filter: blur(2px);
-            will-change: opacity, filter, transform;
+        .loupe-container {
+            display: flex;
+            align-items: center;
+            gap: clamp(40px, 8vw, 120px);
         }
 
-        /* Circular glass loupe */
+        /* Circular glass with iridescent oil edge */
         .loupe-glass {
             position: relative;
-            width: clamp(280px, 45vmin, 450px);
-            height: clamp(280px, 45vmin, 450px);
+            width: clamp(220px, 35vmin, 380px);
+            height: clamp(220px, 35vmin, 380px);
             border-radius: 50%;
-            overflow: hidden;
-            will-change: transform;
+            flex-shrink: 0;
         }
 
-        /* The magnified view inside */
         .loupe-inner {
             position: absolute;
-            inset: 0;
+            inset: 8px;
             border-radius: 50%;
             overflow: hidden;
-            background: rgba(0,0,0,0.3);
+            background: #111;
         }
 
-        .loupe-inner img {
+        .loupe-image {
             position: absolute;
-            width: 200%;
-            height: 200%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            will-change: transform;
+            opacity: 0;
+            transition: opacity 0.6s ease;
         }
 
-        /* Frosted glass effect overlay */
-        .loupe-frost {
+        .loupe-image.active {
+            opacity: 1;
+        }
+
+        /* Iridescent oil-in-water edge ring */
+        .loupe-iridescent {
             position: absolute;
             inset: 0;
             border-radius: 50%;
+            padding: 6px;
+            background: conic-gradient(
+                from var(--iridescent-angle, 0deg),
+                rgba(255, 100, 150, 0.4) 0deg,
+                rgba(100, 200, 255, 0.5) 60deg,
+                rgba(150, 255, 150, 0.4) 120deg,
+                rgba(255, 200, 100, 0.5) 180deg,
+                rgba(200, 100, 255, 0.4) 240deg,
+                rgba(100, 150, 255, 0.5) 300deg,
+                rgba(255, 100, 150, 0.4) 360deg
+            );
+            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #fff calc(100% - 7px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #fff calc(100% - 7px));
+            filter: blur(1px);
+            will-change: --iridescent-angle;
+            animation: iridescentShift 8s linear infinite;
+        }
+
+        @property --iridescent-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        @keyframes iridescentShift {
+            to { --iridescent-angle: 360deg; }
+        }
+
+        /* Glass reflection overlay */
+        .loupe-glass-surface {
+            position: absolute;
+            inset: 6px;
+            border-radius: 50%;
             background: linear-gradient(
                 135deg,
-                rgba(255,255,255,0.08) 0%,
-                rgba(255,255,255,0.02) 50%,
+                rgba(255,255,255,0.12) 0%,
+                transparent 40%,
+                transparent 60%,
                 rgba(255,255,255,0.06) 100%
             );
-            backdrop-filter: blur(1px) saturate(120%);
-            -webkit-backdrop-filter: blur(1px) saturate(120%);
             pointer-events: none;
         }
 
-        /* Glass ring/bezel - Hermès gold accent */
-        .loupe-ring {
+        /* Subtle inner shadow for depth */
+        .loupe-depth {
             position: absolute;
-            inset: -4px;
+            inset: 6px;
             border-radius: 50%;
-            border: 1px solid rgba(212, 175, 55, 0.3);
             box-shadow: 
-                inset 0 0 30px rgba(212, 175, 55, 0.1),
-                0 0 60px rgba(0,0,0,0.5);
+                inset 0 4px 20px rgba(0,0,0,0.6),
+                inset 0 -2px 10px rgba(255,255,255,0.05);
             pointer-events: none;
         }
 
-        /* Dynamic edge reflection */
-        .loupe-reflection {
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            background: conic-gradient(
-                from 0deg,
-                transparent 0deg,
-                rgba(255,255,255,0.15) 30deg,
-                transparent 60deg,
-                transparent 120deg,
-                rgba(255,255,255,0.1) 150deg,
-                transparent 180deg,
-                transparent 240deg,
-                rgba(255,255,255,0.12) 270deg,
-                transparent 300deg,
-                transparent 360deg
-            );
-            will-change: transform;
-            pointer-events: none;
+        /* Text descriptions on the right */
+        .loupe-descriptions {
+            width: clamp(200px, 30vw, 350px);
         }
 
-        /* Inner highlight */
-        .loupe-highlight {
-            position: absolute;
-            top: 8%;
-            left: 15%;
-            width: 35%;
-            height: 20%;
-            background: linear-gradient(
-                135deg,
-                rgba(255,255,255,0.2) 0%,
-                transparent 100%
-            );
-            border-radius: 50%;
-            filter: blur(8px);
-            pointer-events: none;
-        }
-
-        /* Text below loupe */
-        .loupe-text {
-            position: absolute;
-            bottom: 12%;
-            text-align: center;
+        .loupe-desc {
             opacity: 0;
-            transform: translateY(30px);
-            will-change: opacity, transform;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            position: absolute;
         }
 
-        .loupe-text h3 {
-            font-size: clamp(0.7rem, 1.2vw, 0.9rem);
-            font-weight: 300;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: rgba(212, 175, 55, 0.8);
-            margin-bottom: 8px;
+        .loupe-desc.active {
+            opacity: 1;
+            transform: translateY(0);
+            position: relative;
         }
 
-        .loupe-text p {
-            font-size: clamp(0.55rem, 0.9vw, 0.7rem);
+        .loupe-desc h3 {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            font-weight: 200;
             letter-spacing: 0.2em;
-            color: rgba(255,255,255,0.4);
             text-transform: uppercase;
+            margin-bottom: 16px;
+            color: rgba(255,255,255,0.9);
         }
 
-        /* ===== SCENE 6: APPLE GLASS COLLECTION REVEAL ===== */
+        .loupe-desc p {
+            font-size: clamp(0.75rem, 1.1vw, 0.95rem);
+            line-height: 1.8;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.03em;
+        }
+
+        /* Progress dots */
+        .loupe-progress {
+            position: absolute;
+            bottom: 10vh;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+        }
+
+        .loupe-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .loupe-dot.active {
+            background: rgba(255,255,255,0.8);
+            transform: scale(1.3);
+        }
+
+        /* ===== SCENE 6: GLASS COLLECTION REVEAL ===== */
         .glass-section {
             position: relative;
-            height: 200vh;
+            height: 150vh;
             background: #000;
             overflow: hidden;
         }
@@ -515,14 +491,12 @@
         .glass-sticky {
             position: sticky;
             top: 0;
-            left: 0;
             width: 100%;
             height: 100vh;
             overflow: hidden;
-            perspective: 2000px;
+            perspective: 2500px;
         }
 
-        /* Content behind the glass (bags grid) */
         .glass-content-behind {
             position: absolute;
             inset: 0;
@@ -533,7 +507,6 @@
             background: linear-gradient(180deg, #0a0a0a 0%, #000 100%);
             z-index: 1;
             opacity: 0;
-            will-change: opacity, filter;
         }
 
         .glass-bag-card {
@@ -551,7 +524,7 @@
 
         .glass-bag-card:hover {
             transform: translateY(-8px);
-            border-color: rgba(212, 175, 55, 0.3);
+            border-color: rgba(255,255,255,0.2);
         }
 
         .glass-bag-card img {
@@ -575,7 +548,7 @@
             letter-spacing: 0.1em;
         }
 
-        /* The Glass Door Panels */
+        /* Ultra-realistic glass doors */
         .glass-overlay {
             position: absolute;
             inset: 0;
@@ -588,118 +561,102 @@
             flex: 1;
             position: relative;
             transform-style: preserve-3d;
-            will-change: transform;
+            will-change: transform, opacity;
+            transition: transform 0.05s linear;
         }
 
-        .glass-door-left {
-            transform-origin: left center;
-        }
+        .glass-door-left { transform-origin: left center; }
+        .glass-door-right { transform-origin: right center; }
 
-        .glass-door-right {
-            transform-origin: right center;
-        }
-
-        /* The frosted glass panel */
+        /* Multi-layer realistic glass */
         .glass-panel {
             position: absolute;
             inset: 0;
             background: linear-gradient(
-                135deg,
-                rgba(255,255,255,0.08) 0%,
-                rgba(255,255,255,0.03) 30%,
-                rgba(255,255,255,0.05) 70%,
-                rgba(255,255,255,0.08) 100%
+                120deg,
+                rgba(255,255,255,0.04) 0%,
+                rgba(255,255,255,0.08) 25%,
+                rgba(255,255,255,0.03) 50%,
+                rgba(255,255,255,0.06) 75%,
+                rgba(255,255,255,0.04) 100%
             );
-            backdrop-filter: blur(60px) saturate(150%);
-            -webkit-backdrop-filter: blur(60px) saturate(150%);
-            will-change: backdrop-filter;
+            backdrop-filter: blur(80px) saturate(120%);
+            -webkit-backdrop-filter: blur(80px) saturate(120%);
         }
 
-        /* Inner edge glow for depth */
         .glass-door-left .glass-panel {
-            border-right: 1px solid rgba(255,255,255,0.15);
+            border-right: 1px solid rgba(255,255,255,0.12);
             box-shadow: 
-                inset -30px 0 60px -20px rgba(0,0,0,0.4),
-                inset -2px 0 8px rgba(255,255,255,0.08),
-                20px 0 40px rgba(0,0,0,0.3);
+                inset -50px 0 100px -50px rgba(0,0,0,0.5),
+                30px 0 60px rgba(0,0,0,0.4);
         }
 
         .glass-door-right .glass-panel {
-            border-left: 1px solid rgba(255,255,255,0.15);
+            border-left: 1px solid rgba(255,255,255,0.12);
             box-shadow: 
-                inset 30px 0 60px -20px rgba(0,0,0,0.4),
-                inset 2px 0 8px rgba(255,255,255,0.08),
-                -20px 0 40px rgba(0,0,0,0.3);
+                inset 50px 0 100px -50px rgba(0,0,0,0.5),
+                -30px 0 60px rgba(0,0,0,0.4);
         }
 
-        /* Static highlight streak */
+        /* Realistic glass reflection streak */
         .glass-panel::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 0;
             background: linear-gradient(
-                115deg,
+                110deg,
                 transparent 0%,
-                transparent 40%,
-                rgba(255,255,255,0.06) 45%,
-                rgba(255,255,255,0.02) 50%,
-                transparent 55%,
+                transparent 35%,
+                rgba(255,255,255,0.08) 38%,
+                rgba(255,255,255,0.15) 40%,
+                rgba(255,255,255,0.08) 42%,
+                transparent 45%,
                 transparent 100%
             );
-            pointer-events: none;
         }
 
-        /* Animated shimmer sweep */
+        /* Animated light sweep */
         .glass-panel::after {
             content: '';
             position: absolute;
             top: 0;
-            left: -150%;
-            width: 80%;
+            left: -200%;
+            width: 100%;
             height: 100%;
             background: linear-gradient(
                 90deg,
                 transparent 0%,
-                rgba(255,255,255,0.04) 40%,
+                rgba(255,255,255,0.03) 45%,
                 rgba(255,255,255,0.08) 50%,
-                rgba(255,255,255,0.04) 60%,
+                rgba(255,255,255,0.03) 55%,
                 transparent 100%
             );
-            animation: glassShimmer 8s ease-in-out infinite;
-            pointer-events: none;
+            animation: glassSweep 12s ease-in-out infinite;
         }
 
-        @keyframes glassShimmer {
-            0%, 100% { left: -150%; opacity: 0; }
-            10% { opacity: 1; }
-            50% { left: 150%; opacity: 1; }
-            60% { opacity: 0; }
+        @keyframes glassSweep {
+            0%, 100% { left: -200%; }
+            50% { left: 200%; }
         }
 
-        /* Center seam glow line */
         .glass-center-seam {
             position: absolute;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 2px;
+            width: 1px;
             height: 100%;
             background: linear-gradient(
                 180deg,
                 transparent 0%,
-                rgba(255,255,255,0.2) 15%,
-                rgba(255,255,255,0.4) 50%,
-                rgba(255,255,255,0.2) 85%,
+                rgba(255,255,255,0.3) 20%,
+                rgba(255,255,255,0.5) 50%,
+                rgba(255,255,255,0.3) 80%,
                 transparent 100%
             );
             z-index: 20;
-            will-change: opacity;
         }
 
-        /* Text overlay on glass */
         .glass-text {
             position: absolute;
             top: 50%;
@@ -708,7 +665,6 @@
             z-index: 25;
             text-align: center;
             pointer-events: none;
-            will-change: opacity, transform;
         }
 
         .glass-text h2 {
@@ -728,43 +684,10 @@
             color: rgba(255,255,255,0.5);
         }
 
-        /* Scroll hint */
-        .glass-scroll-hint {
-            position: absolute;
-            bottom: 8vh;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 25;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.6rem;
-            will-change: opacity;
-        }
-
-        .glass-scroll-hint span {
-            font-size: 0.6rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.4);
-        }
-
-        .scroll-line {
-            width: 1px;
-            height: 40px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, transparent 100%);
-            animation: scrollPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes scrollPulse {
-            0%, 100% { opacity: 0.4; transform: scaleY(1); }
-            50% { opacity: 1; transform: scaleY(1.2); }
-        }
-
-        /* ===== SCENE 7: THE CREED ===== */
+        /* ===== SCENE 7: CREED ===== */
         .scene-creed {
             height: 250vh;
-            background-color: #000000;
+            background-color: #000;
         }
 
         .creed-content {
@@ -779,7 +702,6 @@
             text-align: center;
             padding: 20px;
             perspective: 800px;
-            perspective-origin: center center;
         }
 
         .manifesto-line {
@@ -789,16 +711,7 @@
             margin: 15px 0;
             opacity: 0;
             transform: translateY(40px);
-            will-change: transform, opacity;
         }
-
-        .manifesto-line:nth-child(1) { --depth-z: 0px; }
-        .manifesto-line:nth-child(2) { --depth-z: -8px; }
-        .manifesto-line:nth-child(3) { --depth-z: -16px; }
-        .manifesto-line:nth-child(4) { --depth-z: -24px; }
-        .manifesto-line:nth-child(5) { --depth-z: -32px; }
-        .manifesto-line:nth-child(6) { --depth-z: -40px; }
-        .manifesto-line:nth-child(7) { --depth-z: -48px; }
 
         .manifesto-line.small {
             font-size: clamp(0.9rem, 2.5vw, 1.2rem);
@@ -808,7 +721,7 @@
         /* ===== SCENE 8: CLOSE ===== */
         .scene-close {
             min-height: 60vh;
-            background-color: #000000;
+            background-color: #000;
             border-top: 1px solid #1a1a1a;
             padding: 80px 20px 40px;
         }
@@ -847,68 +760,44 @@
             text-transform: uppercase;
         }
 
-        /* ===== MOBILE RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .bag-reveal {
-                width: 85vw;
-                height: 85vw;
-                max-width: 400px;
-                max-height: 400px;
+        /* ===== MOBILE ===== */
+        @media (max-width: 900px) {
+            .mark-content { flex-direction: column; }
+            .mark-text {
+                position: relative;
+                right: auto;
+                text-align: center;
+                padding: 20px;
+                margin-top: 30px;
             }
+            .loupe-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .loupe-descriptions {
+                width: 90%;
+                margin-top: 30px;
+            }
+        }
 
+        @media (max-width: 768px) {
+            .bag-reveal { width: 85vw; height: 85vw; max-width: 400px; max-height: 400px; }
             .scene-void { height: 120vh; }
             .scene-birth, .scene-ritual { height: 180vh; }
             .scene-mark { height: 180vh; }
-            .loupe-section { height: 200vh; }
-            .glass-section { height: 180vh; }
+            .loupe-section { height: 280vh; }
+            .glass-section { height: 120vh; }
             .scene-creed { height: 220vh; }
-
-            .loupe-glass {
-                width: 260px;
-                height: 260px;
-            }
-
+            .loupe-glass { width: 200px; height: 200px; }
             .glass-content-behind {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;
                 padding: 10vh 4vw;
             }
-
-            .glass-bag-card {
-                padding: 1rem;
-                border-radius: 12px;
-            }
-
-            .mark-content {
-                flex-direction: column;
-                padding: 40px 20px;
-            }
-
-            .pattern-hero {
-                width: 60vw;
-                height: 60vw;
-            }
-
-            .gallery-track {
-                flex-direction: column;
-                height: auto;
-                position: relative;
-            }
-
-            .gallery-panel {
-                height: auto;
-                min-height: 80vh;
-                padding: 40px 20px;
-            }
-
-            .scene-gallery {
-                height: auto;
-            }
-
-            .close-links {
-                flex-direction: column;
-                gap: 20px;
-            }
+            .gallery-track { flex-direction: column; height: auto; position: relative; }
+            .gallery-panel { height: auto; min-height: 80vh; padding: 40px 20px; }
+            .scene-gallery { height: auto; }
+            .close-links { flex-direction: column; gap: 20px; }
         }
     </style>
 </head>
@@ -993,35 +882,52 @@
         </div>
     </section>
 
-    <!-- SCENE 5.5: CIRCULAR GLASS LOUPE -->
+    <!-- SCENE 5.5: DETAIL LOUPE - 3 VIEWS -->
     <section id="scene-loupe" class="loupe-section" data-pattern-intensity="0.02">
         <div class="loupe-sticky">
-            <!-- Background product (blurred) -->
-            <img src="images/bag-white.jpg" alt="Detail" class="loupe-product" id="loupeProduct">
-
-            <!-- The circular magnifying glass -->
-            <div class="loupe-glass" id="loupeGlass">
-                <div class="loupe-inner">
-                    <img src="images/pattern.jpg" alt="Pattern Detail" id="loupeImage">
+            <div class="loupe-container">
+                <!-- Circular glass loupe -->
+                <div class="loupe-glass" id="loupeGlass">
+                    <div class="loupe-iridescent"></div>
+                    <div class="loupe-inner">
+                        <!-- 3 images that cycle -->
+                        <img src="images/detail-zipper.jpg" alt="Zipper Detail" class="loupe-image active" data-index="0">
+                        <img src="images/detail-hardware.jpg" alt="Hardware Detail" class="loupe-image" data-index="1">
+                        <img src="images/detail-leather.jpg" alt="Leather Detail" class="loupe-image" data-index="2">
+                    </div>
+                    <div class="loupe-glass-surface"></div>
+                    <div class="loupe-depth"></div>
                 </div>
-                <div class="loupe-frost"></div>
-                <div class="loupe-reflection" id="loupeReflection"></div>
-                <div class="loupe-highlight"></div>
-                <div class="loupe-ring"></div>
+
+                <!-- Descriptions on the right -->
+                <div class="loupe-descriptions" id="loupeDescriptions">
+                    <div class="loupe-desc active" data-index="0">
+                        <h3>The Zipper</h3>
+                        <p>Swiss-engineered YKK Excella zipper with custom White Devil pull. Each tooth hand-polished to a mirror finish. Glides with zero resistance—luxury you can feel.</p>
+                    </div>
+                    <div class="loupe-desc" data-index="1">
+                        <h3>The Hardware</h3>
+                        <p>Solid brass hardware with PVD titanium coating. Scratch-resistant. Tarnish-proof. The same finish used in high-end watches. Built to outlast trends.</p>
+                    </div>
+                    <div class="loupe-desc" data-index="2">
+                        <h3>The Leather</h3>
+                        <p>Full-grain Italian leather from a third-generation Tuscan tannery. Vegetable-tanned for 90 days. Develops a unique patina with age—your bag tells your story.</p>
+                    </div>
+                </div>
             </div>
 
-            <!-- Text -->
-            <div class="loupe-text" id="loupeText">
-                <h3>Inspect the Detail</h3>
-                <p>Italian craftsmanship</p>
+            <!-- Progress dots -->
+            <div class="loupe-progress" id="loupeProgress">
+                <div class="loupe-dot active" data-index="0"></div>
+                <div class="loupe-dot" data-index="1"></div>
+                <div class="loupe-dot" data-index="2"></div>
             </div>
         </div>
     </section>
 
-    <!-- SCENE 6: APPLE GLASS COLLECTION REVEAL -->
+    <!-- SCENE 6: GLASS COLLECTION REVEAL -->
     <section id="scene-glass" class="glass-section" data-pattern-intensity="0.01">
         <div class="glass-sticky">
-            <!-- Bags grid behind the glass -->
             <div class="glass-content-behind" id="glassContent">
                 <div class="glass-bag-card">
                     <img src="images/bag-white.jpg" alt="The Original">
@@ -1055,7 +961,6 @@
                 </div>
             </div>
 
-            <!-- Glass overlay that splits open -->
             <div class="glass-overlay" id="glassOverlay">
                 <div class="glass-door glass-door-left" id="glassDoorLeft">
                     <div class="glass-panel"></div>
@@ -1065,19 +970,11 @@
                 </div>
             </div>
 
-            <!-- Center seam -->
             <div class="glass-center-seam" id="glassCenterSeam"></div>
 
-            <!-- Text on glass -->
             <div class="glass-text" id="glassText">
                 <h2>The Collection</h2>
                 <p>Scroll to Reveal</p>
-            </div>
-
-            <!-- Scroll indicator -->
-            <div class="glass-scroll-hint" id="glassScrollHint">
-                <span>Discover</span>
-                <div class="scroll-line"></div>
             </div>
         </div>
     </section>
@@ -1111,7 +1008,6 @@
         var ticking = false;
         var isMobile = window.innerWidth <= 768;
         
-        // Elements
         var pattern = document.querySelector('.living-pattern');
         var progressBar = document.querySelector('.scroll-progress');
         var heroTitle = document.getElementById('heroTitle');
@@ -1119,21 +1015,17 @@
         var titleTagline = document.getElementById('titleTagline');
         var patternHero = document.getElementById('patternHero');
         var markLines = document.querySelectorAll('.mark-line');
-        var whiteText = document.getElementById('whiteText');
-        var blueText = document.getElementById('blueText');
         var gallerySection = document.getElementById('scene-gallery');
         var galleryTrack = document.getElementById('galleryTrack');
         var manifestoLines = document.querySelectorAll('.manifesto-line');
         var scenes = document.querySelectorAll('.scene');
 
-        // Setup title letters
         var titleText = 'WHITE DEVIL';
         heroTitle.innerHTML = titleText.split('').map(function(char) {
             return '<span class="title-letter">' + (char === ' ' ? '&nbsp;' : char) + '</span>';
         }).join('');
         var titleLetters = heroTitle.querySelectorAll('.title-letter');
 
-        // Bottom-to-center progress helper
         function getProgress(element) {
             var rect = element.getBoundingClientRect();
             var viewCenter = window.innerHeight / 2;
@@ -1143,16 +1035,9 @@
             return 1 - Math.min(1, Math.max(0, distFromCenter / travelDistance));
         }
 
-        // Easing functions
-        function easeOutCubic(t) {
-            return 1 - Math.pow(1 - t, 3);
-        }
+        function easeOutQuint(t) { return 1 - Math.pow(1 - t, 5); }
+        function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
 
-        function easeInOutQuart(t) {
-            return t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
-        }
-
-        // Bag reveal with PEEK tease
         function bindBagReveal(sectionId, revealId, textId) {
             var section = document.getElementById(sectionId);
             var reveal = document.getElementById(revealId);
@@ -1163,31 +1048,21 @@
             var flapBottom = reveal.querySelector('.flap-bottom');
             var zipper = reveal.querySelector('.zipper-line');
             var img = reveal.querySelector('.reveal-product');
-
             if (!flapTop || !flapBottom || !img) return null;
 
             return function() {
                 var prog = getProgress(section);
-
                 var peekProgress = Math.max(0, Math.min(1, (prog - 0.05) / 0.1));
                 var mainProgress = Math.max(0, Math.min(1, (prog - 0.2) / 0.5));
                 var totalFlap = (peekProgress * 4) + (mainProgress * 98);
 
                 flapTop.style.transform = 'translateY(-' + totalFlap + '%)';
                 flapBottom.style.transform = 'translateY(' + totalFlap + '%)';
-
-                var flapOpacity = 1 - (mainProgress * 0.9);
-                flapTop.style.opacity = flapOpacity;
-                flapBottom.style.opacity = flapOpacity;
-
+                flapTop.style.opacity = flapBottom.style.opacity = 1 - (mainProgress * 0.9);
                 if (zipper) zipper.style.opacity = 1 - mainProgress;
 
-                var imgBlur = Math.max(0, 15 * (1 - mainProgress));
-                var imgScale = 0.92 + (mainProgress * 0.08);
-                var imgBrightness = 0.4 + (mainProgress * 0.6);
-
-                img.style.filter = 'blur(' + imgBlur + 'px) brightness(' + imgBrightness + ')';
-                img.style.transform = 'scale(' + imgScale + ')';
+                img.style.filter = 'blur(' + Math.max(0, 15 * (1 - mainProgress)) + 'px) brightness(' + (0.4 + mainProgress * 0.6) + ')';
+                img.style.transform = 'scale(' + (0.92 + mainProgress * 0.08) + ')';
 
                 if (text) {
                     var textProg = Math.max(0, Math.min(1, (prog - 0.65) / 0.35));
@@ -1200,20 +1075,16 @@
         var updateWhiteBag = bindBagReveal('scene-birth', 'white-bag-reveal', 'whiteText');
         var updateBlueBag = bindBagReveal('scene-ritual', 'blue-bag-reveal', 'blueText');
 
-        // ===== CIRCULAR GLASS LOUPE =====
+        // ===== LOUPE WITH 3 CYCLING VIEWS =====
         function initLoupe() {
             var section = document.getElementById('scene-loupe');
             if (!section) return null;
 
-            var loupeGlass = document.getElementById('loupeGlass');
-            var loupeReflection = document.getElementById('loupeReflection');
-            var loupeImage = document.getElementById('loupeImage');
-            var loupeProduct = document.getElementById('loupeProduct');
-            var loupeText = document.getElementById('loupeText');
-
-            if (!loupeGlass || !loupeReflection) return null;
-
+            var images = document.querySelectorAll('.loupe-image');
+            var descs = document.querySelectorAll('.loupe-desc');
+            var dots = document.querySelectorAll('.loupe-dot');
             var viewH = window.innerHeight;
+            var currentIndex = -1;
 
             return function() {
                 var rect = section.getBoundingClientRect();
@@ -1221,36 +1092,27 @@
                 var scrolled = Math.max(0, -rect.top);
                 var progress = Math.min(1, scrolled / totalScroll);
 
-                // Reflection rotates as you scroll (Hermès polish effect)
-                var reflectionAngle = progress * 360;
-                loupeReflection.style.transform = 'rotate(' + reflectionAngle + 'deg)';
-
-                // Loupe scales up slightly
-                var scale = 0.9 + (progress * 0.15);
-                loupeGlass.style.transform = 'scale(' + scale + ')';
-
-                // Inner image pans
-                var panX = -50 + (progress * 15);
-                var panY = -50 + (progress * 10);
-                loupeImage.style.transform = 'translate(' + panX + '%, ' + panY + '%)';
-
-                // Background product fades in
-                var bgOpacity = 0.15 + (progress * 0.25);
-                var bgBlur = Math.max(0, 2 - (progress * 2));
-                loupeProduct.style.opacity = bgOpacity;
-                loupeProduct.style.filter = 'blur(' + bgBlur + 'px)';
-                loupeProduct.style.transform = 'scale(' + (1 + progress * 0.1) + ')';
-
-                // Text appears
-                var textProg = Math.max(0, (progress - 0.3) / 0.4);
-                loupeText.style.opacity = Math.min(1, textProg);
-                loupeText.style.transform = 'translateY(' + ((1 - textProg) * 30) + 'px)';
+                // Determine which detail to show (0, 1, or 2)
+                var index = Math.min(2, Math.floor(progress * 3));
+                
+                if (index !== currentIndex) {
+                    currentIndex = index;
+                    images.forEach(function(img, i) {
+                        img.classList.toggle('active', i === index);
+                    });
+                    descs.forEach(function(desc, i) {
+                        desc.classList.toggle('active', i === index);
+                    });
+                    dots.forEach(function(dot, i) {
+                        dot.classList.toggle('active', i === index);
+                    });
+                }
             };
         }
 
         var updateLoupe = initLoupe();
 
-        // ===== APPLE GLASS REVEAL (OPENS EARLY) =====
+        // ===== GLASS REVEAL - OPENS IMMEDIATELY =====
         function initGlassReveal() {
             var section = document.getElementById('scene-glass');
             if (!section) return null;
@@ -1259,62 +1121,50 @@
             var doorRight = document.getElementById('glassDoorRight');
             var centerSeam = document.getElementById('glassCenterSeam');
             var glassText = document.getElementById('glassText');
-            var scrollHint = document.getElementById('glassScrollHint');
             var contentBehind = document.getElementById('glassContent');
             var panels = document.querySelectorAll('.glass-panel');
 
             if (!doorLeft || !doorRight) return null;
 
             var viewH = window.innerHeight;
-            var lastProgress = -1;
 
             return function() {
                 var rect = section.getBoundingClientRect();
                 var totalScroll = section.offsetHeight - viewH;
                 var scrolled = Math.max(0, -rect.top);
                 
-                // OPEN MUCH EARLIER: multiply progress by 2.5 so it's fully open by 40% scroll
+                // OPENS VERY EARLY: 3x multiplier = fully open by 33% scroll
                 var rawProgress = Math.min(1, scrolled / totalScroll);
-                var progress = Math.min(1, rawProgress * 2.5);
+                var progress = Math.min(1, rawProgress * 3);
+                var easedProgress = easeOutQuint(progress);
 
-                if (Math.abs(progress - lastProgress) < 0.001) return;
-                lastProgress = progress;
-
-                var easedProgress = easeOutCubic(progress);
-
-                // === GLASS DOORS ROTATE OPEN ===
-                var maxRotation = 88;
+                // Glass doors rotate open smoothly
+                var maxRotation = 90;
                 var rotation = easedProgress * maxRotation;
 
                 doorLeft.style.transform = 'rotateY(' + rotation + 'deg)';
                 doorRight.style.transform = 'rotateY(-' + rotation + 'deg)';
 
-                // === BLUR REDUCES as doors open ===
-                var blurAmount = Math.max(3, 60 * (1 - easedProgress));
+                // Blur reduces
+                var blurAmount = Math.max(0, 80 * (1 - easedProgress));
                 panels.forEach(function(panel) {
-                    panel.style.backdropFilter = 'blur(' + blurAmount + 'px) saturate(' + (150 + easedProgress * 50) + '%)';
-                    panel.style.webkitBackdropFilter = 'blur(' + blurAmount + 'px) saturate(' + (150 + easedProgress * 50) + '%)';
+                    panel.style.backdropFilter = 'blur(' + blurAmount + 'px) saturate(' + (120 + easedProgress * 30) + '%)';
+                    panel.style.webkitBackdropFilter = 'blur(' + blurAmount + 'px) saturate(' + (120 + easedProgress * 30) + '%)';
                 });
 
-                // === CENTER SEAM fades fast ===
-                centerSeam.style.opacity = Math.max(0, 1 - easedProgress * 3);
+                // Seam and text fade fast
+                centerSeam.style.opacity = Math.max(0, 1 - easedProgress * 4);
+                glassText.style.opacity = Math.max(0, 1 - easedProgress * 6);
+                glassText.style.transform = 'translate(-50%, -50%) scale(' + (1 - easedProgress * 0.15) + ')';
 
-                // === TEXT fades fast ===
-                glassText.style.opacity = Math.max(0, 1 - easedProgress * 5);
-                glassText.style.transform = 'translate(-50%, -50%) scale(' + (1 - easedProgress * 0.2) + ')';
-
-                // === SCROLL HINT fades immediately ===
-                scrollHint.style.opacity = Math.max(0, 1 - easedProgress * 10);
-
-                // === CONTENT reveals early ===
-                var contentFade = Math.max(0, easedProgress * 1.5);
-                var contentBlur = Math.max(0, 12 * (1 - contentFade));
+                // Content reveals
+                var contentFade = Math.max(0, easedProgress * 2);
                 contentBehind.style.opacity = Math.min(1, contentFade);
-                contentBehind.style.filter = 'blur(' + contentBlur + 'px)';
+                contentBehind.style.filter = 'blur(' + Math.max(0, 15 * (1 - contentFade)) + 'px)';
 
-                // === DOORS FADE when fully open ===
-                if (easedProgress > 0.8) {
-                    var doorFade = 1 - ((easedProgress - 0.8) / 0.2);
+                // Doors fade when fully open
+                if (easedProgress > 0.7) {
+                    var doorFade = 1 - ((easedProgress - 0.7) / 0.3);
                     doorLeft.style.opacity = doorFade;
                     doorRight.style.opacity = doorFade;
                 } else {
@@ -1329,15 +1179,12 @@
         function updateAll() {
             var scrollY = window.scrollY;
             var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            var scrollProg = scrollY / docHeight;
-
-            progressBar.style.transform = 'scaleX(' + scrollProg + ')';
+            progressBar.style.transform = 'scaleX(' + (scrollY / docHeight) + ')';
 
             scenes.forEach(function(scene) {
                 var rect = scene.getBoundingClientRect();
                 if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    var intensity = parseFloat(scene.dataset.patternIntensity) || 0.04;
-                    pattern.style.opacity = intensity;
+                    pattern.style.opacity = parseFloat(scene.dataset.patternIntensity) || 0.04;
                 }
             });
 
@@ -1362,9 +1209,7 @@
                 letter.style.transform = 'translateY(' + ((1 - letterProg) * 60) + 'px)';
             });
 
-            var lineProg = Math.max(0, Math.min(1, (prog - 0.6) * 4));
-            titleLine.style.width = (lineProg * 60) + 'px';
-
+            titleLine.style.width = (Math.max(0, Math.min(1, (prog - 0.6) * 4)) * 60) + 'px';
             var tagProg = Math.max(0, Math.min(1, (prog - 0.8) * 5));
             titleTagline.style.opacity = tagProg;
             titleTagline.style.transform = 'translateY(' + ((1 - tagProg) * 40) + 'px)';
@@ -1378,8 +1223,7 @@
             patternHero.style.transform = 'translateY(' + ((1 - Math.min(1, prog * 1.5)) * 60) + 'px) rotate(' + (prog * 45) + 'deg) scale(' + (0.8 + prog * 0.3) + ')';
 
             markLines.forEach(function(line, i) {
-                var lineStart = 0.15 + (i * 0.12);
-                var lineProg = Math.max(0, Math.min(1, (prog - lineStart) * 5));
+                var lineProg = Math.max(0, Math.min(1, (prog - 0.15 - i * 0.12) * 5));
                 line.style.opacity = lineProg;
                 line.style.transform = 'translateY(' + ((1 - lineProg) * 40) + 'px)';
             });
@@ -1388,11 +1232,8 @@
         function updateGallery() {
             var rect = gallerySection.getBoundingClientRect();
             if (rect.top <= 0 && rect.bottom >= window.innerHeight) {
-                var sectionScroll = -rect.top;
-                var sectionRange = gallerySection.offsetHeight - window.innerHeight;
-                var prog = Math.min(1, sectionScroll / sectionRange);
-                var maxScroll = 2 * window.innerWidth;
-                galleryTrack.style.transform = 'translateX(' + -(prog * maxScroll) + 'px)';
+                var prog = Math.min(1, -rect.top / (gallerySection.offsetHeight - window.innerHeight));
+                galleryTrack.style.transform = 'translateX(' + -(prog * 2 * window.innerWidth) + 'px)';
             }
         }
 
@@ -1400,39 +1241,30 @@
             var section = document.getElementById('scene-creed');
             var rect = section.getBoundingClientRect();
             var prog = getProgress(section);
-            var viewCenter = window.innerHeight / 2;
-            var distFromCenter = (rect.top + rect.height / 2) - viewCenter;
+            var distFromCenter = (rect.top + rect.height / 2) - (window.innerHeight / 2);
 
             manifestoLines.forEach(function(line, i) {
                 var lineStart = i / manifestoLines.length;
                 var lineEnd = (i + 1) / manifestoLines.length;
-                var isCurrent = prog >= lineStart && prog < lineEnd;
-                var isPast = prog >= lineEnd;
+                var parallaxOffset = distFromCenter * 0.015 * (1 + i * 0.06);
 
-                var depthMultiplier = 1 + (i * 0.06);
-                var parallaxOffset = distFromCenter * 0.015 * depthMultiplier;
-                var translateZ = -i * 8;
-
-                if (isCurrent) {
+                if (prog >= lineStart && prog < lineEnd) {
                     var lineProg = (prog - lineStart) / (lineEnd - lineStart);
                     line.style.opacity = lineProg;
-                    line.style.transform = 'translateY(' + ((1 - lineProg) * 40 + parallaxOffset) + 'px) translateZ(' + translateZ + 'px)';
-                } else if (isPast) {
+                    line.style.transform = 'translateY(' + ((1 - lineProg) * 40 + parallaxOffset) + 'px)';
+                } else if (prog >= lineEnd) {
                     line.style.opacity = 0.25;
-                    line.style.transform = 'translateY(' + parallaxOffset + 'px) translateZ(' + translateZ + 'px)';
+                    line.style.transform = 'translateY(' + parallaxOffset + 'px)';
                 } else {
                     line.style.opacity = 0;
-                    line.style.transform = 'translateY(' + (40 + parallaxOffset) + 'px) translateZ(' + translateZ + 'px)';
+                    line.style.transform = 'translateY(' + (40 + parallaxOffset) + 'px)';
                 }
             });
         }
 
         window.addEventListener('scroll', function() {
             if (!ticking) {
-                requestAnimationFrame(function() {
-                    updateAll();
-                    ticking = false;
-                });
+                requestAnimationFrame(function() { updateAll(); ticking = false; });
                 ticking = true;
             }
         }, { passive: true });
