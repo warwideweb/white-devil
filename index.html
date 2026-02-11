@@ -272,21 +272,210 @@
         .close-links a:hover { color: #fff; }
         .close-copy { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--muted); }
 
-        /* MOBILE */
+        /* ============================================================================
+           MOBILE RESPONSIVE - Full overhaul
+           ============================================================================ */
         @media (max-width: 768px) {
-            .bag-reveal { width: 85vw; height: 85vw; }
-            .scene-void { height: 120vh; }
-            .scene-birth, .scene-ritual, .scene-mark { height: 180vh; }
-            .loupe-section { height: 400vh; }
-            .collection-section { height: 400vh; }
-            .scene-creed { height: 220vh; }
-            .loupe-container { width: clamp(220px, 65vw, 350px); }
-            .loupe-flex { flex-direction: column; text-align: center; }
-            .loupe-descriptions { width: 90%; margin-top: 30px; }
-            .gallery-track { flex-direction: column; height: auto; position: relative; }
-            .gallery-panel { height: auto; min-height: 80vh; padding: 40px 20px; }
-            .scene-gallery { height: auto; }
-            .carousel-item { width: 260px; height: 320px; margin-left: -130px; margin-top: -160px; }
+            /* VOID / HERO */
+            .scene-void { height: 100vh; }
+            .void-content { padding: 0 20px; }
+            .hero-title { 
+                font-size: clamp(1.8rem, 8vw, 3rem); 
+                letter-spacing: 0.15em;
+                margin-bottom: 20px;
+            }
+            .title-tagline { 
+                font-size: 0.6rem; 
+                letter-spacing: 0.2em;
+            }
+
+            /* BAG REVEAL SECTIONS */
+            .scene-birth, .scene-ritual { height: 150vh; }
+            .bag-reveal { 
+                width: 80vw; 
+                height: 80vw; 
+                max-width: 350px;
+                max-height: 350px;
+            }
+            .product-text { 
+                bottom: 8%; 
+                padding: 0 20px;
+                width: 100%;
+            }
+            .product-text h2 { 
+                font-size: 1.2rem; 
+                letter-spacing: 0.1em;
+            }
+            .product-text p { 
+                font-size: 0.6rem; 
+                letter-spacing: 0.15em;
+            }
+
+            /* MARK SECTION */
+            .scene-mark { height: 150vh; }
+            .mark-content { 
+                flex-direction: column; 
+                padding: 20px;
+            }
+            .pattern-hero { 
+                width: 45vw; 
+                height: 45vw;
+                max-width: 180px;
+                max-height: 180px;
+            }
+            .mark-text { 
+                position: relative; 
+                right: auto; 
+                text-align: center; 
+                margin-top: 30px;
+                max-width: 100%;
+                padding: 0 10px;
+            }
+            .mark-line.title { 
+                font-size: 1.3rem; 
+                letter-spacing: 0.1em;
+                margin-bottom: 20px;
+            }
+            .mark-line.body { 
+                font-size: 0.8rem; 
+                line-height: 1.6;
+                margin-bottom: 10px;
+            }
+
+            /* GALLERY */
+            .scene-gallery { height: auto; min-height: 100vh; }
+            .gallery-track { 
+                flex-direction: column; 
+                height: auto; 
+                position: relative;
+            }
+            .gallery-panel { 
+                height: auto; 
+                min-height: 70vh; 
+                padding: 40px 20px;
+            }
+            .gallery-panel img { 
+                width: 70vw; 
+                height: 70vw;
+                max-width: 300px;
+                max-height: 300px;
+            }
+            .gallery-panel h3 { 
+                font-size: 0.9rem;
+                margin-top: 20px;
+            }
+            .gallery-panel p { 
+                font-size: 0.6rem;
+            }
+
+            /* LOUPE */
+            .loupe-section { height: 300vh; }
+            .loupe-flex { 
+                flex-direction: column; 
+                text-align: center;
+                gap: 30px;
+                padding: 0 20px;
+            }
+            .loupe-container { 
+                width: 65vw;
+                max-width: 280px;
+            }
+            .loupe-descriptions { 
+                width: 100%; 
+                margin-top: 20px;
+                min-height: 120px;
+            }
+            .loupe-desc h3 { 
+                font-size: 1.1rem; 
+                letter-spacing: 0.1em;
+                margin-bottom: 10px;
+            }
+            .loupe-desc p { 
+                font-size: 0.75rem; 
+                line-height: 1.6;
+            }
+            .loupe-progress { bottom: 6vh; }
+
+            /* COLLECTION CAROUSEL */
+            .collection-section { height: 350vh; }
+            .collection-header { top: 5%; }
+            .collection-title { 
+                font-size: 1.2rem; 
+                letter-spacing: 0.2em;
+            }
+            .collection-subtitle { 
+                font-size: 0.5rem;
+                margin-top: 8px;
+            }
+            .carousel-item { 
+                width: 220px; 
+                height: 280px; 
+                margin-left: -110px; 
+                margin-top: -140px; 
+            }
+            .carousel-info { margin-top: 15px; }
+            .carousel-info h3 { 
+                font-size: 0.85rem;
+                letter-spacing: 0.1em;
+            }
+            .carousel-info p { 
+                font-size: 0.6rem;
+            }
+            .carousel-progress { bottom: 5%; }
+
+            /* CREED */
+            .scene-creed { height: 180vh; }
+            .creed-content { padding: 20px; }
+            .manifesto-line { 
+                font-size: 1.1rem; 
+                letter-spacing: 0.05em;
+                margin: 10px 0;
+            }
+            .manifesto-line.small { 
+                font-size: 0.85rem;
+            }
+
+            /* CLOSE / FOOTER */
+            .scene-close { 
+                padding: 50px 20px 30px;
+                min-height: 50vh;
+            }
+            .close-logo { 
+                font-size: 1.3rem; 
+                letter-spacing: 0.2em;
+                margin-bottom: 30px;
+            }
+            .close-links { 
+                gap: 25px; 
+                margin-bottom: 40px;
+            }
+            .close-links a { 
+                font-size: 0.65rem;
+            }
+            .close-copy { 
+                font-size: 0.55rem;
+            }
+        }
+
+        /* SMALL MOBILE (iPhone SE, etc) */
+        @media (max-width: 380px) {
+            .hero-title { 
+                font-size: 1.5rem; 
+                letter-spacing: 0.1em;
+            }
+            .bag-reveal { 
+                width: 85vw; 
+                height: 85vw;
+            }
+            .carousel-item { 
+                width: 200px; 
+                height: 260px; 
+                margin-left: -100px; 
+                margin-top: -130px; 
+            }
+            .loupe-container { 
+                width: 70vw;
+            }
         }
     </style>
 </head>
@@ -532,7 +721,7 @@
 
         const numItems = products.length;
         const anglePerItem = 360 / numItems; // 60° per item
-        const radius = isMobile ? 380 : 550;
+        const radius = isMobile ? 280 : 550; // Smaller radius on mobile
 
         // Create carousel items
         products.forEach((product, i) => {
