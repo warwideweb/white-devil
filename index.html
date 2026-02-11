@@ -349,110 +349,214 @@
             text-transform: uppercase;
         }
 
-        /* ===== SCENE 5.5: THE COLLECTION (Canvas Zipper V8) ===== */
+        /* ===== SCENE 5.5: GLASS ZIPPER V9 ===== */
         .zipper-section {
             position: relative;
             height: 400vh;
-            background: #000000;
+            background: #000;
+            overflow: hidden;
         }
 
-        .zipper-canvas {
+        .zipper-sticky {
             position: sticky;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 100vh;
-            z-index: 10;
-            pointer-events: none;
-            display: block;
-        }
-
-        .page-half {
-            position: fixed;
-            top: 0;
-            height: 100vh;
-            width: 50%;
-            background: #000000;
-            z-index: 5;
-            will-change: transform, clip-path;
-            display: none;
-        }
-
-        .page-left {
-            left: 0;
-            transform-origin: right center;
-        }
-
-        .page-right {
-            right: 0;
-            transform-origin: left center;
-        }
-
-        /* Inner shadow at split edge */
-        .page-left::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 80px;
-            height: 100%;
-            background: linear-gradient(to left, rgba(0,0,0,0.9) 0%, transparent 100%);
-            pointer-events: none;
-        }
-
-        .page-right::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 80px;
-            height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, transparent 100%);
-            pointer-events: none;
-        }
-
-        .zipper-reveal-content {
-            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Content behind the zipper */
+        .zipper-content-behind {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1;
+            background: #000;
             opacity: 0;
-            will-change: opacity, filter;
-            background: #000000;
+            will-change: opacity, filter, transform;
         }
 
-        .zipper-reveal-content .reveal-product {
-            width: 55vmin;
-            max-width: 420px;
+        .zipper-product-img {
+            max-width: 65%;
             max-height: 45vh;
             object-fit: contain;
         }
 
-        .zipper-reveal-content .collection-text {
-            text-align: center;
-            margin-top: 35px;
-        }
-
-        .zipper-reveal-content .collection-text h2 {
-            font-size: clamp(1.3rem, 3vw, 2rem);
-            font-weight: 200;
+        .zipper-title {
+            margin-top: 28px;
+            font-size: clamp(1.3rem, 3.5vw, 2.4rem);
             letter-spacing: 0.3em;
+            font-weight: 200;
             text-transform: uppercase;
-            margin-bottom: 10px;
+            color: #fff;
         }
 
-        .zipper-reveal-content .collection-text p {
-            font-size: 0.6rem;
+        .zipper-subtitle {
+            margin-top: 10px;
+            font-size: clamp(0.6rem, 1.2vw, 0.85rem);
             letter-spacing: 0.4em;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 300;
             text-transform: uppercase;
-            color: var(--dim);
+        }
+
+        /* Page halves that cover and split */
+        .z-page {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: #000;
+            z-index: 5;
+            will-change: transform;
+        }
+
+        .z-page-left {
+            left: 0;
+            transform-origin: right center;
+            box-shadow: inset -40px 0 80px -30px rgba(0, 0, 0, 0.95);
+        }
+
+        .z-page-right {
+            right: 0;
+            transform-origin: left center;
+            box-shadow: inset 40px 0 80px -30px rgba(0, 0, 0, 0.95);
+        }
+
+        /* Glass zipper container */
+        .glass-zipper {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Teeth containers */
+        .zipper-teeth-left,
+        .zipper-teeth-right {
+            position: absolute;
+            top: 0;
+            width: 16px;
+            height: 100%;
+            z-index: 11;
+        }
+
+        .zipper-teeth-left {
+            right: 50%;
+            margin-right: 1px;
+        }
+
+        .zipper-teeth-right {
+            left: 50%;
+            margin-left: 1px;
+        }
+
+        /* Glass tooth */
+        .z-tooth {
+            position: absolute;
+            width: 14px;
+            height: 6px;
+            border-radius: 2px;
+            background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.4) 0%,
+                rgba(255, 255, 255, 0.18) 40%,
+                rgba(255, 255, 255, 0.08) 100%
+            );
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 0.5px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                0 1px 4px rgba(0, 0, 0, 0.4);
+            will-change: transform, opacity;
+        }
+
+        /* Glass slider */
+        .zipper-slider {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 15;
+            will-change: top;
+        }
+
+        .slider-body {
+            width: 32px;
+            height: 24px;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.5) 0%,
+                rgba(255, 255, 255, 0.22) 30%,
+                rgba(255, 255, 255, 0.12) 60%,
+                rgba(255, 255, 255, 0.3) 100%
+            );
+            backdrop-filter: blur(20px) saturate(1.6);
+            -webkit-backdrop-filter: blur(20px) saturate(1.6);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 5px 5px 7px 7px;
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.15),
+                0 4px 16px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slider-reflection-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.25;
+            mix-blend-mode: screen;
+            border-radius: inherit;
+            pointer-events: none;
+        }
+
+        .slider-pull {
+            width: 12px;
+            height: 22px;
+            margin: 3px auto 0;
+            background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.35) 0%,
+                rgba(255, 255, 255, 0.12) 100%
+            );
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 0.5px solid rgba(255, 255, 255, 0.25);
+            border-radius: 3px 3px 6px 6px;
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                0 3px 8px rgba(0, 0, 0, 0.35);
+            position: relative;
+        }
+
+        .slider-pull::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 5px;
+            height: 7px;
+            border-radius: 2px;
+            border: 0.5px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.5);
         }
 
         /* ===== SCENE 6: THE CREED ===== */
@@ -556,13 +660,31 @@
             .zipper-section { height: 300vh; }
             .scene-creed { height: 220vh; }
 
-            .zipper-canvas {
-                width: 80px;
+            .glass-zipper {
+                width: 44px;
             }
 
-            .zipper-reveal-content .reveal-product {
-                width: 70vw;
-                max-width: 280px;
+            .z-tooth {
+                width: 10px;
+                height: 5px;
+                backdrop-filter: blur(4px);
+                -webkit-backdrop-filter: blur(4px);
+            }
+
+            .slider-body {
+                width: 26px;
+                height: 20px;
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+            }
+
+            .slider-pull {
+                width: 10px;
+                height: 18px;
+            }
+
+            .zipper-product-img {
+                max-width: 80%;
             }
 
             .mark-content {
@@ -679,21 +801,34 @@
         </div>
     </section>
 
-    <!-- SCENE 5.5: THE COLLECTION (Canvas Zipper) -->
-    <section class="zipper-section" id="scene-zipper" data-pattern-intensity="0.01">
-        <canvas id="zipperCanvas" class="zipper-canvas"></canvas>
-        
-        <!-- Page halves that split apart -->
-        <div class="page-half page-left" id="pageLeft"></div>
-        <div class="page-half page-right" id="pageRight"></div>
-        
-        <!-- Content revealed behind -->
-        <div class="zipper-reveal-content" id="zipperReveal">
-            <img src="images/bag-shelf.jpg" class="reveal-product" alt="White Devil Collection">
-            <div class="collection-text">
-                <h2>THE COLLECTION</h2>
-                <p>Cream / Blue / Red / Black</p>
+    <!-- SCENE 5.5: GLASS ZIPPER -->
+    <section id="scene-zipper" class="zipper-section" data-pattern-intensity="0.01">
+        <div class="zipper-sticky">
+            <!-- Content behind (revealed as zipper opens) -->
+            <div class="zipper-content-behind" id="zipperContent">
+                <img src="images/bag-shelf.jpg" alt="Collection" class="zipper-product-img">
+                <h2 class="zipper-title">THE COLLECTION</h2>
+                <p class="zipper-subtitle">Cream / Blue / Red / Black</p>
             </div>
+
+            <!-- Page halves that cover and split -->
+            <div class="z-page z-page-left" id="zPageLeft"></div>
+            <div class="z-page z-page-right" id="zPageRight"></div>
+
+            <!-- Glass zipper -->
+            <div class="glass-zipper" id="glassZipper">
+                <div class="zipper-teeth-left" id="teethLeft"></div>
+                <div class="zipper-teeth-right" id="teethRight"></div>
+                <div class="zipper-slider" id="zipperSlider">
+                    <div class="slider-body">
+                        <canvas id="sliderReflection" class="slider-reflection-canvas"></canvas>
+                    </div>
+                    <div class="slider-pull"></div>
+                </div>
+            </div>
+
+            <!-- Webcam for reflection -->
+            <video id="webcamFeed" playsinline autoplay muted style="display:none;"></video>
         </div>
     </section>
 
@@ -812,290 +947,194 @@
         var updateWhiteBag = bindBagReveal('scene-birth', 'white-bag-reveal', 'whiteText');
         var updateBlueBag = bindBagReveal('scene-ritual', 'blue-bag-reveal', 'blueText');
 
-        // ===== CANVAS ZIPPER V8 =====
-        function initZipper() {
-            var canvas = document.getElementById('zipperCanvas');
-            if (!canvas) return null;
-            
-            var ctx = canvas.getContext('2d');
-            var dpr = window.devicePixelRatio || 1;
-            var isMobileZipper = window.innerWidth <= 768;
-            var canvasW = isMobileZipper ? 80 : 120;
-            
-            function resize() {
-                canvas.width = canvasW * dpr;
-                canvas.height = window.innerHeight * dpr;
-                canvas.style.width = canvasW + 'px';
-                canvas.style.height = '100vh';
-                ctx.scale(dpr, dpr);
-            }
-            resize();
-            window.addEventListener('resize', resize);
-            
-            // Tooth dimensions
-            var toothWidth = isMobileZipper ? 5 : 7;
-            var toothHeight = isMobileZipper ? 4 : 5;
-            var toothGap = 3;
-            var toothSpacing = toothHeight + toothGap;
-            var totalTeeth = Math.ceil(window.innerHeight / toothSpacing) + 10;
-            
-            // Metallic colors (zinc palette)
-            var metalLight = '#d4d4d8';
-            var metalMid = '#a1a1aa';
-            var metalDark = '#71717a';
-            var metalShadow = '#52525b';
-            var tapeColor = '#141414';
-            
-            var lastScrollY = 0;
-            var scrollSpeed = 0;
-            
-            function drawTooth(x, y, side, isOpen) {
-                ctx.save();
-                var gradient = ctx.createLinearGradient(x, y, x, y + toothHeight);
-                gradient.addColorStop(0, metalLight);
-                gradient.addColorStop(0.3, '#e4e4e7');
-                gradient.addColorStop(0.5, metalMid);
-                gradient.addColorStop(0.8, metalDark);
-                gradient.addColorStop(1, metalShadow);
-                
-                ctx.fillStyle = gradient;
-                var radius = 1.5;
-                var tw = toothWidth;
-                var th = toothHeight;
-                
-                ctx.beginPath();
-                ctx.moveTo(x + radius, y);
-                ctx.lineTo(x + tw - radius, y);
-                ctx.quadraticCurveTo(x + tw, y, x + tw, y + radius);
-                ctx.lineTo(x + tw, y + th - radius);
-                ctx.quadraticCurveTo(x + tw, y + th, x + tw - radius, y + th);
-                ctx.lineTo(x + radius, y + th);
-                ctx.quadraticCurveTo(x, y + th, x, y + th - radius);
-                ctx.lineTo(x, y + radius);
-                ctx.quadraticCurveTo(x, y, x + radius, y);
-                ctx.fill();
-                
-                // Chrome highlight
-                ctx.strokeStyle = 'rgba(255,255,255,0.5)';
-                ctx.lineWidth = 0.5;
-                ctx.beginPath();
-                ctx.moveTo(x + 1, y + 1);
-                ctx.lineTo(x + tw - 1, y + 1);
-                ctx.stroke();
-                ctx.restore();
-            }
-            
-            function drawSlider(y) {
-                var cx = canvasW / 2;
-                var sliderW = isMobileZipper ? 18 : 24;
-                var sliderH = isMobileZipper ? 14 : 18;
-                var tabW = isMobileZipper ? 7 : 10;
-                var tabH = isMobileZipper ? 18 : 24;
-                
-                // Slider body (trapezoid)
-                var gradient = ctx.createLinearGradient(cx - sliderW/2, y, cx + sliderW/2, y);
-                gradient.addColorStop(0, metalShadow);
-                gradient.addColorStop(0.15, metalDark);
-                gradient.addColorStop(0.3, metalLight);
-                gradient.addColorStop(0.5, '#f4f4f5');
-                gradient.addColorStop(0.7, metalLight);
-                gradient.addColorStop(0.85, metalDark);
-                gradient.addColorStop(1, metalShadow);
-                
-                ctx.fillStyle = gradient;
-                ctx.beginPath();
-                ctx.moveTo(cx - sliderW/2, y);
-                ctx.lineTo(cx + sliderW/2, y);
-                ctx.lineTo(cx + sliderW/2 - 3, y + sliderH);
-                ctx.lineTo(cx - sliderW/2 + 3, y + sliderH);
-                ctx.closePath();
-                ctx.fill();
-                
-                // Top highlight
-                ctx.strokeStyle = 'rgba(255,255,255,0.7)';
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(cx - sliderW/2 + 3, y + 1.5);
-                ctx.lineTo(cx + sliderW/2 - 3, y + 1.5);
-                ctx.stroke();
-                
-                // Moving chrome reflection based on scroll speed
-                var reflectOffset = Math.min(4, Math.abs(scrollSpeed) * 0.3);
-                ctx.fillStyle = 'rgba(255,255,255,' + (0.15 + reflectOffset * 0.08) + ')';
-                ctx.beginPath();
-                ctx.ellipse(cx + reflectOffset, y + 5, 5, 2.5, 0, 0, Math.PI * 2);
-                ctx.fill();
-                
-                // Pull tab
-                var tabY = y + sliderH + 3;
-                var tabGradient = ctx.createLinearGradient(cx - tabW/2, tabY, cx + tabW/2, tabY);
-                tabGradient.addColorStop(0, metalDark);
-                tabGradient.addColorStop(0.3, metalLight);
-                tabGradient.addColorStop(0.5, '#e4e4e7');
-                tabGradient.addColorStop(0.7, metalLight);
-                tabGradient.addColorStop(1, metalDark);
-                
-                ctx.fillStyle = tabGradient;
-                ctx.beginPath();
-                ctx.ellipse(cx, tabY + tabH/2, tabW/2, tabH/2, 0, 0, Math.PI * 2);
-                ctx.fill();
-                
-                // Tab hole
-                ctx.fillStyle = '#0a0a0a';
-                ctx.beginPath();
-                ctx.ellipse(cx, tabY + tabH/2, 2.5, 3.5, 0, 0, Math.PI * 2);
-                ctx.fill();
-                
-                // Tab highlight arc
-                ctx.strokeStyle = 'rgba(255,255,255,0.4)';
-                ctx.lineWidth = 0.5;
-                ctx.beginPath();
-                ctx.ellipse(cx, tabY + tabH/2 - 3, tabW/2 - 1.5, tabH/4, 0, Math.PI, Math.PI * 2);
-                ctx.stroke();
-            }
-            
-            function drawTape(x, y, height, side) {
-                var tapeW = isMobileZipper ? 12 : 16;
-                var tx = (side === 'left') ? x - tapeW : x;
-                
-                ctx.fillStyle = tapeColor;
-                ctx.fillRect(tx, y, tapeW, height);
-                
-                // Stitch line
-                ctx.strokeStyle = '#2a2a2a';
-                ctx.lineWidth = 0.5;
-                ctx.setLineDash([3, 3]);
-                var stitchX = (side === 'left') ? tx + 4 : tx + tapeW - 4;
-                ctx.beginPath();
-                ctx.moveTo(stitchX, y);
-                ctx.lineTo(stitchX, y + height);
-                ctx.stroke();
-                ctx.setLineDash([]);
-            }
-            
-            function draw(splitY, currentScrollY) {
-                scrollSpeed = currentScrollY - lastScrollY;
-                lastScrollY = currentScrollY;
-                
-                var h = window.innerHeight;
-                ctx.clearRect(0, 0, canvasW, h);
-                
-                var cx = canvasW / 2;
-                var leftTeethX = cx - toothWidth - 3;
-                var rightTeethX = cx + 3;
-                var openAmount = isMobileZipper ? 10 : 14;
-                
-                // Draw teeth
-                for (var i = 0; i < totalTeeth; i++) {
-                    var toothY = i * toothSpacing;
-                    
-                    if (toothY < splitY - 25) {
-                        // OPEN — teeth separated
-                        drawTooth(leftTeethX - openAmount, toothY, 'left', true);
-                        drawTooth(rightTeethX + openAmount, toothY, 'right', true);
-                    } else if (toothY > splitY + 25) {
-                        // CLOSED — teeth interlocked (alternating)
-                        if (i % 2 === 0) {
-                            drawTooth(cx - toothWidth/2 - 1, toothY, 'left', false);
-                        } else {
-                            drawTooth(cx - toothWidth/2 + 1, toothY, 'right', false);
-                        }
-                    } else {
-                        // TRANSITION — teeth spreading
-                        var transProgress = (toothY - (splitY - 25)) / 50;
-                        transProgress = Math.max(0, Math.min(1, transProgress));
-                        var spread = openAmount * (1 - transProgress);
-                        drawTooth(leftTeethX - spread, toothY, 'left', true);
-                        drawTooth(rightTeethX + spread, toothY, 'right', true);
-                    }
-                }
-                
-                // Draw tapes
-                if (splitY > 5) {
-                    drawTape(leftTeethX - openAmount, 0, splitY - 10, 'left');
-                    drawTape(rightTeethX + openAmount + toothWidth, 0, splitY - 10, 'right');
-                }
-                drawTape(cx - 2, splitY + 20, h - splitY - 20, 'left');
-                drawTape(cx + 2, splitY + 20, h - splitY - 20, 'right');
-                
-                // Draw slider
-                drawSlider(splitY - 10);
-            }
-            
-            return { draw: draw };
-        }
-        
-        function bindZipperSection() {
+        // ===== GLASS ZIPPER V9 =====
+        function initGlassZipper() {
             var section = document.getElementById('scene-zipper');
-            if (!section) return;
-            
-            var zipper = initZipper();
-            if (!zipper) return;
-            
-            var pageLeft = document.getElementById('pageLeft');
-            var pageRight = document.getElementById('pageRight');
-            var revealContent = document.getElementById('zipperReveal');
-            var canvas = document.getElementById('zipperCanvas');
-            
+            if (!section) return null;
+
+            var teethLeft = document.getElementById('teethLeft');
+            var teethRight = document.getElementById('teethRight');
+            var slider = document.getElementById('zipperSlider');
+            var pageLeft = document.getElementById('zPageLeft');
+            var pageRight = document.getElementById('zPageRight');
+            var contentBehind = document.getElementById('zipperContent');
+            var glassZipper = document.getElementById('glassZipper');
+            var sliderCanvas = document.getElementById('sliderReflection');
+            var video = document.getElementById('webcamFeed');
+
+            if (!teethLeft || !teethRight || !slider || !pageLeft || !pageRight) {
+                console.warn('Glass zipper elements missing');
+                return null;
+            }
+
+            // Generate teeth
+            var isMobileZip = window.innerWidth <= 768;
+            var toothSpacing = isMobileZip ? 11 : 9;
+            var viewH = window.innerHeight;
+            var numTeeth = Math.ceil(viewH / toothSpacing) + 15;
+
+            var leftTeeth = [];
+            var rightTeeth = [];
+
+            for (var i = 0; i < numTeeth; i++) {
+                var tL = document.createElement('div');
+                tL.className = 'z-tooth';
+                tL.style.top = (i * toothSpacing) + 'px';
+                tL.style.right = '0';
+                teethLeft.appendChild(tL);
+                leftTeeth.push(tL);
+
+                var tR = document.createElement('div');
+                tR.className = 'z-tooth';
+                tR.style.top = (i * toothSpacing + toothSpacing / 2) + 'px';
+                tR.style.left = '0';
+                teethRight.appendChild(tR);
+                rightTeeth.push(tR);
+            }
+
+            // Webcam setup
+            var hasWebcam = false;
+            var sliderCtx = null;
+            if (sliderCanvas) {
+                sliderCanvas.width = 64;
+                sliderCanvas.height = 48;
+                sliderCtx = sliderCanvas.getContext('2d');
+            }
+
+            // Request webcam when section enters viewport
+            var webcamRequested = false;
+            function requestWebcam() {
+                if (webcamRequested || !navigator.mediaDevices) return;
+                webcamRequested = true;
+                navigator.mediaDevices.getUserMedia({ 
+                    video: { width: 64, height: 48, facingMode: 'user' } 
+                }).then(function(stream) {
+                    video.srcObject = stream;
+                    hasWebcam = true;
+                }).catch(function() {
+                    hasWebcam = false;
+                });
+            }
+
+            // Observe section entry
+            if ('IntersectionObserver' in window) {
+                var obs = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        requestWebcam();
+                        obs.disconnect();
+                    }
+                }, { threshold: 0.1 });
+                obs.observe(section);
+            }
+
+            function drawReflection(time) {
+                if (!sliderCtx) return;
+                if (hasWebcam && video && video.readyState >= 2) {
+                    sliderCtx.save();
+                    sliderCtx.globalAlpha = 0.3;
+                    sliderCtx.filter = 'blur(2px) brightness(1.4) contrast(0.7)';
+                    sliderCtx.drawImage(video, 0, 0, 64, 48);
+                    sliderCtx.restore();
+                    sliderCtx.fillStyle = 'rgba(200, 220, 255, 0.06)';
+                    sliderCtx.fillRect(0, 0, 64, 48);
+                } else {
+                    sliderCtx.clearRect(0, 0, 64, 48);
+                    var sweep = (Math.sin((time || 0) * 0.001) + 1) / 2;
+                    var grad = sliderCtx.createLinearGradient(sweep * 64 - 20, 0, sweep * 64 + 20, 48);
+                    grad.addColorStop(0, 'rgba(255,255,255,0)');
+                    grad.addColorStop(0.5, 'rgba(255,255,255,0.18)');
+                    grad.addColorStop(1, 'rgba(255,255,255,0)');
+                    sliderCtx.fillStyle = grad;
+                    sliderCtx.fillRect(0, 0, 64, 48);
+                }
+            }
+
             var lastProgress = -1;
-            
-            return function() {
+
+            return function(time) {
                 var rect = section.getBoundingClientRect();
                 var totalScroll = section.offsetHeight - window.innerHeight;
-                var scrolled = -rect.top;
-                var progress = Math.max(0, Math.min(1, scrolled / totalScroll));
-                
-                // Only update if progress changed
-                if (Math.abs(progress - lastProgress) < 0.002) return;
+                var scrolled = Math.max(0, -rect.top);
+                var progress = Math.min(1, scrolled / totalScroll);
+
+                if (Math.abs(progress - lastProgress) < 0.001) return;
                 lastProgress = progress;
-                
-                var isActive = rect.top <= 0 && rect.bottom >= window.innerHeight;
-                
-                // Show/hide elements
-                if (canvas) canvas.style.display = isActive ? 'block' : 'none';
-                if (pageLeft) pageLeft.style.display = isActive ? 'block' : 'none';
-                if (pageRight) pageRight.style.display = isActive ? 'block' : 'none';
-                
-                if (!isActive) {
-                    if (progress >= 1 && revealContent) {
-                        revealContent.style.opacity = '1';
-                        revealContent.style.filter = 'none';
+
+                viewH = window.innerHeight;
+                var sliderY = progress * (viewH - 60);
+                slider.style.top = sliderY + 'px';
+
+                // Teeth animation
+                var transitionZone = 45;
+                leftTeeth.forEach(function(tooth, i) {
+                    var toothY = i * toothSpacing;
+                    var dist = toothY - sliderY;
+                    if (dist < -transitionZone) {
+                        tooth.style.transform = 'translateX(-20px)';
+                        tooth.style.opacity = '0.55';
+                    } else if (dist > transitionZone) {
+                        tooth.style.transform = 'translateX(0)';
+                        tooth.style.opacity = '1';
+                    } else {
+                        var t = (dist + transitionZone) / (transitionZone * 2);
+                        tooth.style.transform = 'translateX(-' + ((1 - t) * 20) + 'px)';
+                        tooth.style.opacity = (0.55 + t * 0.45);
                     }
-                    return;
+                });
+
+                rightTeeth.forEach(function(tooth, i) {
+                    var toothY = i * toothSpacing + toothSpacing / 2;
+                    var dist = toothY - sliderY;
+                    if (dist < -transitionZone) {
+                        tooth.style.transform = 'translateX(20px)';
+                        tooth.style.opacity = '0.55';
+                    } else if (dist > transitionZone) {
+                        tooth.style.transform = 'translateX(0)';
+                        tooth.style.opacity = '1';
+                    } else {
+                        var t = (dist + transitionZone) / (transitionZone * 2);
+                        tooth.style.transform = 'translateX(' + ((1 - t) * 20) + 'px)';
+                        tooth.style.opacity = (0.55 + t * 0.45);
+                    }
+                });
+
+                // Page halves split — THIS IS THE KEY FIX
+                var splitEase = progress * progress;
+                var maxSplit = window.innerWidth * 0.55;
+                var splitAmount = splitEase * maxSplit;
+                var curl = progress * 5;
+
+                pageLeft.style.transform = 'translateX(-' + splitAmount + 'px) perspective(1200px) rotateY(' + curl + 'deg)';
+                pageRight.style.transform = 'translateX(' + splitAmount + 'px) perspective(1200px) rotateY(-' + curl + 'deg)';
+
+                // Content reveal
+                if (contentBehind) {
+                    var cProg = Math.max(0, (progress - 0.12) / 0.55);
+                    var cBlur = Math.max(0, 14 * (1 - cProg));
+                    var cScale = 0.88 + (Math.min(1, cProg) * 0.12);
+                    contentBehind.style.opacity = Math.min(1, cProg);
+                    contentBehind.style.filter = 'blur(' + cBlur + 'px)';
+                    contentBehind.style.transform = 'scale(' + cScale + ')';
                 }
-                
-                var viewH = window.innerHeight;
-                var sliderY = progress * (viewH - 50);
-                
-                // Draw canvas zipper
-                zipper.draw(sliderY, window.scrollY);
-                
-                // Page halves split with 3D perspective
-                var splitAmount = progress * 120;
-                var rotateAmount = progress * 4;
-                var perspective = 1000;
-                
-                if (pageLeft) {
-                    pageLeft.style.clipPath = 'inset(0 0 ' + ((1 - progress) * 100) + '% 0)';
-                    pageLeft.style.transform = 'perspective(' + perspective + 'px) translateX(-' + splitAmount + 'px) rotateY(' + rotateAmount + 'deg)';
+
+                // Zipper fade out when done
+                if (progress > 0.85) {
+                    var fade = (progress - 0.85) / 0.15;
+                    var zipOp = 1 - fade;
+                    teethLeft.style.opacity = zipOp;
+                    teethRight.style.opacity = zipOp;
+                    slider.style.opacity = zipOp;
+                } else {
+                    teethLeft.style.opacity = '1';
+                    teethRight.style.opacity = '1';
+                    slider.style.opacity = '1';
                 }
-                
-                if (pageRight) {
-                    pageRight.style.clipPath = 'inset(0 0 ' + ((1 - progress) * 100) + '% 0)';
-                    pageRight.style.transform = 'perspective(' + perspective + 'px) translateX(' + splitAmount + 'px) rotateY(-' + rotateAmount + 'deg)';
-                }
-                
-                // Content reveals with blur
-                if (revealContent) {
-                    var contentOpacity = Math.max(0, (progress - 0.25) / 0.5);
-                    var contentBlur = Math.max(0, 12 * (1 - progress * 1.3));
-                    revealContent.style.opacity = contentOpacity;
-                    revealContent.style.filter = 'blur(' + contentBlur + 'px)';
-                }
+
+                drawReflection(time);
             };
         }
-        
-        var updateZipper = bindZipperSection();
+
+        var updateGlassZipper = initGlassZipper();
 
         function updateAll() {
             var scrollY = window.scrollY;
@@ -1121,8 +1160,8 @@
             if (updateWhiteBag) updateWhiteBag();
             if (updateBlueBag) updateBlueBag();
             
-            // Canvas zipper
-            if (updateZipper) updateZipper();
+            // Glass zipper
+            if (updateGlassZipper) updateGlassZipper(performance.now());
 
             // Pattern section
             updateMark();
