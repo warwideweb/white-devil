@@ -36,35 +36,15 @@
             overflow-x: hidden;
         }
 
-        /* ===== FILM GRAIN OVERLAY ===== */
+        /* ===== FILM GRAIN OVERLAY (static, no animation for perf) ===== */
         body::before {
             content: '';
             position: fixed;
-            top: -50%;
-            left: -50%;
-            right: -50%;
-            bottom: -50%;
-            width: 200%;
-            height: 200%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
             pointer-events: none;
             z-index: 9999;
-            animation: grain 0.5s steps(1) infinite;
-            mix-blend-mode: overlay;
-        }
-
-        @keyframes grain {
-            0% { transform: translate(0, 0); }
-            10% { transform: translate(-5%, -10%); }
-            20% { transform: translate(-15%, 5%); }
-            30% { transform: translate(7%, -25%); }
-            40% { transform: translate(-5%, 25%); }
-            50% { transform: translate(-15%, 10%); }
-            60% { transform: translate(15%, 0%); }
-            70% { transform: translate(0%, 15%); }
-            80% { transform: translate(3%, 35%); }
-            90% { transform: translate(-10%, 10%); }
-            100% { transform: translate(0, 0); }
+            opacity: 0.5;
         }
 
         /* ===== SCROLL PROGRESS BAR ===== */
@@ -78,6 +58,7 @@
             transform-origin: left;
             transform: scaleX(0);
             width: 100%;
+            will-change: transform;
         }
 
         /* ===== CUSTOM CURSOR (desktop) ===== */
@@ -326,6 +307,20 @@
                 right: 20px;
                 bottom: 40px;
                 padding: 20px;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+                background: rgba(0, 0, 0, 0.7);
+            }
+
+            /* Disable grain on mobile */
+            body::before {
+                display: none;
+            }
+
+            /* Disable heavy animations */
+            .pattern-large {
+                animation: none;
+                opacity: 0.6;
             }
         }
 
@@ -608,25 +603,6 @@
             }
         }
 
-        /* ===== SCROLL-DRIVEN ANIMATIONS (2026 CSS) ===== */
-        @supports (animation-timeline: scroll()) {
-            .hero-image {
-                animation: scaleReveal linear both;
-                animation-timeline: view();
-                animation-range: entry 0% entry 100%;
-            }
-
-            @keyframes scaleReveal {
-                from {
-                    transform: scale(0.9);
-                    filter: blur(5px);
-                }
-                to {
-                    transform: scale(1);
-                    filter: blur(0);
-                }
-            }
-        }
     </style>
 </head>
 <body>
@@ -817,13 +793,21 @@
             observer.observe(el);
         });
 
-        // ===== SCROLL PROGRESS BAR =====
+        // ===== SCROLL PROGRESS BAR (throttled) =====
+        var ticking = false;
+        var progressBar = document.querySelector('.scroll-progress');
         window.addEventListener('scroll', function() {
-            var scrollTop = window.scrollY;
-            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            var progress = scrollTop / docHeight;
-            document.querySelector('.scroll-progress').style.transform = 'scaleX(' + progress + ')';
-        });
+            if (!ticking) {
+                requestAnimationFrame(function() {
+                    var scrollTop = window.scrollY;
+                    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    var progress = scrollTop / docHeight;
+                    progressBar.style.transform = 'scaleX(' + progress + ')';
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
 
         // ===== SMOOTH SCROLL ON ENTER =====
         document.querySelector('.opening-enter').addEventListener('click', function() {
