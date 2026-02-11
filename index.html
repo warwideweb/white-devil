@@ -26,6 +26,7 @@
             font-weight: 300;
             line-height: 1.6;
             overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
         }
 
         /* ===== FILM GRAIN ===== */
@@ -78,7 +79,7 @@
             will-change: transform;
         }
 
-        /* ===== SCENES ===== */
+        /* ===== SCENES WITH COLOR SHIFTS ===== */
         .scene {
             position: relative;
             display: flex;
@@ -86,25 +87,19 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            transition: background-color 1.5s ease;
         }
 
-        /* ===== FADE UP ANIMATION ===== */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(60px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .fade-up.visible {
-            opacity: 1;
-            transform: translateY(0);
+        /* ===== MICRO-BOUNCE EASING ===== */
+        .fade-up, .product-text, .mark-line, .manifesto-line {
+            transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         /* ===== SCENE 1: THE VOID ===== */
         .scene-void {
             height: 150vh;
-            background: var(--black);
+            background-color: #000000;
         }
 
         .void-content {
@@ -128,6 +123,7 @@
             opacity: 0;
             filter: blur(20px);
             transform: translateY(60px);
+            will-change: transform, filter, opacity;
         }
 
         .title-line {
@@ -154,13 +150,14 @@
             max-width: 600px;
             max-height: 600px;
             overflow: hidden;
+            border-radius: 2px;
         }
 
         .bag-reveal .reveal-product {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            filter: blur(15px) brightness(0.5);
+            filter: blur(15px) brightness(0.4);
             transform: scale(0.92);
             will-change: filter, transform;
         }
@@ -169,39 +166,38 @@
             position: absolute;
             left: 0;
             width: 100%;
-            height: 50%;
-            background: var(--black);
+            height: 50.5%;
+            background: #000;
             z-index: 2;
             will-change: transform, opacity;
         }
 
         .flap-top {
             top: 0;
-            transform-origin: center top;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         .flap-bottom {
             bottom: 0;
-            transform-origin: center bottom;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         .zipper-line {
             position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.15) 30%, rgba(255, 255, 255, 0.15) 70%, transparent 100%);
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 1px;
+            background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.12) 20%, rgba(255, 255, 255, 0.12) 80%, transparent 100%);
             z-index: 3;
-            transform: translateX(-50%);
+            transform: translateY(-50%);
+            will-change: opacity;
         }
 
-        /* ===== SCENE 2 & 4: PRODUCT SCENES ===== */
-        .scene-birth, .scene-ritual {
+        /* ===== SCENE 2: THE BIRTH ===== */
+        .scene-birth {
             height: 200vh;
-            background: var(--black);
+            background-color: #020204;
         }
 
         .birth-content, .ritual-content {
@@ -241,7 +237,7 @@
         /* ===== SCENE 3: THE MARK ===== */
         .scene-mark {
             height: 200vh;
-            background: var(--dark);
+            background-color: #030302;
         }
 
         .mark-content {
@@ -301,10 +297,16 @@
             }
         }
 
+        /* ===== SCENE 4: THE RITUAL ===== */
+        .scene-ritual {
+            height: 200vh;
+            background-color: #010203;
+        }
+
         /* ===== SCENE 5: THE GALLERY ===== */
         .scene-gallery {
             height: 300vh;
-            background: var(--black);
+            background-color: #020202;
         }
 
         .gallery-track {
@@ -350,7 +352,7 @@
         /* ===== SCENE 6: THE CREED ===== */
         .scene-creed {
             height: 250vh;
-            background: var(--black);
+            background-color: #000000;
         }
 
         .creed-content {
@@ -373,6 +375,7 @@
             margin: 15px 0;
             opacity: 0;
             transform: translateY(40px);
+            will-change: transform, opacity;
         }
 
         .manifesto-line.small {
@@ -383,7 +386,7 @@
         /* ===== SCENE 7: CLOSE ===== */
         .scene-close {
             min-height: 60vh;
-            background: var(--black);
+            background-color: #000000;
             border-top: 1px solid #1a1a1a;
             padding: 80px 20px 40px;
         }
@@ -422,97 +425,56 @@
             text-transform: uppercase;
         }
 
-        /* ===== MOBILE ===== */
+        /* ===== MOBILE - ANIMATIONS ENABLED ===== */
         @media (max-width: 768px) {
-            body::before { opacity: 0.2; }
-            
-            .living-pattern {
-                animation: none;
-                opacity: 0.03 !important;
-            }
-
-            .scene-void { height: 100vh; }
-            .scene-birth, .scene-ritual { height: 100vh; }
-            .scene-mark { height: auto; min-height: 100vh; padding: 60px 20px; }
-            .scene-gallery { height: auto; }
-            .scene-creed { height: auto; min-height: 100vh; padding: 60px 20px; }
-
-            .birth-content, .ritual-content, .mark-content, .creed-content {
-                position: relative;
-                height: auto;
-                min-height: 100vh;
-            }
-
             .bag-reveal {
                 width: 85vw;
-                height: auto;
-                aspect-ratio: 1;
+                height: 85vw;
+                max-width: 400px;
+                max-height: 400px;
             }
 
-            .bag-reveal .reveal-product {
-                filter: none !important;
-                transform: none !important;
-            }
+            .scene-void { height: 120vh; }
+            .scene-birth, .scene-ritual { height: 180vh; }
+            .scene-mark { height: 180vh; }
+            .scene-creed { height: 220vh; }
 
-            .flap, .zipper-line { display: none; }
-
-            .product-text {
-                position: relative;
-                bottom: auto;
-                margin-top: 30px;
-                opacity: 1 !important;
-                transform: none !important;
+            .mark-content {
+                flex-direction: column;
+                padding: 40px 20px;
             }
 
             .pattern-hero {
                 width: 60vw;
-                height: auto;
-                opacity: 1 !important;
-                transform: none !important;
-            }
-
-            .mark-line {
-                opacity: 1 !important;
-                transform: none !important;
+                height: 60vw;
             }
 
             .gallery-track {
-                position: relative;
                 flex-direction: column;
                 height: auto;
-                transform: none !important;
+                position: relative;
             }
 
             .gallery-panel {
                 height: auto;
-                padding: 60px 20px;
+                min-height: 80vh;
+                padding: 40px 20px;
             }
 
-            .manifesto-line {
-                opacity: 1 !important;
-                transform: none !important;
+            .scene-gallery {
+                height: auto;
             }
 
-            .title-letter {
-                opacity: 1 !important;
-                filter: none !important;
-                transform: none !important;
-            }
-
-            .title-line { width: 60px !important; }
-            .title-tagline {
-                opacity: 1 !important;
-                transform: none !important;
+            .close-links {
+                flex-direction: column;
+                gap: 20px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- LIVING PATTERN -->
     <div class="living-pattern"></div>
-    
-    <!-- SCROLL PROGRESS -->
     <div class="scroll-progress"></div>
 
     <!-- SCENE 1: THE VOID -->
@@ -529,9 +491,9 @@
         <div class="birth-content">
             <div class="bag-reveal" id="white-bag-reveal">
                 <img src="images/bag-white.jpg" alt="The Original" class="reveal-product">
+                <div class="zipper-line"></div>
                 <div class="flap flap-top"></div>
                 <div class="flap flap-bottom"></div>
-                <div class="zipper-line"></div>
             </div>
             <div class="product-text" id="whiteText">
                 <h2>THE ORIGINAL</h2>
@@ -559,9 +521,9 @@
         <div class="ritual-content">
             <div class="bag-reveal" id="blue-bag-reveal">
                 <img src="images/bag-blue.jpg" alt="Denim Ritual" class="reveal-product">
+                <div class="zipper-line"></div>
                 <div class="flap flap-top"></div>
                 <div class="flap flap-bottom"></div>
-                <div class="zipper-line"></div>
             </div>
             <div class="product-text" id="blueText">
                 <h2>DENIM RITUAL</h2>
@@ -617,12 +579,12 @@
 
     <script>
     (function() {
-        var isMobile = window.innerWidth <= 768;
         var ticking = false;
+        var isMobile = window.innerWidth <= 768;
         
         // Elements
         var pattern = document.querySelector('.living-pattern');
-        var progress = document.querySelector('.scroll-progress');
+        var progressBar = document.querySelector('.scroll-progress');
         var heroTitle = document.getElementById('heroTitle');
         var titleLine = document.getElementById('titleLine');
         var titleTagline = document.getElementById('titleTagline');
@@ -643,20 +605,20 @@
         var titleLetters = heroTitle.querySelectorAll('.title-letter');
 
         // Bottom-to-center progress helper
-        function getBottomToCenterProgress(element) {
+        function getProgress(element) {
             var rect = element.getBoundingClientRect();
             var viewCenter = window.innerHeight / 2;
             var elementCenter = rect.top + rect.height / 2;
             var distFromCenter = elementCenter - viewCenter;
-            var travelDistance = window.innerHeight / 2;
+            var travelDistance = window.innerHeight * 0.8;
             return 1 - Math.min(1, Math.max(0, distFromCenter / travelDistance));
         }
 
-        // Bag reveal function
-        function bindBagReveal(sectionSelector, revealSelector, textSelector) {
-            var section = document.querySelector(sectionSelector);
-            var reveal = document.querySelector(revealSelector);
-            var text = document.querySelector(textSelector);
+        // Bag reveal with PEEK tease
+        function bindBagReveal(sectionId, revealId, textId) {
+            var section = document.getElementById(sectionId);
+            var reveal = document.getElementById(revealId);
+            var text = document.getElementById(textId);
             if (!section || !reveal) return null;
 
             var flapTop = reveal.querySelector('.flap-top');
@@ -664,50 +626,55 @@
             var zipper = reveal.querySelector('.zipper-line');
             var img = reveal.querySelector('.reveal-product');
 
+            if (!flapTop || !flapBottom || !img) return null;
+
             return function() {
-                var progress = getBottomToCenterProgress(section);
+                var prog = getProgress(section);
 
-                // Flap animation: 0.1-0.8 progress range
-                var flapProgress = Math.min(1, Math.max(0, (progress - 0.1) / 0.7));
-                var flapDistance = flapProgress * 100;
+                // PEEK phase: 5-15% = crack open 4%
+                var peekProgress = Math.max(0, Math.min(1, (prog - 0.05) / 0.1));
+                // MAIN phase: 20-70% = full open
+                var mainProgress = Math.max(0, Math.min(1, (prog - 0.2) / 0.5));
+                
+                // Combined: peek opens 4%, then main opens rest
+                var totalFlap = (peekProgress * 4) + (mainProgress * 98);
 
-                flapTop.style.transform = 'translateY(-' + flapDistance + '%)';
-                flapBottom.style.transform = 'translateY(' + flapDistance + '%)';
+                flapTop.style.transform = 'translateY(-' + totalFlap + '%)';
+                flapBottom.style.transform = 'translateY(' + totalFlap + '%)';
 
-                var flapOpacity = 1 - flapProgress;
+                var flapOpacity = 1 - (mainProgress * 0.9);
                 flapTop.style.opacity = flapOpacity;
                 flapBottom.style.opacity = flapOpacity;
 
-                if (zipper) zipper.style.opacity = flapOpacity;
+                if (zipper) zipper.style.opacity = 1 - mainProgress;
 
-                // Image: deblur and scale as flaps open
-                var imgBlur = Math.max(0, 15 * (1 - flapProgress));
-                var imgScale = 0.92 + (flapProgress * 0.08);
-                var imgBrightness = 0.5 + (flapProgress * 0.5);
+                // Image deblurs as flaps open
+                var imgBlur = Math.max(0, 15 * (1 - mainProgress));
+                var imgScale = 0.92 + (mainProgress * 0.08);
+                var imgBrightness = 0.4 + (mainProgress * 0.6);
 
                 img.style.filter = 'blur(' + imgBlur + 'px) brightness(' + imgBrightness + ')';
                 img.style.transform = 'scale(' + imgScale + ')';
 
-                // Text rises up after bag is mostly revealed
+                // Text after reveal
                 if (text) {
-                    var textProgress = Math.min(1, Math.max(0, (progress - 0.6) / 0.4));
-                    text.style.opacity = textProgress;
-                    text.style.transform = 'translateY(' + ((1 - textProgress) * 40) + 'px)';
+                    var textProg = Math.max(0, Math.min(1, (prog - 0.65) / 0.35));
+                    text.style.opacity = textProg;
+                    text.style.transform = 'translateY(' + ((1 - textProg) * 40) + 'px)';
                 }
             };
         }
 
-        var updateWhiteBag = bindBagReveal('#scene-birth', '#white-bag-reveal', '#whiteText');
-        var updateBlueBag = bindBagReveal('#scene-ritual', '#blue-bag-reveal', '#blueText');
+        var updateWhiteBag = bindBagReveal('scene-birth', 'white-bag-reveal', 'whiteText');
+        var updateBlueBag = bindBagReveal('scene-ritual', 'blue-bag-reveal', 'blueText');
 
         function updateAll() {
             var scrollY = window.scrollY;
             var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            var scrollProgress = scrollY / docHeight;
+            var scrollProg = scrollY / docHeight;
 
-            progress.style.transform = 'scaleX(' + scrollProgress + ')';
-
-            if (isMobile) return;
+            // Progress bar
+            progressBar.style.transform = 'scaleX(' + scrollProg + ')';
 
             // Pattern intensity
             scenes.forEach(function(scene) {
@@ -718,45 +685,54 @@
                 }
             });
 
+            // Title
             updateVoid();
+
+            // Bag reveals
             if (updateWhiteBag) updateWhiteBag();
-            updateMark();
             if (updateBlueBag) updateBlueBag();
-            updateGallery();
+
+            // Pattern section
+            updateMark();
+
+            // Gallery (desktop only)
+            if (!isMobile) updateGallery();
+
+            // Manifesto with parallax depth
             updateCreed();
         }
 
         function updateVoid() {
             var section = document.getElementById('scene-void');
-            var prog = getBottomToCenterProgress(section);
+            var prog = getProgress(section);
 
             titleLetters.forEach(function(letter, i) {
-                var letterProgress = Math.min(1, Math.max(0, prog * titleLetters.length - i));
-                letter.style.opacity = letterProgress;
-                letter.style.filter = 'blur(' + ((1 - letterProgress) * 20) + 'px)';
-                letter.style.transform = 'translateY(' + ((1 - letterProgress) * 60) + 'px)';
+                var letterProg = Math.max(0, Math.min(1, prog * titleLetters.length - i));
+                letter.style.opacity = letterProg;
+                letter.style.filter = 'blur(' + ((1 - letterProg) * 20) + 'px)';
+                letter.style.transform = 'translateY(' + ((1 - letterProg) * 60) + 'px)';
             });
 
-            var lineProgress = Math.min(1, Math.max(0, (prog - 0.6) * 4));
-            titleLine.style.width = (lineProgress * 60) + 'px';
+            var lineProg = Math.max(0, Math.min(1, (prog - 0.6) * 4));
+            titleLine.style.width = (lineProg * 60) + 'px';
 
-            var tagProgress = Math.min(1, Math.max(0, (prog - 0.8) * 5));
-            titleTagline.style.opacity = tagProgress;
-            titleTagline.style.transform = 'translateY(' + ((1 - tagProgress) * 40) + 'px)';
+            var tagProg = Math.max(0, Math.min(1, (prog - 0.8) * 5));
+            titleTagline.style.opacity = tagProg;
+            titleTagline.style.transform = 'translateY(' + ((1 - tagProg) * 40) + 'px)';
         }
 
         function updateMark() {
             var section = document.getElementById('scene-mark');
-            var prog = getBottomToCenterProgress(section);
+            var prog = getProgress(section);
 
             patternHero.style.opacity = Math.min(1, prog * 2);
             patternHero.style.transform = 'translateY(' + ((1 - Math.min(1, prog * 1.5)) * 60) + 'px) rotate(' + (prog * 45) + 'deg) scale(' + (0.8 + prog * 0.3) + ')';
 
             markLines.forEach(function(line, i) {
                 var lineStart = 0.15 + (i * 0.12);
-                var lineProgress = Math.min(1, Math.max(0, (prog - lineStart) * 5));
-                line.style.opacity = lineProgress;
-                line.style.transform = 'translateY(' + ((1 - lineProgress) * 40) + 'px)';
+                var lineProg = Math.max(0, Math.min(1, (prog - lineStart) * 5));
+                line.style.opacity = lineProg;
+                line.style.transform = 'translateY(' + ((1 - lineProg) * 40) + 'px)';
             });
         }
 
@@ -766,14 +742,17 @@
                 var sectionScroll = -rect.top;
                 var sectionRange = gallerySection.offsetHeight - window.innerHeight;
                 var prog = Math.min(1, sectionScroll / sectionRange);
-                var maxScroll = (3 - 1) * window.innerWidth;
+                var maxScroll = 2 * window.innerWidth;
                 galleryTrack.style.transform = 'translateX(' + -(prog * maxScroll) + 'px)';
             }
         }
 
         function updateCreed() {
             var section = document.getElementById('scene-creed');
-            var prog = getBottomToCenterProgress(section);
+            var rect = section.getBoundingClientRect();
+            var prog = getProgress(section);
+            var viewCenter = window.innerHeight / 2;
+            var distFromCenter = (rect.top + rect.height / 2) - viewCenter;
 
             manifestoLines.forEach(function(line, i) {
                 var lineStart = i / manifestoLines.length;
@@ -781,16 +760,20 @@
                 var isCurrent = prog >= lineStart && prog < lineEnd;
                 var isPast = prog >= lineEnd;
 
+                // Parallax depth per line
+                var depth = 1 + (i * 0.05);
+                var parallaxOffset = distFromCenter * 0.015 * depth;
+
                 if (isCurrent) {
-                    var lineProgress = (prog - lineStart) / (lineEnd - lineStart);
-                    line.style.opacity = lineProgress;
-                    line.style.transform = 'translateY(' + ((1 - lineProgress) * 40) + 'px)';
+                    var lineProg = (prog - lineStart) / (lineEnd - lineStart);
+                    line.style.opacity = lineProg;
+                    line.style.transform = 'translateY(' + ((1 - lineProg) * 40 + parallaxOffset) + 'px)';
                 } else if (isPast) {
                     line.style.opacity = 0.25;
-                    line.style.transform = 'translateY(0)';
+                    line.style.transform = 'translateY(' + parallaxOffset + 'px)';
                 } else {
                     line.style.opacity = 0;
-                    line.style.transform = 'translateY(40px)';
+                    line.style.transform = 'translateY(' + (40 + parallaxOffset) + 'px)';
                 }
             });
         }
@@ -805,6 +788,7 @@
             }
         }, { passive: true });
 
+        // Initial call
         updateAll();
     })();
     </script>
