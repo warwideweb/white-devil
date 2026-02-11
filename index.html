@@ -365,7 +365,45 @@
             text-transform: uppercase;
         }
 
-        /* ===== SECTION 6: BRAND STATEMENT ===== */
+        /* ===== SECTION 6: LOOKBOOK ===== */
+        .lookbook-section {
+            background: var(--black);
+            padding: 60px 20px;
+        }
+
+        .lookbook-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4px;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .lookbook-item {
+            aspect-ratio: 1;
+            overflow: hidden;
+        }
+
+        .lookbook-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%);
+            transition: all 0.6s ease;
+        }
+
+        .lookbook-item:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            .lookbook-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== SECTION 7: BRAND STATEMENT ===== */
         .statement-section {
             background: var(--black);
             text-align: center;
@@ -491,7 +529,7 @@
         </div>
         <div class="pattern-text">
             <h2>THE MARK</h2>
-            <p>Every spiral is a fingerprint. Every circle, a cycle. The White Devil pattern is rooted in obsession — repetition as ritual, symmetry as disruption.</p>
+            <p>The spiral pattern is obsession made visible. Repetition as ritual. Symmetry as disruption. Each circle connects to the next — infinite, hypnotic, unmistakable. This is not decoration. This is identity.</p>
         </div>
     </section>
 
@@ -515,11 +553,30 @@
         </div>
     </section>
 
-    <!-- SECTION 6: BRAND STATEMENT -->
+    <!-- SECTION 6: LOOKBOOK -->
+    <section class="section lookbook-section" id="lookbook">
+        <div class="lookbook-grid">
+            <div class="lookbook-item">
+                <img src="images/lookbook-01.jpg" alt="White Devil Lookbook" loading="lazy">
+            </div>
+            <div class="lookbook-item">
+                <img src="images/lookbook-02.jpg" alt="White Devil Lookbook" loading="lazy">
+            </div>
+            <div class="lookbook-item">
+                <img src="images/lookbook-03.jpg" alt="White Devil Lookbook" loading="lazy">
+            </div>
+            <div class="lookbook-item">
+                <img src="images/detail-01.jpg" alt="White Devil Detail" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7: BRAND STATEMENT -->
     <section class="section statement-section" id="statement">
         <div class="statement-content">
-            <h2>NOT FOR EVERYONE</h2>
-            <p>White Devil is not a fashion brand. It's a pattern. A ritual. A mark. Luxury isn't about price — it's about obsession.</p>
+            <h2>BORN FROM OBSESSION</h2>
+            <p>Design without function is useless. Function without beauty is soulless. I wanted to make a bag that carried weight — not just physically, but in story, in detail, in craft.</p>
+            <p style="margin-top: 30px;">Each bag is hand-tailored in Bangkok. Suede interiors. Stainless steel lettering. Polished steel plates hidden inside like jewelry to secure the handles. No corners cut. No shortcuts.</p>
         </div>
     </section>
 
