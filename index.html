@@ -9,9 +9,7 @@
     <style>
         :root {
             --black: #000000;
-            --dark: #0a0a0a;
             --white: #ffffff;
-            --cream: #f5f5f0;
             --muted: #666666;
             --dim: rgba(255, 255, 255, 0.5);
         }
@@ -26,10 +24,9 @@
             font-weight: 300;
             line-height: 1.6;
             overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
         }
 
-        /* ===== FILM GRAIN ===== */
+        /* Film grain */
         body::before {
             content: '';
             position: fixed;
@@ -40,46 +37,36 @@
             opacity: 0.4;
         }
 
-        /* ===== LIVING PATTERN BACKGROUND ===== */
         .living-pattern {
             position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
             background-image: url('images/pattern.jpg');
             background-size: 350px;
             background-repeat: repeat;
             opacity: 0;
             z-index: 0;
             pointer-events: none;
-            will-change: transform, opacity;
             animation: patternDrift 180s linear infinite;
         }
 
         @keyframes patternDrift {
             0% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(-80px, -40px) rotate(1.5deg); }
-            50% { transform: translate(-40px, -80px) rotate(0deg); }
-            75% { transform: translate(-120px, -20px) rotate(-1.5deg); }
+            50% { transform: translate(-60px, -60px) rotate(1deg); }
             100% { transform: translate(0, 0) rotate(0deg); }
         }
 
-        /* ===== SCROLL PROGRESS ===== */
         .scroll-progress {
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             height: 1px;
             background: rgba(255,255,255,0.4);
             z-index: 9998;
             transform-origin: left;
             transform: scaleX(0);
             width: 100%;
-            will-change: transform;
         }
 
-        /* ===== SCENES ===== */
         .scene {
             position: relative;
             display: flex;
@@ -87,28 +74,16 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            transition: background-color 1.5s ease;
         }
 
-        .fade-up, .product-text, .mark-line, .manifesto-line {
-            transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        /* ===== SCENE 1: THE VOID ===== */
-        .scene-void {
-            height: 150vh;
-            background-color: #000000;
-        }
-
+        /* ===== SCENE 1: VOID ===== */
+        .scene-void { height: 150vh; background: #000; }
         .void-content {
             position: sticky;
             top: 50%;
             transform: translateY(-50%);
             text-align: center;
-            z-index: 1;
         }
-
         .hero-title {
             font-size: clamp(2.5rem, 10vw, 6rem);
             font-weight: 200;
@@ -116,96 +91,73 @@
             text-transform: uppercase;
             margin-bottom: 30px;
         }
-
         .title-letter {
             display: inline-block;
             opacity: 0;
             filter: blur(20px);
             transform: translateY(60px);
-            will-change: transform, filter, opacity;
         }
-
         .title-line {
             width: 0;
             height: 1px;
             background: var(--muted);
             margin: 0 auto 30px;
         }
-
         .title-tagline {
             font-size: 0.7rem;
             letter-spacing: 0.4em;
             text-transform: uppercase;
             color: var(--muted);
             opacity: 0;
-            transform: translateY(40px);
         }
 
         /* ===== BAG REVEAL ===== */
         .bag-reveal {
             position: relative;
-            width: 70vmin;
-            height: 70vmin;
-            max-width: 600px;
-            max-height: 600px;
+            width: 70vmin; height: 70vmin;
+            max-width: 600px; max-height: 600px;
             overflow: hidden;
-            border-radius: 2px;
         }
-
         .bag-reveal .reveal-product {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             object-fit: contain;
             filter: blur(15px) brightness(0.4);
             transform: scale(0.92);
-            will-change: filter, transform;
         }
-
         .flap {
             position: absolute;
-            left: 0;
-            width: 100%;
-            height: 50.5%;
+            left: 0; width: 100%; height: 50.5%;
             background: #000;
             z-index: 2;
-            will-change: transform, opacity;
         }
-
-        .flap-top { top: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
-        .flap-bottom { bottom: 0; border-top: 1px solid rgba(255, 255, 255, 0.04); }
-
+        .flap-top { top: 0; }
+        .flap-bottom { bottom: 0; }
         .zipper-line {
             position: absolute;
             left: 0; right: 0; top: 50%;
             height: 1px;
-            background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.12) 20%, rgba(255, 255, 255, 0.12) 80%, transparent 100%);
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.12), transparent);
             z-index: 3;
-            transform: translateY(-50%);
         }
 
-        /* ===== SCENE 2-4 ===== */
-        .scene-birth, .scene-ritual { height: 200vh; background-color: #000; }
-        .scene-mark { height: 200vh; background-color: #000; }
+        .scene-birth, .scene-ritual { height: 200vh; background: #000; }
+        .scene-mark { height: 200vh; background: #000; }
 
-        .birth-content, .ritual-content {
+        .birth-content, .ritual-content, .mark-content {
             position: sticky;
             top: 0;
             height: 100vh;
             width: 100%;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
-
         .product-text {
             position: absolute;
             bottom: 12%;
             text-align: center;
             opacity: 0;
-            transform: translateY(40px);
         }
-
         .product-text h2 {
             font-size: clamp(1.5rem, 4vw, 2.5rem);
             font-weight: 200;
@@ -213,7 +165,6 @@
             text-transform: uppercase;
             margin-bottom: 10px;
         }
-
         .product-text p {
             font-size: 0.7rem;
             letter-spacing: 0.3em;
@@ -221,37 +172,21 @@
             color: var(--dim);
         }
 
-        .mark-content {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
         .pattern-hero {
-            width: 50vmin;
-            height: 50vmin;
+            width: 50vmin; height: 50vmin;
             object-fit: contain;
             opacity: 0;
-            transform: translateY(60px);
         }
-
         .mark-text {
             position: absolute;
             right: 10%;
             max-width: 350px;
             text-align: left;
         }
-
         .mark-line {
             opacity: 0;
-            transform: translateY(40px);
             margin-bottom: 15px;
         }
-
         .mark-line.title {
             font-size: clamp(1.5rem, 4vw, 2rem);
             font-weight: 200;
@@ -259,26 +194,20 @@
             text-transform: uppercase;
             margin-bottom: 30px;
         }
-
         .mark-line.body {
             font-size: 0.85rem;
             color: var(--dim);
             line-height: 1.8;
         }
 
-        /* ===== SCENE 5: GALLERY ===== */
-        .scene-gallery {
-            height: 300vh;
-            background-color: #000;
-        }
-
+        /* ===== GALLERY ===== */
+        .scene-gallery { height: 300vh; background: #000; }
         .gallery-track {
             position: sticky;
             top: 0;
             height: 100vh;
             display: flex;
         }
-
         .gallery-panel {
             flex: 0 0 100vw;
             height: 100vh;
@@ -287,13 +216,7 @@
             justify-content: center;
             align-items: center;
         }
-
-        .gallery-panel img {
-            width: 60vmin;
-            height: 60vmin;
-            object-fit: contain;
-        }
-
+        .gallery-panel img { width: 60vmin; height: 60vmin; object-fit: contain; }
         .gallery-panel h3 {
             margin-top: 30px;
             font-size: 1rem;
@@ -301,23 +224,19 @@
             letter-spacing: 0.2em;
             text-transform: uppercase;
         }
-
         .gallery-panel p {
             font-size: 0.65rem;
             letter-spacing: 0.2em;
             color: var(--muted);
             margin-top: 8px;
-            text-transform: uppercase;
         }
 
-        /* ===== SCENE 5.5: DETAIL LOUPE WITH 3 VIEWS ===== */
+        /* ===== LOUPE SECTION - EXTENDED SCROLL ===== */
         .loupe-section {
             position: relative;
-            height: 350vh;
+            height: 500vh; /* Extended for 3 full views */
             background: #000;
-            overflow: hidden;
         }
-
         .loupe-sticky {
             position: sticky;
             top: 0;
@@ -325,16 +244,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
         }
-
         .loupe-container {
             display: flex;
             align-items: center;
             gap: clamp(40px, 8vw, 120px);
         }
 
-        /* Circular glass with iridescent oil edge */
+        /* Circular glass */
         .loupe-glass {
             position: relative;
             width: clamp(220px, 35vmin, 380px);
@@ -342,7 +259,6 @@
             border-radius: 50%;
             flex-shrink: 0;
         }
-
         .loupe-inner {
             position: absolute;
             inset: 8px;
@@ -350,114 +266,85 @@
             overflow: hidden;
             background: #111;
         }
-
         .loupe-image {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             object-fit: cover;
             opacity: 0;
             transition: opacity 0.6s ease;
         }
+        .loupe-image.active { opacity: 1; }
 
-        .loupe-image.active {
-            opacity: 1;
-        }
-
-        /* Iridescent oil-in-water edge ring */
+        /* Iridescent edge */
         .loupe-iridescent {
             position: absolute;
             inset: 0;
             border-radius: 50%;
-            padding: 6px;
             background: conic-gradient(
-                from var(--iridescent-angle, 0deg),
-                rgba(255, 100, 150, 0.4) 0deg,
-                rgba(100, 200, 255, 0.5) 60deg,
-                rgba(150, 255, 150, 0.4) 120deg,
-                rgba(255, 200, 100, 0.5) 180deg,
-                rgba(200, 100, 255, 0.4) 240deg,
-                rgba(100, 150, 255, 0.5) 300deg,
-                rgba(255, 100, 150, 0.4) 360deg
+                from var(--angle, 0deg),
+                rgba(255, 100, 150, 0.5),
+                rgba(100, 200, 255, 0.6),
+                rgba(150, 255, 150, 0.5),
+                rgba(255, 200, 100, 0.6),
+                rgba(200, 100, 255, 0.5),
+                rgba(100, 150, 255, 0.6),
+                rgba(255, 100, 150, 0.5)
             );
-            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #fff calc(100% - 7px));
-            mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #fff calc(100% - 7px));
-            filter: blur(1px);
-            will-change: --iridescent-angle;
-            animation: iridescentShift 8s linear infinite;
+            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 10px), #fff calc(100% - 8px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 10px), #fff calc(100% - 8px));
+            animation: iridescentSpin 10s linear infinite;
         }
-
-        @property --iridescent-angle {
+        @keyframes iridescentSpin {
+            to { --angle: 360deg; }
+        }
+        @property --angle {
             syntax: '<angle>';
             initial-value: 0deg;
             inherits: false;
         }
 
-        @keyframes iridescentShift {
-            to { --iridescent-angle: 360deg; }
-        }
-
-        /* Glass reflection overlay */
         .loupe-glass-surface {
             position: absolute;
             inset: 6px;
             border-radius: 50%;
-            background: linear-gradient(
-                135deg,
-                rgba(255,255,255,0.12) 0%,
-                transparent 40%,
-                transparent 60%,
-                rgba(255,255,255,0.06) 100%
-            );
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent 50%, rgba(255,255,255,0.05));
             pointer-events: none;
         }
-
-        /* Subtle inner shadow for depth */
         .loupe-depth {
             position: absolute;
             inset: 6px;
             border-radius: 50%;
-            box-shadow: 
-                inset 0 4px 20px rgba(0,0,0,0.6),
-                inset 0 -2px 10px rgba(255,255,255,0.05);
+            box-shadow: inset 0 4px 20px rgba(0,0,0,0.6), inset 0 -2px 10px rgba(255,255,255,0.05);
             pointer-events: none;
         }
 
-        /* Text descriptions on the right */
-        .loupe-descriptions {
-            width: clamp(200px, 30vw, 350px);
-        }
-
+        .loupe-descriptions { width: clamp(200px, 30vw, 350px); position: relative; }
         .loupe-desc {
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: all 0.5s ease;
             position: absolute;
+            top: 0;
+            left: 0;
         }
-
         .loupe-desc.active {
             opacity: 1;
             transform: translateY(0);
             position: relative;
         }
-
         .loupe-desc h3 {
             font-size: clamp(1.2rem, 2.5vw, 1.8rem);
             font-weight: 200;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             margin-bottom: 16px;
-            color: rgba(255,255,255,0.9);
         }
-
         .loupe-desc p {
             font-size: clamp(0.75rem, 1.1vw, 0.95rem);
             line-height: 1.8;
             color: rgba(255,255,255,0.5);
-            letter-spacing: 0.03em;
         }
 
-        /* Progress dots */
         .loupe-progress {
             position: absolute;
             bottom: 10vh;
@@ -466,52 +353,48 @@
             display: flex;
             gap: 12px;
         }
-
         .loupe-dot {
-            width: 6px;
-            height: 6px;
+            width: 6px; height: 6px;
             border-radius: 50%;
             background: rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
-
         .loupe-dot.active {
             background: rgba(255,255,255,0.8);
-            transform: scale(1.3);
+            transform: scale(1.4);
         }
 
-        /* ===== SCENE 6: GLASS COLLECTION REVEAL ===== */
-        .glass-section {
+        /* ===== LEATHER BOOK REVEAL ===== */
+        .leather-section {
             position: relative;
-            height: 150vh;
+            height: 200vh;
             background: #000;
-            overflow: hidden;
         }
-
-        .glass-sticky {
+        .leather-sticky {
             position: sticky;
             top: 0;
             width: 100%;
             height: 100vh;
             overflow: hidden;
-            perspective: 2500px;
+            perspective: 2000px;
+            perspective-origin: center center;
         }
 
-        .glass-content-behind {
+        /* Content behind */
+        .leather-content {
             position: absolute;
             inset: 0;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
             padding: 8vh 6vw;
-            background: linear-gradient(180deg, #0a0a0a 0%, #000 100%);
+            background: linear-gradient(180deg, #080808 0%, #000 100%);
             z-index: 1;
             opacity: 0;
         }
-
-        .glass-bag-card {
+        .leather-card {
             aspect-ratio: 3/4;
-            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
             border-radius: 16px;
             display: flex;
             flex-direction: column;
@@ -519,177 +402,148 @@
             justify-content: center;
             padding: 1.5rem;
             border: 1px solid rgba(255,255,255,0.06);
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+            transition: transform 0.5s ease;
         }
-
-        .glass-bag-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(255,255,255,0.2);
-        }
-
-        .glass-bag-card img {
-            width: 100%;
-            height: 70%;
-            object-fit: contain;
-            margin-bottom: 1rem;
-        }
-
-        .glass-bag-card h3 {
+        .leather-card:hover { transform: translateY(-8px); }
+        .leather-card img { width: 100%; height: 70%; object-fit: contain; margin-bottom: 1rem; }
+        .leather-card h3 {
             font-size: clamp(0.7rem, 1.2vw, 1rem);
             font-weight: 300;
             letter-spacing: 0.15em;
             text-transform: uppercase;
             margin-bottom: 0.3rem;
         }
-
-        .glass-bag-card p {
+        .leather-card p {
             color: rgba(255,255,255,0.4);
             font-size: clamp(0.55rem, 0.9vw, 0.75rem);
-            letter-spacing: 0.1em;
         }
 
-        /* Ultra-realistic glass doors */
-        .glass-overlay {
+        /* Leather book pages */
+        .leather-book {
             position: absolute;
             inset: 0;
             display: flex;
             z-index: 10;
             pointer-events: none;
         }
-
-        .glass-door {
+        .leather-page {
             flex: 1;
             position: relative;
             transform-style: preserve-3d;
-            will-change: transform, opacity;
-            transition: transform 0.05s linear;
+            backface-visibility: hidden;
         }
+        .leather-page-left { transform-origin: right center; }
+        .leather-page-right { transform-origin: left center; }
 
-        .glass-door-left { transform-origin: left center; }
-        .glass-door-right { transform-origin: right center; }
-
-        /* Multi-layer realistic glass */
-        .glass-panel {
+        /* Leather texture */
+        .leather-surface {
             position: absolute;
             inset: 0;
-            background: linear-gradient(
-                120deg,
-                rgba(255,255,255,0.04) 0%,
-                rgba(255,255,255,0.08) 25%,
-                rgba(255,255,255,0.03) 50%,
-                rgba(255,255,255,0.06) 75%,
-                rgba(255,255,255,0.04) 100%
-            );
-            backdrop-filter: blur(80px) saturate(120%);
-            -webkit-backdrop-filter: blur(80px) saturate(120%);
+            background: 
+                linear-gradient(135deg, 
+                    rgba(30,30,30,1) 0%,
+                    rgba(20,20,20,1) 25%,
+                    rgba(25,25,25,1) 50%,
+                    rgba(15,15,15,1) 75%,
+                    rgba(20,20,20,1) 100%
+                );
+            /* Leather grain texture */
+            background-image: 
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E"),
+                linear-gradient(135deg, 
+                    rgba(35,35,35,1) 0%,
+                    rgba(18,18,18,1) 50%,
+                    rgba(25,25,25,1) 100%
+                );
         }
 
-        .glass-door-left .glass-panel {
-            border-right: 1px solid rgba(255,255,255,0.12);
+        /* Page edge highlight */
+        .leather-page-left .leather-surface {
+            border-right: 1px solid rgba(255,255,255,0.08);
             box-shadow: 
-                inset -50px 0 100px -50px rgba(0,0,0,0.5),
-                30px 0 60px rgba(0,0,0,0.4);
+                inset -60px 0 80px -40px rgba(0,0,0,0.8),
+                15px 0 30px rgba(0,0,0,0.5);
         }
-
-        .glass-door-right .glass-panel {
-            border-left: 1px solid rgba(255,255,255,0.12);
+        .leather-page-right .leather-surface {
+            border-left: 1px solid rgba(255,255,255,0.08);
             box-shadow: 
-                inset 50px 0 100px -50px rgba(0,0,0,0.5),
-                -30px 0 60px rgba(0,0,0,0.4);
+                inset 60px 0 80px -40px rgba(0,0,0,0.8),
+                -15px 0 30px rgba(0,0,0,0.5);
         }
 
-        /* Realistic glass reflection streak */
-        .glass-panel::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                110deg,
-                transparent 0%,
-                transparent 35%,
-                rgba(255,255,255,0.08) 38%,
-                rgba(255,255,255,0.15) 40%,
-                rgba(255,255,255,0.08) 42%,
-                transparent 45%,
-                transparent 100%
-            );
-        }
-
-        /* Animated light sweep */
-        .glass-panel::after {
-            content: '';
+        /* Stitching detail */
+        .leather-stitch {
             position: absolute;
             top: 0;
-            left: -200%;
-            width: 100%;
+            width: 2px;
             height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent 0%,
-                rgba(255,255,255,0.03) 45%,
-                rgba(255,255,255,0.08) 50%,
-                rgba(255,255,255,0.03) 55%,
-                transparent 100%
+            pointer-events: none;
+        }
+        .leather-page-left .leather-stitch {
+            right: 20px;
+            background: repeating-linear-gradient(
+                180deg,
+                transparent 0px,
+                transparent 8px,
+                rgba(80,70,60,0.4) 8px,
+                rgba(80,70,60,0.4) 14px
             );
-            animation: glassSweep 12s ease-in-out infinite;
+        }
+        .leather-page-right .leather-stitch {
+            left: 20px;
+            background: repeating-linear-gradient(
+                180deg,
+                transparent 0px,
+                transparent 8px,
+                rgba(80,70,60,0.4) 8px,
+                rgba(80,70,60,0.4) 14px
+            );
         }
 
-        @keyframes glassSweep {
-            0%, 100% { left: -200%; }
-            50% { left: 200%; }
-        }
-
-        .glass-center-seam {
+        /* Spine/center */
+        .leather-spine {
             position: absolute;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 1px;
+            width: 6px;
             height: 100%;
-            background: linear-gradient(
-                180deg,
-                transparent 0%,
-                rgba(255,255,255,0.3) 20%,
-                rgba(255,255,255,0.5) 50%,
-                rgba(255,255,255,0.3) 80%,
-                transparent 100%
+            background: linear-gradient(90deg, 
+                rgba(0,0,0,0.8) 0%,
+                rgba(40,40,40,0.5) 50%,
+                rgba(0,0,0,0.8) 100%
             );
             z-index: 20;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
         }
 
-        .glass-text {
+        /* Text overlay */
+        .leather-text {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 25;
             text-align: center;
-            pointer-events: none;
         }
-
-        .glass-text h2 {
+        .leather-text h2 {
             font-size: clamp(1.8rem, 5vw, 4rem);
             font-weight: 200;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.9);
-            text-shadow: 0 4px 30px rgba(0,0,0,0.5);
-            margin-bottom: 1rem;
-        }
-
-        .glass-text p {
-            font-size: clamp(0.6rem, 1vw, 0.85rem);
             letter-spacing: 0.3em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.85);
+            text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+            margin-bottom: 1rem;
+        }
+        .leather-text p {
+            font-size: clamp(0.6rem, 1vw, 0.8rem);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
         }
 
-        /* ===== SCENE 7: CREED ===== */
-        .scene-creed {
-            height: 250vh;
-            background-color: #000;
-        }
-
+        /* ===== CREED ===== */
+        .scene-creed { height: 250vh; background: #000; }
         .creed-content {
             position: sticky;
             top: 0;
@@ -701,31 +555,26 @@
             align-items: center;
             text-align: center;
             padding: 20px;
-            perspective: 800px;
         }
-
         .manifesto-line {
             font-size: clamp(1.2rem, 4vw, 2rem);
             font-weight: 200;
             letter-spacing: 0.1em;
             margin: 15px 0;
             opacity: 0;
-            transform: translateY(40px);
         }
-
         .manifesto-line.small {
             font-size: clamp(0.9rem, 2.5vw, 1.2rem);
             color: var(--dim);
         }
 
-        /* ===== SCENE 8: CLOSE ===== */
+        /* ===== CLOSE ===== */
         .scene-close {
             min-height: 60vh;
-            background-color: #000;
+            background: #000;
             border-top: 1px solid #1a1a1a;
             padding: 80px 20px 40px;
         }
-
         .close-logo {
             font-size: clamp(1.5rem, 5vw, 2.5rem);
             font-weight: 200;
@@ -733,7 +582,6 @@
             text-transform: uppercase;
             margin-bottom: 50px;
         }
-
         .close-links {
             display: flex;
             gap: 40px;
@@ -741,72 +589,47 @@
             flex-wrap: wrap;
             justify-content: center;
         }
-
         .close-links a {
             font-size: 0.7rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--muted);
             text-decoration: none;
-            transition: color 0.3s;
         }
-
-        .close-links a:hover { color: var(--white); }
-
+        .close-links a:hover { color: #fff; }
         .close-copy {
             font-size: 0.6rem;
             letter-spacing: 0.15em;
             color: var(--muted);
-            text-transform: uppercase;
         }
 
         /* ===== MOBILE ===== */
         @media (max-width: 900px) {
             .mark-content { flex-direction: column; }
-            .mark-text {
-                position: relative;
-                right: auto;
-                text-align: center;
-                padding: 20px;
-                margin-top: 30px;
-            }
-            .loupe-container {
-                flex-direction: column;
-                text-align: center;
-            }
-            .loupe-descriptions {
-                width: 90%;
-                margin-top: 30px;
-            }
+            .mark-text { position: relative; right: auto; text-align: center; padding: 20px; margin-top: 30px; }
+            .loupe-container { flex-direction: column; text-align: center; }
+            .loupe-descriptions { width: 90%; margin-top: 30px; }
         }
-
         @media (max-width: 768px) {
-            .bag-reveal { width: 85vw; height: 85vw; max-width: 400px; max-height: 400px; }
+            .bag-reveal { width: 85vw; height: 85vw; }
             .scene-void { height: 120vh; }
-            .scene-birth, .scene-ritual { height: 180vh; }
-            .scene-mark { height: 180vh; }
-            .loupe-section { height: 280vh; }
-            .glass-section { height: 120vh; }
+            .scene-birth, .scene-ritual, .scene-mark { height: 180vh; }
+            .loupe-section { height: 400vh; }
+            .leather-section { height: 150vh; }
             .scene-creed { height: 220vh; }
             .loupe-glass { width: 200px; height: 200px; }
-            .glass-content-behind {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-                padding: 10vh 4vw;
-            }
+            .leather-content { grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 10vh 4vw; }
             .gallery-track { flex-direction: column; height: auto; position: relative; }
             .gallery-panel { height: auto; min-height: 80vh; padding: 40px 20px; }
             .scene-gallery { height: auto; }
-            .close-links { flex-direction: column; gap: 20px; }
         }
     </style>
 </head>
 <body>
-
     <div class="living-pattern"></div>
     <div class="scroll-progress"></div>
 
-    <!-- SCENE 1: THE VOID -->
+    <!-- SCENE 1: VOID -->
     <section class="scene scene-void" id="scene-void" data-pattern-intensity="0.04">
         <div class="void-content">
             <h1 class="hero-title" id="heroTitle"></h1>
@@ -815,7 +638,7 @@
         </div>
     </section>
 
-    <!-- SCENE 2: THE BIRTH -->
+    <!-- SCENE 2: BIRTH -->
     <section class="scene scene-birth" id="scene-birth" data-pattern-intensity="0.02">
         <div class="birth-content">
             <div class="bag-reveal" id="white-bag-reveal">
@@ -831,7 +654,7 @@
         </div>
     </section>
 
-    <!-- SCENE 3: THE MARK -->
+    <!-- SCENE 3: MARK -->
     <section class="scene scene-mark" id="scene-mark" data-pattern-intensity="0.08">
         <div class="mark-content">
             <img src="images/pattern.jpg" alt="The Mark" class="pattern-hero" id="patternHero">
@@ -845,7 +668,7 @@
         </div>
     </section>
 
-    <!-- SCENE 4: THE RITUAL -->
+    <!-- SCENE 4: RITUAL -->
     <section class="scene scene-ritual" id="scene-ritual" data-pattern-intensity="0.02">
         <div class="ritual-content">
             <div class="bag-reveal" id="blue-bag-reveal">
@@ -861,7 +684,7 @@
         </div>
     </section>
 
-    <!-- SCENE 5: THE GALLERY -->
+    <!-- SCENE 5: GALLERY -->
     <section class="scene scene-gallery" id="scene-gallery" data-pattern-intensity="0">
         <div class="gallery-track" id="galleryTrack">
             <div class="gallery-panel">
@@ -882,24 +705,20 @@
         </div>
     </section>
 
-    <!-- SCENE 5.5: DETAIL LOUPE - 3 VIEWS -->
+    <!-- SCENE 5.5: LOUPE (Extended) -->
     <section id="scene-loupe" class="loupe-section" data-pattern-intensity="0.02">
         <div class="loupe-sticky">
             <div class="loupe-container">
-                <!-- Circular glass loupe -->
                 <div class="loupe-glass" id="loupeGlass">
                     <div class="loupe-iridescent"></div>
                     <div class="loupe-inner">
-                        <!-- 3 images that cycle -->
-                        <img src="images/detail-zipper.jpg" alt="Zipper Detail" class="loupe-image active" data-index="0">
-                        <img src="images/detail-hardware.jpg" alt="Hardware Detail" class="loupe-image" data-index="1">
-                        <img src="images/detail-leather.jpg" alt="Leather Detail" class="loupe-image" data-index="2">
+                        <img src="images/detail-zipper.jpg" alt="Zipper" class="loupe-image active" data-index="0">
+                        <img src="images/detail-hardware.jpg" alt="Hardware" class="loupe-image" data-index="1">
+                        <img src="images/detail-leather.jpg" alt="Leather" class="loupe-image" data-index="2">
                     </div>
                     <div class="loupe-glass-surface"></div>
                     <div class="loupe-depth"></div>
                 </div>
-
-                <!-- Descriptions on the right -->
                 <div class="loupe-descriptions" id="loupeDescriptions">
                     <div class="loupe-desc active" data-index="0">
                         <h3>The Zipper</h3>
@@ -915,8 +734,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Progress dots -->
             <div class="loupe-progress" id="loupeProgress">
                 <div class="loupe-dot active" data-index="0"></div>
                 <div class="loupe-dot" data-index="1"></div>
@@ -925,61 +742,63 @@
         </div>
     </section>
 
-    <!-- SCENE 6: GLASS COLLECTION REVEAL -->
-    <section id="scene-glass" class="glass-section" data-pattern-intensity="0.01">
-        <div class="glass-sticky">
-            <div class="glass-content-behind" id="glassContent">
-                <div class="glass-bag-card">
+    <!-- SCENE 6: LEATHER BOOK REVEAL -->
+    <section id="scene-leather" class="leather-section" data-pattern-intensity="0.01">
+        <div class="leather-sticky">
+            <div class="leather-content" id="leatherContent">
+                <div class="leather-card">
                     <img src="images/bag-white.jpg" alt="The Original">
                     <h3>The Original</h3>
                     <p>Cream / Chrome</p>
                 </div>
-                <div class="glass-bag-card">
+                <div class="leather-card">
                     <img src="images/bag-blue.jpg" alt="Denim Ritual">
                     <h3>Denim Ritual</h3>
                     <p>Teal / Silver</p>
                 </div>
-                <div class="glass-bag-card">
+                <div class="leather-card">
                     <img src="images/bag-shelf.jpg" alt="Collection">
                     <h3>The Collection</h3>
                     <p>All Colors</p>
                 </div>
-                <div class="glass-bag-card">
+                <div class="leather-card">
                     <img src="images/bag-white.jpg" alt="Original II">
                     <h3>Original II</h3>
                     <p>Pearl White</p>
                 </div>
-                <div class="glass-bag-card">
+                <div class="leather-card">
                     <img src="images/bag-blue.jpg" alt="Midnight">
                     <h3>Midnight</h3>
                     <p>Deep Navy</p>
                 </div>
-                <div class="glass-bag-card">
+                <div class="leather-card">
                     <img src="images/bag-shelf.jpg" alt="Archive">
                     <h3>The Archive</h3>
                     <p>Limited Edition</p>
                 </div>
             </div>
 
-            <div class="glass-overlay" id="glassOverlay">
-                <div class="glass-door glass-door-left" id="glassDoorLeft">
-                    <div class="glass-panel"></div>
+            <div class="leather-book" id="leatherBook">
+                <div class="leather-page leather-page-left" id="leatherPageLeft">
+                    <div class="leather-surface"></div>
+                    <div class="leather-stitch"></div>
                 </div>
-                <div class="glass-door glass-door-right" id="glassDoorRight">
-                    <div class="glass-panel"></div>
+                <div class="leather-page leather-page-right" id="leatherPageRight">
+                    <div class="leather-surface"></div>
+                    <div class="leather-stitch"></div>
                 </div>
             </div>
 
-            <div class="glass-center-seam" id="glassCenterSeam"></div>
+            <div class="leather-spine" id="leatherSpine"></div>
 
-            <div class="glass-text" id="glassText">
+            <div class="leather-text" id="leatherText">
                 <h2>The Collection</h2>
-                <p>Scroll to Reveal</p>
+                <p>Scroll to Open</p>
             </div>
         </div>
     </section>
 
-    <!-- SCENE 7: THE CREED -->
+    <!-- SCENE 7: CREED -->
     <section class="scene scene-creed" id="scene-creed" data-pattern-intensity="0.02">
         <div class="creed-content">
             <div class="manifesto-line">NOT FOR EVERYONE.</div>
@@ -1021,53 +840,46 @@
         var scenes = document.querySelectorAll('.scene');
 
         var titleText = 'WHITE DEVIL';
-        heroTitle.innerHTML = titleText.split('').map(function(char) {
-            return '<span class="title-letter">' + (char === ' ' ? '&nbsp;' : char) + '</span>';
+        heroTitle.innerHTML = titleText.split('').map(function(c) {
+            return '<span class="title-letter">' + (c === ' ' ? '&nbsp;' : c) + '</span>';
         }).join('');
         var titleLetters = heroTitle.querySelectorAll('.title-letter');
 
-        function getProgress(element) {
-            var rect = element.getBoundingClientRect();
-            var viewCenter = window.innerHeight / 2;
-            var elementCenter = rect.top + rect.height / 2;
-            var distFromCenter = elementCenter - viewCenter;
-            var travelDistance = window.innerHeight * 0.8;
-            return 1 - Math.min(1, Math.max(0, distFromCenter / travelDistance));
+        function getProgress(el) {
+            var r = el.getBoundingClientRect();
+            var vc = window.innerHeight / 2;
+            var ec = r.top + r.height / 2;
+            return 1 - Math.min(1, Math.max(0, (ec - vc) / (window.innerHeight * 0.8)));
         }
 
         function easeOutQuint(t) { return 1 - Math.pow(1 - t, 5); }
-        function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
 
-        function bindBagReveal(sectionId, revealId, textId) {
-            var section = document.getElementById(sectionId);
-            var reveal = document.getElementById(revealId);
-            var text = document.getElementById(textId);
+        function bindBagReveal(sid, rid, tid) {
+            var section = document.getElementById(sid);
+            var reveal = document.getElementById(rid);
+            var text = document.getElementById(tid);
             if (!section || !reveal) return null;
-
-            var flapTop = reveal.querySelector('.flap-top');
-            var flapBottom = reveal.querySelector('.flap-bottom');
-            var zipper = reveal.querySelector('.zipper-line');
+            var ft = reveal.querySelector('.flap-top');
+            var fb = reveal.querySelector('.flap-bottom');
+            var zl = reveal.querySelector('.zipper-line');
             var img = reveal.querySelector('.reveal-product');
-            if (!flapTop || !flapBottom || !img) return null;
+            if (!ft || !fb || !img) return null;
 
             return function() {
-                var prog = getProgress(section);
-                var peekProgress = Math.max(0, Math.min(1, (prog - 0.05) / 0.1));
-                var mainProgress = Math.max(0, Math.min(1, (prog - 0.2) / 0.5));
-                var totalFlap = (peekProgress * 4) + (mainProgress * 98);
-
-                flapTop.style.transform = 'translateY(-' + totalFlap + '%)';
-                flapBottom.style.transform = 'translateY(' + totalFlap + '%)';
-                flapTop.style.opacity = flapBottom.style.opacity = 1 - (mainProgress * 0.9);
-                if (zipper) zipper.style.opacity = 1 - mainProgress;
-
-                img.style.filter = 'blur(' + Math.max(0, 15 * (1 - mainProgress)) + 'px) brightness(' + (0.4 + mainProgress * 0.6) + ')';
-                img.style.transform = 'scale(' + (0.92 + mainProgress * 0.08) + ')';
-
+                var p = getProgress(section);
+                var peek = Math.max(0, Math.min(1, (p - 0.05) / 0.1));
+                var main = Math.max(0, Math.min(1, (p - 0.2) / 0.5));
+                var flap = peek * 4 + main * 98;
+                ft.style.transform = 'translateY(-' + flap + '%)';
+                fb.style.transform = 'translateY(' + flap + '%)';
+                ft.style.opacity = fb.style.opacity = 1 - main * 0.9;
+                if (zl) zl.style.opacity = 1 - main;
+                img.style.filter = 'blur(' + Math.max(0, 15 * (1 - main)) + 'px) brightness(' + (0.4 + main * 0.6) + ')';
+                img.style.transform = 'scale(' + (0.92 + main * 0.08) + ')';
                 if (text) {
-                    var textProg = Math.max(0, Math.min(1, (prog - 0.65) / 0.35));
-                    text.style.opacity = textProg;
-                    text.style.transform = 'translateY(' + ((1 - textProg) * 40) + 'px)';
+                    var tp = Math.max(0, Math.min(1, (p - 0.65) / 0.35));
+                    text.style.opacity = tp;
+                    text.style.transform = 'translateY(' + ((1 - tp) * 40) + 'px)';
                 }
             };
         }
@@ -1075,189 +887,157 @@
         var updateWhiteBag = bindBagReveal('scene-birth', 'white-bag-reveal', 'whiteText');
         var updateBlueBag = bindBagReveal('scene-ritual', 'blue-bag-reveal', 'blueText');
 
-        // ===== LOUPE WITH 3 CYCLING VIEWS =====
+        // LOUPE - Extended scroll for all 3 items
         function initLoupe() {
             var section = document.getElementById('scene-loupe');
             if (!section) return null;
-
             var images = document.querySelectorAll('.loupe-image');
             var descs = document.querySelectorAll('.loupe-desc');
             var dots = document.querySelectorAll('.loupe-dot');
-            var viewH = window.innerHeight;
             var currentIndex = -1;
 
             return function() {
                 var rect = section.getBoundingClientRect();
-                var totalScroll = section.offsetHeight - viewH;
+                var totalScroll = section.offsetHeight - window.innerHeight;
                 var scrolled = Math.max(0, -rect.top);
                 var progress = Math.min(1, scrolled / totalScroll);
 
-                // Determine which detail to show (0, 1, or 2)
-                var index = Math.min(2, Math.floor(progress * 3));
+                // 3 sections: 0-0.33, 0.33-0.66, 0.66-1.0
+                var idx = Math.min(2, Math.floor(progress * 3));
                 
-                if (index !== currentIndex) {
-                    currentIndex = index;
-                    images.forEach(function(img, i) {
-                        img.classList.toggle('active', i === index);
-                    });
-                    descs.forEach(function(desc, i) {
-                        desc.classList.toggle('active', i === index);
-                    });
-                    dots.forEach(function(dot, i) {
-                        dot.classList.toggle('active', i === index);
-                    });
+                if (idx !== currentIndex) {
+                    currentIndex = idx;
+                    images.forEach(function(img, i) { img.classList.toggle('active', i === idx); });
+                    descs.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+                    dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
                 }
             };
         }
-
         var updateLoupe = initLoupe();
 
-        // ===== GLASS REVEAL - OPENS IMMEDIATELY =====
-        function initGlassReveal() {
-            var section = document.getElementById('scene-glass');
+        // LEATHER BOOK - Page flip reveal
+        function initLeather() {
+            var section = document.getElementById('scene-leather');
             if (!section) return null;
-
-            var doorLeft = document.getElementById('glassDoorLeft');
-            var doorRight = document.getElementById('glassDoorRight');
-            var centerSeam = document.getElementById('glassCenterSeam');
-            var glassText = document.getElementById('glassText');
-            var contentBehind = document.getElementById('glassContent');
-            var panels = document.querySelectorAll('.glass-panel');
-
-            if (!doorLeft || !doorRight) return null;
-
-            var viewH = window.innerHeight;
+            var pageL = document.getElementById('leatherPageLeft');
+            var pageR = document.getElementById('leatherPageRight');
+            var spine = document.getElementById('leatherSpine');
+            var text = document.getElementById('leatherText');
+            var content = document.getElementById('leatherContent');
 
             return function() {
                 var rect = section.getBoundingClientRect();
-                var totalScroll = section.offsetHeight - viewH;
+                var totalScroll = section.offsetHeight - window.innerHeight;
                 var scrolled = Math.max(0, -rect.top);
-                
-                // OPENS VERY EARLY: 3x multiplier = fully open by 33% scroll
-                var rawProgress = Math.min(1, scrolled / totalScroll);
-                var progress = Math.min(1, rawProgress * 3);
-                var easedProgress = easeOutQuint(progress);
+                var progress = Math.min(1, scrolled / totalScroll);
 
-                // Glass doors rotate open smoothly
-                var maxRotation = 90;
-                var rotation = easedProgress * maxRotation;
+                // Ease for smooth page turn
+                var eased = easeOutQuint(Math.min(1, progress * 2));
 
-                doorLeft.style.transform = 'rotateY(' + rotation + 'deg)';
-                doorRight.style.transform = 'rotateY(-' + rotation + 'deg)';
+                // Pages flip open from center (like a book)
+                var maxAngle = 95;
+                var angle = eased * maxAngle;
 
-                // Blur reduces
-                var blurAmount = Math.max(0, 80 * (1 - easedProgress));
-                panels.forEach(function(panel) {
-                    panel.style.backdropFilter = 'blur(' + blurAmount + 'px) saturate(' + (120 + easedProgress * 30) + '%)';
-                    panel.style.webkitBackdropFilter = 'blur(' + blurAmount + 'px) saturate(' + (120 + easedProgress * 30) + '%)';
-                });
+                pageL.style.transform = 'rotateY(' + angle + 'deg)';
+                pageR.style.transform = 'rotateY(-' + angle + 'deg)';
 
-                // Seam and text fade fast
-                centerSeam.style.opacity = Math.max(0, 1 - easedProgress * 4);
-                glassText.style.opacity = Math.max(0, 1 - easedProgress * 6);
-                glassText.style.transform = 'translate(-50%, -50%) scale(' + (1 - easedProgress * 0.15) + ')';
+                // Spine fades
+                spine.style.opacity = Math.max(0, 1 - eased * 2);
+
+                // Text fades quickly
+                text.style.opacity = Math.max(0, 1 - eased * 4);
+                text.style.transform = 'translate(-50%, -50%) scale(' + (1 - eased * 0.1) + ')';
 
                 // Content reveals
-                var contentFade = Math.max(0, easedProgress * 2);
-                contentBehind.style.opacity = Math.min(1, contentFade);
-                contentBehind.style.filter = 'blur(' + Math.max(0, 15 * (1 - contentFade)) + 'px)';
+                var contentReveal = Math.max(0, (eased - 0.2) / 0.5);
+                content.style.opacity = Math.min(1, contentReveal);
+                content.style.filter = 'blur(' + Math.max(0, 10 * (1 - contentReveal)) + 'px)';
 
-                // Doors fade when fully open
-                if (easedProgress > 0.7) {
-                    var doorFade = 1 - ((easedProgress - 0.7) / 0.3);
-                    doorLeft.style.opacity = doorFade;
-                    doorRight.style.opacity = doorFade;
+                // Pages fade when fully open
+                if (eased > 0.8) {
+                    var fade = 1 - ((eased - 0.8) / 0.2);
+                    pageL.style.opacity = fade;
+                    pageR.style.opacity = fade;
                 } else {
-                    doorLeft.style.opacity = 1;
-                    doorRight.style.opacity = 1;
+                    pageL.style.opacity = 1;
+                    pageR.style.opacity = 1;
                 }
             };
         }
-
-        var updateGlassReveal = initGlassReveal();
+        var updateLeather = initLeather();
 
         function updateAll() {
-            var scrollY = window.scrollY;
-            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            progressBar.style.transform = 'scaleX(' + (scrollY / docHeight) + ')';
+            var sy = window.scrollY;
+            var dh = document.documentElement.scrollHeight - window.innerHeight;
+            progressBar.style.transform = 'scaleX(' + (sy / dh) + ')';
 
-            scenes.forEach(function(scene) {
-                var rect = scene.getBoundingClientRect();
-                if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    pattern.style.opacity = parseFloat(scene.dataset.patternIntensity) || 0.04;
+            scenes.forEach(function(s) {
+                var r = s.getBoundingClientRect();
+                if (r.top < window.innerHeight && r.bottom > 0) {
+                    pattern.style.opacity = parseFloat(s.dataset.patternIntensity) || 0.04;
                 }
             });
 
-            updateVoid();
+            // Void
+            var vp = getProgress(document.getElementById('scene-void'));
+            titleLetters.forEach(function(l, i) {
+                var lp = Math.max(0, Math.min(1, vp * titleLetters.length - i));
+                l.style.opacity = lp;
+                l.style.filter = 'blur(' + ((1 - lp) * 20) + 'px)';
+                l.style.transform = 'translateY(' + ((1 - lp) * 60) + 'px)';
+            });
+            titleLine.style.width = Math.max(0, Math.min(1, (vp - 0.6) * 4)) * 60 + 'px';
+            var tp = Math.max(0, Math.min(1, (vp - 0.8) * 5));
+            titleTagline.style.opacity = tp;
+            titleTagline.style.transform = 'translateY(' + ((1 - tp) * 40) + 'px)';
+
+            // Bags
             if (updateWhiteBag) updateWhiteBag();
             if (updateBlueBag) updateBlueBag();
-            if (updateLoupe) updateLoupe();
-            if (updateGlassReveal) updateGlassReveal();
-            updateMark();
-            if (!isMobile) updateGallery();
-            updateCreed();
-        }
 
-        function updateVoid() {
-            var section = document.getElementById('scene-void');
-            var prog = getProgress(section);
-
-            titleLetters.forEach(function(letter, i) {
-                var letterProg = Math.max(0, Math.min(1, prog * titleLetters.length - i));
-                letter.style.opacity = letterProg;
-                letter.style.filter = 'blur(' + ((1 - letterProg) * 20) + 'px)';
-                letter.style.transform = 'translateY(' + ((1 - letterProg) * 60) + 'px)';
+            // Mark
+            var mp = getProgress(document.getElementById('scene-mark'));
+            patternHero.style.opacity = Math.min(1, mp * 2);
+            patternHero.style.transform = 'translateY(' + ((1 - Math.min(1, mp * 1.5)) * 60) + 'px) rotate(' + (mp * 45) + 'deg) scale(' + (0.8 + mp * 0.3) + ')';
+            markLines.forEach(function(l, i) {
+                var lp = Math.max(0, Math.min(1, (mp - 0.15 - i * 0.12) * 5));
+                l.style.opacity = lp;
+                l.style.transform = 'translateY(' + ((1 - lp) * 40) + 'px)';
             });
 
-            titleLine.style.width = (Math.max(0, Math.min(1, (prog - 0.6) * 4)) * 60) + 'px';
-            var tagProg = Math.max(0, Math.min(1, (prog - 0.8) * 5));
-            titleTagline.style.opacity = tagProg;
-            titleTagline.style.transform = 'translateY(' + ((1 - tagProg) * 40) + 'px)';
-        }
-
-        function updateMark() {
-            var section = document.getElementById('scene-mark');
-            var prog = getProgress(section);
-
-            patternHero.style.opacity = Math.min(1, prog * 2);
-            patternHero.style.transform = 'translateY(' + ((1 - Math.min(1, prog * 1.5)) * 60) + 'px) rotate(' + (prog * 45) + 'deg) scale(' + (0.8 + prog * 0.3) + ')';
-
-            markLines.forEach(function(line, i) {
-                var lineProg = Math.max(0, Math.min(1, (prog - 0.15 - i * 0.12) * 5));
-                line.style.opacity = lineProg;
-                line.style.transform = 'translateY(' + ((1 - lineProg) * 40) + 'px)';
-            });
-        }
-
-        function updateGallery() {
-            var rect = gallerySection.getBoundingClientRect();
-            if (rect.top <= 0 && rect.bottom >= window.innerHeight) {
-                var prog = Math.min(1, -rect.top / (gallerySection.offsetHeight - window.innerHeight));
-                galleryTrack.style.transform = 'translateX(' + -(prog * 2 * window.innerWidth) + 'px)';
+            // Gallery
+            if (!isMobile) {
+                var gr = gallerySection.getBoundingClientRect();
+                if (gr.top <= 0 && gr.bottom >= window.innerHeight) {
+                    var gp = Math.min(1, -gr.top / (gallerySection.offsetHeight - window.innerHeight));
+                    galleryTrack.style.transform = 'translateX(' + -(gp * 2 * window.innerWidth) + 'px)';
+                }
             }
-        }
 
-        function updateCreed() {
-            var section = document.getElementById('scene-creed');
-            var rect = section.getBoundingClientRect();
-            var prog = getProgress(section);
-            var distFromCenter = (rect.top + rect.height / 2) - (window.innerHeight / 2);
+            // Loupe
+            if (updateLoupe) updateLoupe();
 
-            manifestoLines.forEach(function(line, i) {
-                var lineStart = i / manifestoLines.length;
-                var lineEnd = (i + 1) / manifestoLines.length;
-                var parallaxOffset = distFromCenter * 0.015 * (1 + i * 0.06);
+            // Leather
+            if (updateLeather) updateLeather();
 
-                if (prog >= lineStart && prog < lineEnd) {
-                    var lineProg = (prog - lineStart) / (lineEnd - lineStart);
-                    line.style.opacity = lineProg;
-                    line.style.transform = 'translateY(' + ((1 - lineProg) * 40 + parallaxOffset) + 'px)';
-                } else if (prog >= lineEnd) {
-                    line.style.opacity = 0.25;
-                    line.style.transform = 'translateY(' + parallaxOffset + 'px)';
+            // Creed
+            var cp = getProgress(document.getElementById('scene-creed'));
+            var cr = document.getElementById('scene-creed').getBoundingClientRect();
+            var dfc = (cr.top + cr.height / 2) - (window.innerHeight / 2);
+            manifestoLines.forEach(function(l, i) {
+                var ls = i / manifestoLines.length;
+                var le = (i + 1) / manifestoLines.length;
+                var po = dfc * 0.015 * (1 + i * 0.06);
+                if (cp >= ls && cp < le) {
+                    var lp = (cp - ls) / (le - ls);
+                    l.style.opacity = lp;
+                    l.style.transform = 'translateY(' + ((1 - lp) * 40 + po) + 'px)';
+                } else if (cp >= le) {
+                    l.style.opacity = 0.25;
+                    l.style.transform = 'translateY(' + po + 'px)';
                 } else {
-                    line.style.opacity = 0;
-                    line.style.transform = 'translateY(' + (40 + parallaxOffset) + 'px)';
+                    l.style.opacity = 0;
+                    l.style.transform = 'translateY(' + (40 + po) + 'px)';
                 }
             });
         }
@@ -1272,6 +1052,5 @@
         updateAll();
     })();
     </script>
-
 </body>
 </html>
