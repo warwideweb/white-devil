@@ -231,10 +231,10 @@
             margin-top: 8px;
         }
 
-        /* ===== LOUPE SECTION - EXTENDED SCROLL ===== */
+        /* ===== LOUPE SECTION - APPLE GLASS ===== */
         .loupe-section {
             position: relative;
-            height: 500vh; /* Extended for 3 full views */
+            height: 500vh;
             background: #000;
         }
         .loupe-sticky {
@@ -251,70 +251,99 @@
             gap: clamp(40px, 8vw, 120px);
         }
 
-        /* Circular glass */
+        /* Apple Glass Circle */
         .loupe-glass {
             position: relative;
-            width: clamp(220px, 35vmin, 380px);
-            height: clamp(220px, 35vmin, 380px);
+            width: clamp(240px, 38vmin, 420px);
+            height: clamp(240px, 38vmin, 420px);
             border-radius: 50%;
             flex-shrink: 0;
         }
-        .loupe-inner {
-            position: absolute;
-            inset: 8px;
-            border-radius: 50%;
-            overflow: hidden;
-            background: #111;
-        }
-        .loupe-image {
-            position: absolute;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-        .loupe-image.active { opacity: 1; }
 
-        /* Iridescent edge */
-        .loupe-iridescent {
+        /* Apple-style frosted rim */
+        .loupe-rim {
             position: absolute;
             inset: 0;
             border-radius: 50%;
-            background: conic-gradient(
-                from var(--angle, 0deg),
-                rgba(255, 100, 150, 0.5),
-                rgba(100, 200, 255, 0.6),
-                rgba(150, 255, 150, 0.5),
-                rgba(255, 200, 100, 0.6),
-                rgba(200, 100, 255, 0.5),
-                rgba(100, 150, 255, 0.6),
-                rgba(255, 100, 150, 0.5)
+            background: linear-gradient(
+                145deg,
+                rgba(255,255,255,0.15) 0%,
+                rgba(255,255,255,0.08) 30%,
+                rgba(255,255,255,0.03) 50%,
+                rgba(255,255,255,0.08) 70%,
+                rgba(255,255,255,0.12) 100%
             );
-            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 10px), #fff calc(100% - 8px));
-            mask: radial-gradient(farthest-side, transparent calc(100% - 10px), #fff calc(100% - 8px));
-            animation: iridescentSpin 10s linear infinite;
-        }
-        @keyframes iridescentSpin {
-            to { --angle: 360deg; }
-        }
-        @property --angle {
-            syntax: '<angle>';
-            initial-value: 0deg;
-            inherits: false;
+            padding: 3px;
+            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 2px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 2px));
         }
 
-        .loupe-glass-surface {
+        /* Inner glass area */
+        .loupe-inner {
             position: absolute;
-            inset: 6px;
+            inset: 3px;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent 50%, rgba(255,255,255,0.05));
+            overflow: hidden;
+            background: rgba(20,20,20,0.9);
+            backdrop-filter: blur(40px) saturate(150%);
+            -webkit-backdrop-filter: blur(40px) saturate(150%);
+        }
+
+        /* Images that pan with scroll */
+        .loupe-image-container {
+            position: absolute;
+            inset: -30%;
+            width: 160%;
+            height: 160%;
+            transition: opacity 0.6s ease;
+        }
+        .loupe-image-container.active { opacity: 1; }
+        .loupe-image-container:not(.active) { opacity: 0; }
+
+        .loupe-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            will-change: transform;
+        }
+
+        /* Glass highlight reflection */
+        .loupe-reflection {
+            position: absolute;
+            inset: 3px;
+            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                rgba(255,255,255,0.12) 0%,
+                rgba(255,255,255,0.05) 20%,
+                transparent 50%,
+                transparent 80%,
+                rgba(255,255,255,0.03) 100%
+            );
             pointer-events: none;
         }
+
+        /* Subtle inner shadow for depth */
         .loupe-depth {
             position: absolute;
-            inset: 6px;
+            inset: 3px;
             border-radius: 50%;
-            box-shadow: inset 0 4px 20px rgba(0,0,0,0.6), inset 0 -2px 10px rgba(255,255,255,0.05);
+            box-shadow: 
+                inset 0 2px 15px rgba(0,0,0,0.4),
+                inset 0 -1px 8px rgba(255,255,255,0.03),
+                0 0 40px rgba(0,0,0,0.3);
+            pointer-events: none;
+        }
+
+        /* Outer glow */
+        .loupe-glow {
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            background: transparent;
+            box-shadow: 
+                0 0 30px rgba(255,255,255,0.05),
+                0 0 60px rgba(255,255,255,0.02);
             pointer-events: none;
         }
 
@@ -705,18 +734,26 @@
         </div>
     </section>
 
-    <!-- SCENE 5.5: LOUPE (Extended) -->
+    <!-- SCENE 5.5: APPLE GLASS LOUPE -->
     <section id="scene-loupe" class="loupe-section" data-pattern-intensity="0.02">
         <div class="loupe-sticky">
             <div class="loupe-container">
                 <div class="loupe-glass" id="loupeGlass">
-                    <div class="loupe-iridescent"></div>
+                    <div class="loupe-glow"></div>
+                    <div class="loupe-rim"></div>
                     <div class="loupe-inner">
-                        <img src="images/detail-zipper.jpg" alt="Zipper" class="loupe-image active" data-index="0">
-                        <img src="images/detail-hardware.jpg" alt="Hardware" class="loupe-image" data-index="1">
-                        <img src="images/detail-leather.jpg" alt="Leather" class="loupe-image" data-index="2">
+                        <!-- Images that pan with scroll -->
+                        <div class="loupe-image-container active" data-index="0">
+                            <img src="images/detail-zipper.jpg" alt="Zipper Detail" class="loupe-image" id="loupeImg0">
+                        </div>
+                        <div class="loupe-image-container" data-index="1">
+                            <img src="images/detail-hardware.jpg" alt="Hardware Detail" class="loupe-image" id="loupeImg1">
+                        </div>
+                        <div class="loupe-image-container" data-index="2">
+                            <img src="images/detail-leather.jpg" alt="Leather Detail" class="loupe-image" id="loupeImg2">
+                        </div>
                     </div>
-                    <div class="loupe-glass-surface"></div>
+                    <div class="loupe-reflection"></div>
                     <div class="loupe-depth"></div>
                 </div>
                 <div class="loupe-descriptions" id="loupeDescriptions">
@@ -887,11 +924,16 @@
         var updateWhiteBag = bindBagReveal('scene-birth', 'white-bag-reveal', 'whiteText');
         var updateBlueBag = bindBagReveal('scene-ritual', 'blue-bag-reveal', 'blueText');
 
-        // LOUPE - Extended scroll for all 3 items
+        // APPLE GLASS LOUPE - with parallax pan
         function initLoupe() {
             var section = document.getElementById('scene-loupe');
             if (!section) return null;
-            var images = document.querySelectorAll('.loupe-image');
+            var containers = document.querySelectorAll('.loupe-image-container');
+            var images = [
+                document.getElementById('loupeImg0'),
+                document.getElementById('loupeImg1'),
+                document.getElementById('loupeImg2')
+            ];
             var descs = document.querySelectorAll('.loupe-desc');
             var dots = document.querySelectorAll('.loupe-dot');
             var currentIndex = -1;
@@ -905,12 +947,25 @@
                 // 3 sections: 0-0.33, 0.33-0.66, 0.66-1.0
                 var idx = Math.min(2, Math.floor(progress * 3));
                 
+                // Update active states
                 if (idx !== currentIndex) {
                     currentIndex = idx;
-                    images.forEach(function(img, i) { img.classList.toggle('active', i === idx); });
+                    containers.forEach(function(c, i) { c.classList.toggle('active', i === idx); });
                     descs.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
                     dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
                 }
+
+                // Parallax pan effect within each section
+                var sectionProgress = (progress * 3) % 1; // 0-1 within each section
+                var panX = (sectionProgress - 0.5) * 30; // -15% to +15% horizontal
+                var panY = (sectionProgress - 0.5) * 20; // -10% to +10% vertical
+                
+                // Apply pan to active image
+                images.forEach(function(img, i) {
+                    if (img && i === idx) {
+                        img.style.transform = 'translate(' + panX + '%, ' + panY + '%) scale(1.1)';
+                    }
+                });
             };
         }
         var updateLoupe = initLoupe();
