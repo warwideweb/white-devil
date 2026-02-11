@@ -9,22 +9,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <style>
+        /* ============================================================================
+           ROOT VARIABLES
+           ============================================================================ */
         :root {
             --black: #000;
             --white: #fff;
             --muted: #666;
             --dim: rgba(255,255,255,0.5);
-            /* Denim colors */
-            --denim-dark: #080808;
-            --denim-mid: #0a0a0c;
-            --denim-light: #0d0d0f;
+            /* Denim - near black with indigo undertone */
+            --denim-base: #080808;
             /* Gold zipper */
+            --gold-darkest: #4A3F1F;
             --gold-dark: #6B5A2E;
-            --gold-mid: #B8963B;
-            --gold-light: #D4AF37;
+            --gold-mid: #A08930;
+            --gold-light: #C9A84C;
+            --gold-bright: #D4AF37;
             --gold-highlight: #F5E6A3;
-            /* Stitch */
-            --stitch-gold: rgba(180, 150, 80, 0.7);
+            /* Stitch gold */
+            --stitch-gold: #C4A44A;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,6 +42,7 @@
             overflow-x: hidden;
         }
 
+        /* Global noise overlay */
         body::before {
             content: '';
             position: fixed;
@@ -74,7 +78,9 @@
 
         .scene { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; }
 
-        /* ===== VOID ===== */
+        /* ============================================================================
+           VOID SECTION
+           ============================================================================ */
         .scene-void { height: 150vh; background: #000; }
         .void-content { position: sticky; top: 50%; transform: translateY(-50%); text-align: center; }
         .hero-title { font-size: clamp(2.5rem, 10vw, 6rem); font-weight: 200; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 30px; }
@@ -82,7 +88,9 @@
         .title-line { width: 0; height: 1px; background: var(--muted); margin: 0 auto 30px; }
         .title-tagline { font-size: 0.7rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--muted); opacity: 0; }
 
-        /* ===== BAG REVEAL ===== */
+        /* ============================================================================
+           BAG REVEAL
+           ============================================================================ */
         .bag-reveal { position: relative; width: 70vmin; height: 70vmin; max-width: 600px; max-height: 600px; overflow: hidden; }
         .bag-reveal .reveal-product { width: 100%; height: 100%; object-fit: contain; filter: blur(15px) brightness(0.4); transform: scale(0.92); will-change: transform, filter; }
         .flap { position: absolute; left: 0; width: 100%; height: 50.5%; background: #000; z-index: 2; will-change: transform; }
@@ -101,7 +109,9 @@
         .mark-line.title { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 200; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 30px; }
         .mark-line.body { font-size: 0.85rem; color: var(--dim); line-height: 1.8; }
 
-        /* ===== GALLERY ===== */
+        /* ============================================================================
+           GALLERY
+           ============================================================================ */
         .scene-gallery { height: 300vh; background: #000; }
         .gallery-track { position: sticky; top: 0; height: 100vh; display: flex; will-change: transform; }
         .gallery-panel { flex: 0 0 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
@@ -109,69 +119,29 @@
         .gallery-panel h3 { margin-top: 30px; font-size: 1rem; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; }
         .gallery-panel p { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--muted); margin-top: 8px; }
 
-        /* ===== APPLE GLASS LOUPE (with cycling images) ===== */
+        /* ============================================================================
+           APPLE GLASS LOUPE - WITH REAL IMAGES BEHIND FROSTED GLASS
+           ============================================================================ */
         .loupe-section { position: relative; height: 500vh; background: #000; }
         .loupe-sticky { position: sticky; top: 0; height: 100vh; display: flex; justify-content: center; align-items: center; }
-        .loupe-container { display: flex; align-items: center; gap: clamp(40px, 8vw, 120px); }
+        .loupe-flex { display: flex; align-items: center; gap: clamp(40px, 8vw, 120px); }
 
-        .loupe-glass {
+        /* The loupe container - this is the circular viewport */
+        .loupe-container {
             position: relative;
-            width: clamp(250px, 40vmin, 450px);
-            height: clamp(250px, 40vmin, 450px);
+            width: clamp(280px, 45vw, 520px);
+            aspect-ratio: 1;
             border-radius: 50%;
-            flex-shrink: 0;
-            will-change: transform;
-        }
-
-        /* Prismatic rotating edge */
-        .loupe-prism {
-            position: absolute;
-            inset: -2px;
-            border-radius: 50%;
-            background: conic-gradient(
-                from var(--prism-angle, 0deg),
-                rgba(255,120,180,0.4),
-                rgba(120,200,255,0.5),
-                rgba(180,255,200,0.4),
-                rgba(255,220,120,0.5),
-                rgba(200,120,255,0.4),
-                rgba(120,180,255,0.5),
-                rgba(255,120,180,0.4)
-            );
-            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 2px));
-            mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 2px));
-            animation: prismRotate 8s linear infinite;
-        }
-
-        @keyframes prismRotate {
-            to { --prism-angle: 360deg; }
-        }
-
-        @property --prism-angle {
-            syntax: '<angle>';
-            initial-value: 0deg;
-            inherits: false;
-        }
-
-        /* Glass surface with frosted effect */
-        .loupe-surface {
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.02);
-            backdrop-filter: blur(25px) saturate(1.8) brightness(1.1);
-            -webkit-backdrop-filter: blur(25px) saturate(1.8) brightness(1.1);
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow:
-                inset 0 2px 20px rgba(0,0,0,0.4),
-                0 0 50px rgba(255,250,240,0.03);
             overflow: hidden;
+            flex-shrink: 0;
         }
 
-        /* Images cycling behind glass */
+        /* Images BEHIND the glass - slightly larger for Ken Burns */
         .loupe-images {
             position: absolute;
-            inset: -15%;
+            inset: -10%;
+            width: 120%;
+            height: 120%;
             border-radius: 50%;
             overflow: hidden;
             will-change: transform;
@@ -180,46 +150,93 @@
         .loupe-img {
             position: absolute;
             inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             opacity: 0;
-            transition: opacity 1.5s ease, transform 5s linear;
-            transform: scale(1.1);
+            transition: opacity 1.5s ease;
+            transform: scale(1.05);
         }
 
         .loupe-img.active {
             opacity: 1;
-            transform: scale(1.18);
+            animation: kenburns 6.5s ease-in-out forwards;
         }
 
-        .loupe-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        @keyframes kenburns {
+            from { transform: scale(1.05) translate(0, 0); }
+            to { transform: scale(1.12) translate(-1%, -1%); }
         }
 
-        /* Glass reflection */
-        .loupe-reflection {
+        /* Frosted glass overlay ON TOP of images */
+        .loupe-glass {
             position: absolute;
             inset: 0;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.03) 100%);
-            pointer-events: none;
+            backdrop-filter: blur(12px) saturate(1.6) brightness(1.05);
+            -webkit-backdrop-filter: blur(12px) saturate(1.6) brightness(1.05);
+            background: rgba(255,255,255,0.02);
+            box-shadow:
+                inset 0 0 60px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.05),
+                0 0 80px rgba(255,255,255,0.03);
+            z-index: 5;
         }
 
-        /* Inner shadow */
+        /* Prismatic edge ring - rotates */
+        .loupe-container::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 50%;
+            padding: 1.5px;
+            background: conic-gradient(
+                from 0deg,
+                rgba(255,100,100,0.3),
+                rgba(255,255,100,0.2),
+                rgba(100,255,100,0.3),
+                rgba(100,200,255,0.3),
+                rgba(180,100,255,0.3),
+                rgba(255,100,100,0.3)
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: prism-rotate 8s linear infinite;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @keyframes prism-rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Inner shadow for depth */
         .loupe-shadow {
             position: absolute;
             inset: 0;
             border-radius: 50%;
-            box-shadow: inset 0 3px 20px rgba(0,0,0,0.5), inset 0 -2px 15px rgba(255,255,255,0.02);
+            box-shadow: inset 0 3px 25px rgba(0,0,0,0.5), inset 0 -2px 15px rgba(255,255,255,0.02);
             pointer-events: none;
+            z-index: 6;
+        }
+
+        /* Highlight reflection */
+        .loupe-reflection {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 35%, transparent 65%, rgba(255,255,255,0.03) 100%);
+            pointer-events: none;
+            z-index: 7;
         }
 
         /* Outer glow */
         .loupe-glow {
             position: absolute;
-            inset: -10px;
+            inset: -15px;
             border-radius: 50%;
-            box-shadow: 0 0 60px rgba(255,250,240,0.04);
+            box-shadow: 0 0 80px rgba(255,250,240,0.04);
             pointer-events: none;
         }
 
@@ -233,270 +250,328 @@
         .loupe-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: all 0.3s; }
         .loupe-dot.active { background: rgba(255,255,255,0.8); transform: scale(1.4); }
 
-        /* ===== THE COLLECTION - DENIM BOOK ===== */
+        /* ============================================================================
+           THE COLLECTION - DENIM BOOK FOLD (TRUE 3D)
+           ============================================================================ */
         .collection-section {
             position: relative;
             height: 400vh;
             background: #000;
         }
 
-        .collection-pin {
+        /* Scroll spacer that contains the pinned element */
+        .collection-scroll-spacer {
+            height: 400vh;
+        }
+
+        /* PINNED CONTAINER - THIS MUST HAVE PERSPECTIVE */
+        .collection-pinned {
             position: sticky;
             top: 0;
+            width: 100vw;
             height: 100vh;
-            width: 100%;
             overflow: hidden;
-            -webkit-perspective: 1800px;
-            perspective: 1800px;
+            /* CRITICAL: Perspective must be on DIRECT parent of 3D elements */
+            -webkit-perspective: 1500px;
+            perspective: 1500px;
             -webkit-perspective-origin: center center;
             perspective-origin: center center;
         }
 
-        /* Clean revealed content - NO CIRCLE */
+        /* REVEALED CONTENT (behind the denim doors) */
         .collection-reveal {
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at center, #080808 0%, #030303 60%, #000 100%);
+            background: radial-gradient(ellipse at 50% 40%, rgba(30,25,15,0.4) 0%, transparent 60%), #050505;
             opacity: 0;
             z-index: 1;
         }
 
-        /* Spotlight glow */
-        .collection-reveal::before {
-            content: '';
+        /* LEFT DENIM PANEL */
+        .panel-left {
             position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60vw;
-            height: 60vh;
-            background: radial-gradient(ellipse, rgba(255,250,240,0.02) 0%, transparent 60%);
-            pointer-events: none;
-        }
-
-        /* Denim panels */
-        .denim-wrapper {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        .denim-panel {
-            flex: 1;
-            position: relative;
+            left: 0;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            /* CRITICAL: transform-origin for book fold */
+            -webkit-transform-origin: left center;
+            transform-origin: left center;
+            /* CRITICAL: preserve-3d for children */
             -webkit-transform-style: preserve-3d;
             transform-style: preserve-3d;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
+            z-index: 10;
             will-change: transform;
         }
 
-        .denim-left {
-            -webkit-transform-origin: left center;
-            transform-origin: left center;
-        }
-
-        .denim-right {
+        /* RIGHT DENIM PANEL */
+        .panel-right {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 50%;
+            height: 100%;
             -webkit-transform-origin: right center;
             transform-origin: right center;
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            z-index: 10;
+            will-change: transform;
         }
 
-        /* Denim surface with twill weave */
-        .denim-surface {
+        /* ============================================================================
+           DENIM TEXTURE - VISIBLE TWILL WEAVE
+           This is the key visual. Multiple layers create realistic fabric.
+           ============================================================================ */
+        .denim-front {
             position: absolute;
             inset: 0;
-            background: linear-gradient(90deg, var(--denim-dark) 0%, var(--denim-mid) 50%, var(--denim-light) 98%, #0a0a0c);
+            /* Layer 1: Base color */
+            background-color: #080808;
+            /* Layers 2-4: Twill weave + sheen + indigo undertone */
+            background-image:
+                /* Warp threads — primary diagonal */
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 1px,
+                    rgba(255,255,255,0.03) 1px,
+                    rgba(255,255,255,0.03) 2px
+                ),
+                /* Weft threads — perpendicular crossing */
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255,255,255,0.015) 2px,
+                    rgba(255,255,255,0.015) 3px
+                ),
+                /* Directional sheen */
+                linear-gradient(
+                    -45deg,
+                    rgba(255,255,255,0.0) 0%,
+                    rgba(255,255,255,0.02) 40%,
+                    rgba(255,255,255,0.0) 60%,
+                    rgba(255,255,255,0.015) 100%
+                ),
+                /* Indigo undertone */
+                radial-gradient(
+                    ellipse at 50% 50%,
+                    rgba(20,25,40,0.3) 0%,
+                    rgba(8,8,8,0) 70%
+                );
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
 
-        .denim-right .denim-surface {
-            background: linear-gradient(-90deg, var(--denim-dark) 0%, var(--denim-mid) 50%, var(--denim-light) 98%, #0a0a0c);
+        /* Panel differentiation - slightly different weave angles */
+        .panel-left .denim-front {
+            transform: rotate(0.5deg);
+        }
+        .panel-right .denim-front {
+            transform: rotate(-0.3deg);
         }
 
-        /* Twill weave pattern - diagonal lines */
-        .denim-weave {
+        /* Fiber noise overlay */
+        .denim-front::before {
+            content: '';
             position: absolute;
             inset: 0;
-            background: repeating-linear-gradient(
-                -45deg,
-                transparent 0px,
-                transparent 2px,
-                rgba(255,255,255,0.015) 2px,
-                rgba(255,255,255,0.015) 3px
-            );
-            opacity: 0.8;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            opacity: 0.5;
+            pointer-events: none;
+            mix-blend-mode: overlay;
         }
 
-        .denim-left .denim-weave { transform: rotate(1deg); }
-        .denim-right .denim-weave { transform: rotate(-0.5deg); }
-
-        /* Fiber texture */
-        .denim-fiber {
+        /* Edge fade to pure black */
+        .panel-left .denim-front::after {
+            content: '';
             position: absolute;
             inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence baseFrequency='1.2' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='0.03'/%3E%3C/svg%3E");
-            opacity: 0.6;
+            background: linear-gradient(to right, #000 0%, transparent 15%, transparent 100%);
+            pointer-events: none;
         }
-
-        /* Directional sheen */
-        .denim-sheen {
+        .panel-right .denim-front::after {
+            content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(-45deg, transparent 0%, rgba(255,255,255,0.008) 40%, transparent 60%, transparent 100%);
+            background: linear-gradient(to left, #000 0%, transparent 15%, transparent 100%);
+            pointer-events: none;
         }
 
-        /* Panel edge thickness */
-        .denim-edge {
-            position: absolute;
-            top: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, #151520, #0a0a10 50%, #151520);
-            display: none;
-        }
-
-        .denim-left .denim-edge { right: 0; box-shadow: -3px 0 15px rgba(0,0,0,0.8); }
-        .denim-right .denim-edge { left: 0; box-shadow: 3px 0 15px rgba(0,0,0,0.8); }
-
-        /* Inner face (lighter) */
-        .denim-inner {
+        /* Panel back face (lighter denim visible when rotated past 90deg) */
+        .denim-back {
             position: absolute;
             inset: 0;
-            background: linear-gradient(90deg, #1a1a20 0%, #12121a);
+            background: #151515;
             -webkit-transform: rotateY(180deg);
             transform: rotateY(180deg);
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
         }
 
-        /* Gold stitching along edge */
-        .denim-stitch {
+        /* Panel edge thickness (visible during rotation) */
+        .panel-edge {
             position: absolute;
             top: 0;
-            width: 2px;
+            width: 4px;
             height: 100%;
-            z-index: 5;
+            background: linear-gradient(180deg, #151520 0%, #0a0a10 50%, #151520 100%);
+        }
+        .panel-left .panel-edge {
+            right: -2px;
+            box-shadow: -3px 0 15px rgba(0,0,0,0.8);
+        }
+        .panel-right .panel-edge {
+            left: -2px;
+            box-shadow: 3px 0 15px rgba(0,0,0,0.8);
         }
 
-        .denim-left .denim-stitch { right: 12px; }
-        .denim-right .denim-stitch { left: 12px; }
-
-        .denim-stitch-pattern {
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(
-                180deg,
-                transparent 0px,
-                transparent 5px,
-                var(--stitch-gold) 5px,
-                var(--stitch-gold) 9px,
-                transparent 9px,
-                transparent 14px
-            );
-        }
-
-        .denim-stitch-shadow {
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(
-                180deg,
-                transparent 0px,
-                transparent 4px,
-                rgba(0,0,0,0.5) 4px,
-                rgba(0,0,0,0.5) 6px,
-                transparent 6px,
-                transparent 14px
-            );
-            transform: translateX(1px) translateY(-1px);
-        }
-
-        /* Center seam - double gold stitch */
-        .seam-center {
+        /* Shadow cast onto revealed content */
+        .panel-shadow {
             position: absolute;
             top: 0;
+            width: 40px;
+            height: 100%;
+            pointer-events: none;
+        }
+        .panel-left .panel-shadow {
+            right: -40px;
+            background: linear-gradient(to right, rgba(0,0,0,0.6), transparent);
+        }
+        .panel-right .panel-shadow {
+            left: -40px;
+            background: linear-gradient(to left, rgba(0,0,0,0.6), transparent);
+        }
+
+        /* ============================================================================
+           CENTER SEAM - GOLD DOUBLE STITCHING
+           ============================================================================ */
+        .center-seam {
+            position: absolute;
             left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 8px;
             transform: translateX(-50%);
-            width: 10px;
-            height: 100%;
             z-index: 15;
-            background: linear-gradient(90deg, rgba(0,0,0,0.9), rgba(10,10,12,0.7) 50%, rgba(0,0,0,0.9));
-            box-shadow: 0 0 25px rgba(0,0,0,0.9);
+            background: linear-gradient(90deg, rgba(0,0,0,0.9), rgba(10,10,12,0.6) 50%, rgba(0,0,0,0.9));
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
         }
 
-        .seam-stitch-left, .seam-stitch-right {
+        /* Left stitch row */
+        .center-seam::before {
+            content: '';
             position: absolute;
             top: 0;
+            bottom: 0;
+            left: 1px;
             width: 2px;
-            height: 100%;
             background: repeating-linear-gradient(
-                180deg,
+                to bottom,
                 transparent 0px,
-                transparent 4px,
-                var(--stitch-gold) 4px,
-                var(--stitch-gold) 8px,
-                transparent 8px,
+                transparent 3px,
+                var(--stitch-gold) 3px,
+                var(--stitch-gold) 7px,
+                transparent 7px,
                 transparent 12px
             );
         }
 
-        .seam-stitch-left { left: 2px; }
-        .seam-stitch-right { right: 2px; }
-
-        /* Light crack */
-        .seam-light {
+        /* Right stitch row (offset) */
+        .center-seam::after {
+            content: '';
             position: absolute;
             top: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            bottom: 0;
+            right: 1px;
             width: 2px;
-            height: 0%;
-            background: linear-gradient(180deg, rgba(255,250,240,0.5) 0%, rgba(255,250,240,0.1) 100%);
-            z-index: 14;
-            filter: blur(1px);
-            box-shadow: 0 0 20px rgba(255,250,240,0.3);
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 9px,
+                var(--stitch-gold) 9px,
+                var(--stitch-gold) 13px,
+                transparent 13px,
+                transparent 18px
+            );
+            opacity: 0.7;
         }
 
-        /* Gold zipper head */
-        .zipper-head {
+        /* Groove shadow between stitch rows */
+        .seam-groove {
             position: absolute;
-            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(0,0,0,0.8);
+        }
+
+        /* ============================================================================
+           GOLD ZIPPER - REALISTIC METALLIC
+           ============================================================================ */
+        .zipper-assembly {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            z-index: 50;
+            height: 100%;
+            width: 20px;
+        }
+
+        /* The zipper pull (the tab you grab) */
+        .zipper-pull {
+            position: absolute;
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
             width: 18px;
-            height: 28px;
-            z-index: 25;
-            border-radius: 4px 4px 6px 6px;
+            height: 26px;
+            border-radius: 3px 3px 5px 5px;
+            /* Metallic gold gradient - multiple color stops for realism */
             background: linear-gradient(
-                180deg,
-                var(--gold-highlight) 0%,
-                var(--gold-light) 15%,
-                var(--gold-mid) 40%,
-                var(--gold-dark) 70%,
-                #4A3D1F 100%
+                160deg,
+                var(--gold-darkest) 0%,
+                #8B7535 15%,
+                var(--gold-light) 30%,
+                var(--gold-highlight) 45%,
+                var(--gold-bright) 55%,
+                var(--gold-mid) 70%,
+                var(--gold-dark) 85%,
+                var(--gold-darkest) 100%
             );
             box-shadow:
-                inset 0 1px 0 rgba(255,255,255,0.5),
-                inset 0 -1px 0 rgba(0,0,0,0.3),
-                0 3px 8px rgba(0,0,0,0.6);
+                0 2px 4px rgba(0,0,0,0.6),
+                inset 0 1px 0 rgba(255,230,150,0.3),
+                inset 0 -1px 0 rgba(0,0,0,0.3);
+            z-index: 20;
             overflow: hidden;
         }
 
-        /* Moving highlight on zipper */
-        .zipper-shine {
+        /* Shimmer animation on zipper pull */
+        .zipper-pull::after {
+            content: '';
             position: absolute;
             inset: 0;
+            border-radius: inherit;
             background: linear-gradient(
-                110deg,
+                105deg,
                 transparent 0%,
                 transparent 40%,
-                rgba(255,255,255,0.3) 45%,
-                rgba(255,255,255,0.4) 50%,
-                rgba(255,255,255,0.3) 55%,
+                rgba(255,240,180,0.25) 45%,
+                rgba(255,240,180,0.35) 50%,
+                rgba(255,240,180,0.25) 55%,
                 transparent 60%,
                 transparent 100%
             );
-            animation: shimmer 4s ease-in-out infinite;
+            animation: shimmer 3s ease-in-out infinite;
         }
 
         @keyframes shimmer {
@@ -504,32 +579,43 @@
             50% { transform: translateX(100%); }
         }
 
-        /* Zipper pull */
-        .zipper-pull {
+        /* Zipper pull hole */
+        .zipper-pull::before {
+            content: '';
             position: absolute;
-            bottom: -14px;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(0,0,0,0.5);
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* Zipper teeth - closed section (below pull) */
+        .zipper-teeth-closed {
+            position: absolute;
+            top: 46px;
             left: 50%;
             transform: translateX(-50%);
             width: 10px;
-            height: 16px;
-            background: linear-gradient(180deg, var(--gold-light), var(--gold-dark));
-            border-radius: 2px 2px 5px 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            height: calc(100% - 46px);
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 2px,
+                var(--gold-mid) 2px,
+                var(--gold-mid) 4px,
+                transparent 4px,
+                transparent 6px
+            );
+            opacity: 0.5;
         }
 
-        .zipper-pull::after {
-            content: '';
-            position: absolute;
-            top: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 5px;
-            border-radius: 2px;
-            border: 1px solid rgba(0,0,0,0.4);
-        }
-
-        /* Text on denim */
+        /* ============================================================================
+           TEXT ON DENIM
+           ============================================================================ */
         .denim-text-wrapper {
             position: absolute;
             top: 50%;
@@ -538,7 +624,6 @@
             z-index: 30;
             text-align: center;
             pointer-events: none;
-            overflow: visible;
         }
 
         .denim-title {
@@ -549,39 +634,59 @@
             color: rgba(255,255,255,0.9);
             text-shadow: 0 2px 15px rgba(0,0,0,0.8);
             white-space: nowrap;
-            display: flex;
-            justify-content: center;
         }
 
-        .text-half {
+        /* Split text for each panel */
+        .split-text-left, .split-text-right {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: clamp(2rem, 6vw, 4.5rem);
+            font-weight: 200;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.9);
+            text-shadow: 0 2px 15px rgba(0,0,0,0.8);
+            white-space: nowrap;
             overflow: hidden;
-            display: inline-block;
+            width: 50vw;
         }
 
-        .text-half-left {
-            clip-path: inset(0 50% 0 0);
+        .split-text-left {
+            right: 0;
+            text-align: right;
+            clip-path: inset(0 0 0 0);
         }
 
-        .text-half-right {
-            clip-path: inset(0 0 0 50%);
-            margin-left: -0.35em;
+        .split-text-right {
+            left: 0;
+            text-align: left;
+            clip-path: inset(0 0 0 0);
         }
 
         .denim-subtitle {
-            margin-top: 20px;
+            position: absolute;
+            top: calc(50% + 60px);
+            left: 50%;
+            transform: translateX(-50%);
             font-size: clamp(0.6rem, 1.2vw, 0.85rem);
             letter-spacing: 0.4em;
             text-transform: uppercase;
             color: rgba(255,255,255,0.5);
+            z-index: 31;
         }
 
-        /* ===== CREED ===== */
+        /* ============================================================================
+           CREED SECTION
+           ============================================================================ */
         .scene-creed { height: 250vh; background: #000; }
         .creed-content { position: sticky; top: 0; height: 100vh; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
         .manifesto-line { font-size: clamp(1.2rem, 4vw, 2rem); font-weight: 200; letter-spacing: 0.1em; margin: 15px 0; opacity: 0; }
         .manifesto-line.small { font-size: clamp(0.9rem, 2.5vw, 1.2rem); color: var(--dim); }
 
-        /* ===== CLOSE ===== */
+        /* ============================================================================
+           CLOSE SECTION
+           ============================================================================ */
         .scene-close { min-height: 60vh; background: #000; border-top: 1px solid #1a1a1a; padding: 80px 20px 40px; }
         .close-logo { font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: 200; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 50px; }
         .close-links { display: flex; gap: 40px; margin-bottom: 60px; flex-wrap: wrap; justify-content: center; }
@@ -589,11 +694,13 @@
         .close-links a:hover { color: #fff; }
         .close-copy { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--muted); }
 
-        /* ===== MOBILE ===== */
+        /* ============================================================================
+           MOBILE RESPONSIVE
+           ============================================================================ */
         @media (max-width: 900px) {
             .mark-content { flex-direction: column; }
             .mark-text { position: relative; right: auto; text-align: center; padding: 20px; margin-top: 30px; }
-            .loupe-container { flex-direction: column; text-align: center; }
+            .loupe-flex { flex-direction: column; text-align: center; }
             .loupe-descriptions { width: 90%; margin-top: 30px; }
         }
         @media (max-width: 768px) {
@@ -603,7 +710,7 @@
             .loupe-section { height: 400vh; }
             .collection-section { height: 350vh; }
             .scene-creed { height: 220vh; }
-            .loupe-glass { width: clamp(220px, 65vw, 350px); height: clamp(220px, 65vw, 350px); }
+            .loupe-container { width: clamp(220px, 65vw, 350px); }
             .gallery-track { flex-direction: column; height: auto; position: relative; }
             .gallery-panel { height: auto; min-height: 80vh; padding: 40px 20px; }
             .scene-gallery { height: auto; }
@@ -670,22 +777,23 @@
         </div>
     </section>
 
-    <!-- APPLE GLASS LOUPE with cycling images -->
+    <!-- APPLE GLASS LOUPE - IMAGES BEHIND FROSTED GLASS -->
     <section id="scene-loupe" class="loupe-section">
         <div class="loupe-sticky">
-            <div class="loupe-container">
-                <div class="loupe-glass" id="loupeGlass">
+            <div class="loupe-flex">
+                <!-- The circular viewport -->
+                <div class="loupe-container" id="loupeContainer">
                     <div class="loupe-glow"></div>
-                    <div class="loupe-prism"></div>
+                    <!-- Images BEHIND the glass -->
                     <div class="loupe-images" id="loupeImages">
-                        <!-- Images cycle behind glass -->
-                        <div class="loupe-img active"><img src="images/product-1.jpg" alt="Product 1"></div>
-                        <div class="loupe-img"><img src="images/product-2.jpg" alt="Product 2"></div>
-                        <div class="loupe-img"><img src="images/product-3.jpg" alt="Product 3"></div>
+                        <img src="images/product-1.jpg" class="loupe-img active" alt="Product 1">
+                        <img src="images/product-2.jpg" class="loupe-img" alt="Product 2">
+                        <img src="images/product-3.jpg" class="loupe-img" alt="Product 3">
                     </div>
-                    <div class="loupe-surface"></div>
-                    <div class="loupe-reflection"></div>
+                    <!-- Frosted glass ON TOP -->
+                    <div class="loupe-glass"></div>
                     <div class="loupe-shadow"></div>
+                    <div class="loupe-reflection"></div>
                 </div>
                 <div class="loupe-descriptions">
                     <div class="loupe-desc active" data-index="0"><h3>The Zipper</h3><p>Swiss-engineered YKK Excella zipper with custom White Devil pull. Each tooth hand-polished to a mirror finish.</p></div>
@@ -701,56 +809,49 @@
         </div>
     </section>
 
-    <!-- THE COLLECTION - DENIM BOOK -->
+    <!-- THE COLLECTION - DENIM BOOK FOLD (TRUE 3D PERSPECTIVE) -->
     <section class="collection-section" id="collection-section">
-        <div class="collection-pin">
-            <!-- Clean revealed content - NO circle -->
-            <div class="collection-reveal" id="collectionReveal"></div>
+        <div class="collection-scroll-spacer">
+            <!-- PINNED CONTAINER WITH PERSPECTIVE -->
+            <div class="collection-pinned" id="collectionPinned">
+                
+                <!-- REVEALED CONTENT (behind the panels) -->
+                <div class="collection-reveal" id="collectionReveal"></div>
 
-            <!-- Seam light -->
-            <div class="seam-light" id="seamLight"></div>
-
-            <!-- Denim panels -->
-            <div class="denim-wrapper">
-                <div class="denim-panel denim-left" id="denimLeft">
-                    <div class="denim-surface"></div>
-                    <div class="denim-weave"></div>
-                    <div class="denim-fiber"></div>
-                    <div class="denim-sheen"></div>
-                    <div class="denim-edge"></div>
-                    <div class="denim-inner"></div>
-                    <div class="denim-stitch"><div class="denim-stitch-shadow"></div><div class="denim-stitch-pattern"></div></div>
+                <!-- LEFT PANEL -->
+                <div class="panel-left" id="panelLeft">
+                    <div class="denim-front"></div>
+                    <div class="denim-back"></div>
+                    <div class="panel-edge"></div>
+                    <div class="panel-shadow"></div>
+                    <!-- Left half of text -->
+                    <div class="split-text-left" id="textLeft">THE COLLECTION</div>
                 </div>
-                <div class="denim-panel denim-right" id="denimRight">
-                    <div class="denim-surface"></div>
-                    <div class="denim-weave"></div>
-                    <div class="denim-fiber"></div>
-                    <div class="denim-sheen"></div>
-                    <div class="denim-edge"></div>
-                    <div class="denim-inner"></div>
-                    <div class="denim-stitch"><div class="denim-stitch-shadow"></div><div class="denim-stitch-pattern"></div></div>
+
+                <!-- RIGHT PANEL -->
+                <div class="panel-right" id="panelRight">
+                    <div class="denim-front"></div>
+                    <div class="denim-back"></div>
+                    <div class="panel-edge"></div>
+                    <div class="panel-shadow"></div>
+                    <!-- Right half of text -->
+                    <div class="split-text-right" id="textRight">THE COLLECTION</div>
                 </div>
-            </div>
 
-            <!-- Center seam -->
-            <div class="seam-center" id="seamCenter">
-                <div class="seam-stitch-left"></div>
-                <div class="seam-stitch-right"></div>
-            </div>
+                <!-- CENTER SEAM WITH GOLD STITCHING -->
+                <div class="center-seam" id="centerSeam">
+                    <div class="seam-groove"></div>
+                </div>
 
-            <!-- Gold zipper -->
-            <div class="zipper-head" id="zipperHead">
-                <div class="zipper-shine"></div>
-                <div class="zipper-pull"></div>
-            </div>
+                <!-- GOLD ZIPPER ASSEMBLY -->
+                <div class="zipper-assembly" id="zipperAssembly">
+                    <div class="zipper-pull" id="zipperPull"></div>
+                    <div class="zipper-teeth-closed"></div>
+                </div>
 
-            <!-- Text -->
-            <div class="denim-text-wrapper" id="denimText">
-                <h2 class="denim-title">
-                    <span class="text-half text-half-left" id="textLeft">THE COLLECTION</span>
-                    <span class="text-half text-half-right" id="textRight">THE COLLECTION</span>
-                </h2>
-                <p class="denim-subtitle" id="denimSubtitle">Scroll to Open</p>
+                <!-- Scroll instruction -->
+                <div class="denim-subtitle" id="denimSubtitle">Scroll to Open</div>
+
             </div>
         </div>
     </section>
@@ -781,14 +882,8 @@
 
     <script>
     // ============================================================================
-    // PRODUCT IMAGES - Easy to swap
+    // WHITE DEVIL - SCROLL ANIMATION SYSTEM
     // ============================================================================
-    const PRODUCT_IMAGES = [
-        'images/product-1.jpg',
-        'images/product-2.jpg',
-        'images/product-3.jpg'
-    ];
-
     document.addEventListener('DOMContentLoaded', function() {
         gsap.registerPlugin(ScrollTrigger);
         
@@ -803,7 +898,9 @@
         const galleryTrack = document.getElementById('galleryTrack');
         const manifestoLines = document.querySelectorAll('.manifesto-line');
 
-        // Title letters
+        // ============================================================================
+        // TITLE ANIMATION
+        // ============================================================================
         const titleText = 'WHITE DEVIL';
         heroTitle.innerHTML = titleText.split('').map(c => 
             `<span class="title-letter">${c === ' ' ? '&nbsp;' : c}</span>`
@@ -815,6 +912,9 @@
             return 1 - Math.min(1, Math.max(0, ((r.top + r.height/2) - window.innerHeight/2) / (window.innerHeight * 0.8)));
         }
 
+        // ============================================================================
+        // BAG REVEAL ANIMATIONS
+        // ============================================================================
         function bindBagReveal(sid, rid, tid) {
             const section = document.getElementById(sid);
             const reveal = document.getElementById(rid);
@@ -844,28 +944,36 @@
         const updateBlueBag = bindBagReveal('scene-ritual', 'blue-bag-reveal', 'blueText');
 
         // ============================================================================
-        // LOUPE - Cycling images with parallax
+        // LOUPE - APPLE GLASS WITH CYCLING IMAGES
         // ============================================================================
         const loupeSection = document.getElementById('scene-loupe');
         const loupeImages = document.querySelectorAll('.loupe-img');
         const loupeDescs = document.querySelectorAll('.loupe-desc');
         const loupeDots = document.querySelectorAll('.loupe-dot');
         const loupeImagesContainer = document.getElementById('loupeImages');
+        const loupeContainer = document.getElementById('loupeContainer');
         let currentLoupeImg = 0;
         let loupeIndex = -1;
 
-        // Crossfade timer
+        // Crossfade images every 5 seconds
         setInterval(() => {
             loupeImages.forEach(img => img.classList.remove('active'));
             currentLoupeImg = (currentLoupeImg + 1) % loupeImages.length;
             loupeImages[currentLoupeImg].classList.add('active');
         }, 5000);
 
-        // Mouse parallax
-        let mouseX = 0, mouseY = 0;
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth - 0.5) * 10;
-            mouseY = (e.clientY / window.innerHeight - 0.5) * 10;
+        // Mouse parallax on loupe
+        loupeContainer.addEventListener('mousemove', (e) => {
+            const rect = loupeContainer.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            loupeImagesContainer.style.transform = `translate(${-x * 10}px, ${-y * 10}px)`;
+        });
+
+        loupeContainer.addEventListener('mouseleave', () => {
+            loupeImagesContainer.style.transition = 'transform 0.5s ease';
+            loupeImagesContainer.style.transform = 'translate(0, 0)';
+            setTimeout(() => { loupeImagesContainer.style.transition = ''; }, 500);
         });
 
         function updateLoupe() {
@@ -879,89 +987,85 @@
                 loupeDescs.forEach((d, i) => d.classList.toggle('active', i === idx));
                 loupeDots.forEach((d, i) => d.classList.toggle('active', i === idx));
             }
-
-            // Parallax
-            gsap.to(loupeImagesContainer, { x: -mouseX, y: -mouseY, duration: 0.8, ease: 'power2.out' });
         }
 
         // ============================================================================
-        // THE COLLECTION - DENIM BOOK FOLD
+        // THE COLLECTION - 3D BOOK FOLD WITH GSAP
         // ============================================================================
         const collectionSection = document.getElementById('collection-section');
-        const denimLeft = document.getElementById('denimLeft');
-        const denimRight = document.getElementById('denimRight');
-        const seamCenter = document.getElementById('seamCenter');
-        const seamLight = document.getElementById('seamLight');
-        const zipperHead = document.getElementById('zipperHead');
+        const panelLeft = document.getElementById('panelLeft');
+        const panelRight = document.getElementById('panelRight');
+        const centerSeam = document.getElementById('centerSeam');
+        const zipperAssembly = document.getElementById('zipperAssembly');
+        const zipperPull = document.getElementById('zipperPull');
         const collectionReveal = document.getElementById('collectionReveal');
         const textLeft = document.getElementById('textLeft');
         const textRight = document.getElementById('textRight');
         const denimSubtitle = document.getElementById('denimSubtitle');
-        const denimEdgeLeft = denimLeft.querySelector('.denim-edge');
-        const denimEdgeRight = denimRight.querySelector('.denim-edge');
 
-        // GSAP Timeline
-        const tl = gsap.timeline({
+        // Create GSAP timeline for the 3D book fold
+        const bookTL = gsap.timeline({
             scrollTrigger: {
                 trigger: collectionSection,
                 start: 'top top',
                 end: 'bottom bottom',
-                scrub: 1.5
+                scrub: 1.5,
+                anticipatePin: 1
             }
         });
 
-        // Phase 1: 0-10% - Zipper starts, subtitle fades
-        tl.to(denimSubtitle, { opacity: 0, duration: 0.08 }, 0);
-        tl.to(zipperHead, { top: '25%', duration: 0.1, ease: 'power1.in' }, 0);
-        tl.to(seamLight, { height: '20%', duration: 0.1 }, 0);
+        // ---- PHASE 1: 0-10% - Zipper starts descending, subtitle fades ----
+        bookTL.to(denimSubtitle, { opacity: 0, duration: 0.08 }, 0);
+        bookTL.to(zipperPull, { y: window.innerHeight * 0.15, duration: 0.1, ease: 'power1.in' }, 0);
 
-        // Phase 2: 10-25% - Panels begin opening
-        tl.to(zipperHead, { top: '45%', duration: 0.15, ease: 'power2.inOut' }, 0.1);
-        tl.to(seamLight, { height: '40%', duration: 0.15 }, 0.1);
-        tl.to(denimLeft, { rotateY: -20, duration: 0.15, ease: 'power2.out' }, 0.1);
-        tl.to(denimRight, { rotateY: 20, duration: 0.15, ease: 'power2.out' }, 0.1);
-        tl.to(textLeft, { x: '-15%', rotateY: -15, duration: 0.15 }, 0.1);
-        tl.to(textRight, { x: '15%', rotateY: 15, duration: 0.15 }, 0.1);
-        tl.to(collectionReveal, { opacity: 0.3, duration: 0.15 }, 0.15);
+        // ---- PHASE 2: 10-25% - Panels begin to crack open ----
+        bookTL.to(zipperPull, { y: window.innerHeight * 0.35, duration: 0.15, ease: 'power2.inOut' }, 0.1);
+        bookTL.to(panelLeft, { rotateY: -25, duration: 0.15, ease: 'power2.out' }, 0.1);
+        bookTL.to(panelRight, { rotateY: 25, duration: 0.15, ease: 'power2.out' }, 0.1);
+        bookTL.to(collectionReveal, { opacity: 0.3, duration: 0.15 }, 0.15);
 
-        // Phase 3: 25-50% - Significant opening
-        tl.to(zipperHead, { top: '70%', duration: 0.25, ease: 'power2.inOut' }, 0.25);
-        tl.to(seamLight, { height: '65%', opacity: 0.7, duration: 0.25 }, 0.25);
-        tl.to(denimLeft, { rotateY: -50, duration: 0.25, ease: 'power2.inOut' }, 0.25);
-        tl.to(denimRight, { rotateY: 50, duration: 0.25, ease: 'power2.inOut' }, 0.25);
-        tl.to(textLeft, { x: '-40%', rotateY: -40, opacity: 0.3, duration: 0.2 }, 0.25);
-        tl.to(textRight, { x: '40%', rotateY: 40, opacity: 0.3, duration: 0.2 }, 0.25);
-        tl.to(seamCenter, { opacity: 0.4, duration: 0.2 }, 0.3);
-        tl.to(collectionReveal, { opacity: 0.7, duration: 0.25 }, 0.35);
-        tl.add(() => { denimEdgeLeft.style.display = 'block'; denimEdgeRight.style.display = 'block'; }, 0.35);
+        // ---- PHASE 3: 25-50% - Significant opening ----
+        bookTL.to(zipperPull, { y: window.innerHeight * 0.6, duration: 0.25, ease: 'power2.inOut' }, 0.25);
+        bookTL.to(panelLeft, { rotateY: -55, duration: 0.25, ease: 'power2.inOut' }, 0.25);
+        bookTL.to(panelRight, { rotateY: 55, duration: 0.25, ease: 'power2.inOut' }, 0.25);
+        bookTL.to(centerSeam, { opacity: 0.4, duration: 0.2 }, 0.3);
+        bookTL.to(collectionReveal, { opacity: 0.7, duration: 0.25 }, 0.35);
 
-        // Phase 4: 50-75% - Nearly fully open
-        tl.to(zipperHead, { top: '100%', opacity: 0, duration: 0.25 }, 0.5);
-        tl.to(seamLight, { height: '100%', opacity: 0, duration: 0.25 }, 0.5);
-        tl.to(denimLeft, { rotateY: -78, duration: 0.25, ease: 'power2.inOut' }, 0.5);
-        tl.to(denimRight, { rotateY: 78, duration: 0.25, ease: 'power2.inOut' }, 0.5);
-        tl.to(textLeft, { x: '-60%', rotateY: -60, opacity: 0, duration: 0.15 }, 0.5);
-        tl.to(textRight, { x: '60%', rotateY: 60, opacity: 0, duration: 0.15 }, 0.5);
-        tl.to(seamCenter, { opacity: 0, duration: 0.15 }, 0.55);
-        tl.to(collectionReveal, { opacity: 1, duration: 0.25 }, 0.55);
+        // ---- PHASE 4: 50-75% - Nearly fully open ----
+        bookTL.to(zipperAssembly, { opacity: 0, duration: 0.2 }, 0.5);
+        bookTL.to(panelLeft, { rotateY: -80, duration: 0.25, ease: 'power2.inOut' }, 0.5);
+        bookTL.to(panelRight, { rotateY: 80, duration: 0.25, ease: 'power2.inOut' }, 0.5);
+        bookTL.to(centerSeam, { opacity: 0, duration: 0.15 }, 0.55);
+        bookTL.to(collectionReveal, { opacity: 1, duration: 0.25 }, 0.55);
 
-        // Phase 5: 75-90% - Panels flatten
-        tl.to(denimLeft, { rotateY: -88, x: '-5%', duration: 0.15 }, 0.75);
-        tl.to(denimRight, { rotateY: 88, x: '5%', duration: 0.15 }, 0.75);
+        // ---- PHASE 5: 75-90% - Panels flatten against sides ----
+        bookTL.to(panelLeft, { rotateY: -88, x: '-5%', duration: 0.15 }, 0.75);
+        bookTL.to(panelRight, { rotateY: 88, x: '5%', duration: 0.15 }, 0.75);
 
-        // Phase 6: 90-100% - Panels fade out
-        tl.to(denimLeft, { opacity: 0, x: '-10%', duration: 0.1 }, 0.9);
-        tl.to(denimRight, { opacity: 0, x: '10%', duration: 0.1 }, 0.9);
+        // ---- PHASE 6: 90-100% - Panels fade out completely ----
+        bookTL.to(panelLeft, { opacity: 0, x: '-10%', duration: 0.1 }, 0.9);
+        bookTL.to(panelRight, { opacity: 0, x: '10%', duration: 0.1 }, 0.9);
+
+        // ---- Moving gradient angle on zipper as it descends ----
+        ScrollTrigger.create({
+            trigger: collectionSection,
+            start: 'top top',
+            end: 'bottom bottom',
+            onUpdate: (self) => {
+                const gradAngle = 140 + (self.progress * 40);
+                zipperPull.style.background = `linear-gradient(${gradAngle}deg, #4A3F1F 0%, #8B7535 15%, #C9A84C 30%, #F5E6A3 45%, #D4AF37 55%, #A08930 70%, #6B5A2E 85%, #4A3F1F 100%)`;
+            }
+        });
 
         // ============================================================================
-        // SCROLL UPDATE
+        // MAIN SCROLL HANDLER
         // ============================================================================
         function updateAll() {
             const sy = window.scrollY;
             const dh = document.documentElement.scrollHeight - window.innerHeight;
             progressBar.style.transform = `scaleX(${sy / dh})`;
 
-            // Void
+            // Void section
             const vp = getProgress(document.getElementById('scene-void'));
             titleLetters.forEach((l, i) => {
                 const lp = Math.max(0, Math.min(1, vp * titleLetters.length - i));
@@ -974,10 +1078,11 @@
             titleTagline.style.opacity = tp;
             titleTagline.style.transform = `translateY(${(1 - tp) * 40}px)`;
 
+            // Bag reveals
             if (updateWhiteBag) updateWhiteBag();
             if (updateBlueBag) updateBlueBag();
 
-            // Mark
+            // Mark section
             const mp = getProgress(document.getElementById('scene-mark'));
             patternHero.style.opacity = Math.min(1, mp * 2);
             patternHero.style.transform = `translateY(${(1 - Math.min(1, mp * 1.5)) * 60}px) rotate(${mp * 45}deg) scale(${0.8 + mp * 0.3})`;
@@ -987,7 +1092,7 @@
                 l.style.transform = `translateY(${(1 - lp) * 40}px)`;
             });
 
-            // Gallery
+            // Gallery (horizontal scroll)
             if (!isMobile && gallerySection) {
                 const gr = gallerySection.getBoundingClientRect();
                 if (gr.top <= 0 && gr.bottom >= window.innerHeight) {
@@ -996,9 +1101,10 @@
                 }
             }
 
+            // Loupe descriptions
             updateLoupe();
 
-            // Creed
+            // Creed manifesto
             const cp = getProgress(document.getElementById('scene-creed'));
             const cr = document.getElementById('scene-creed').getBoundingClientRect();
             const dfc = (cr.top + cr.height / 2) - (window.innerHeight / 2);
