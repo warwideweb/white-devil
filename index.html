@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHITE DEVIL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #000000;
+            --dark: #0a0a0a;
+            --darker: #111111;
+            --white: #ffffff;
+            --cream: #f5f5f0;
+            --muted: #888888;
+            --dim: rgba(255, 255, 255, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            font-weight: 300;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Utility */
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Typography */
+        .heading {
+            text-transform: uppercase;
+            letter-spacing: 15px;
+            font-weight: 300;
+            font-size: clamp(2rem, 8vw, 5rem);
+        }
+
+        .subheading {
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            font-weight: 300;
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: var(--dim);
+        }
+
+        .label {
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 400;
+            font-size: 0.7rem;
+            color: var(--muted);
+        }
+
+        .body-text {
+            letter-spacing: 1px;
+            font-weight: 300;
+            font-size: 0.9rem;
+            color: var(--dim);
+            max-width: 400px;
+            line-height: 1.8;
+        }
+
+        /* ===== SECTION 1: OPENING ===== */
+        .opening {
+            background: var(--black);
+            position: relative;
+        }
+
+        .pattern-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('images/pattern.svg');
+            background-size: 300px;
+            background-repeat: repeat;
+            opacity: 0;
+            animation: fadeInPattern 3s ease-out 0.5s forwards;
+        }
+
+        @keyframes fadeInPattern {
+            to { opacity: 0.06; }
+        }
+
+        .opening-content {
+            text-align: center;
+            z-index: 1;
+            opacity: 0;
+            transform: scale(0.95);
+            animation: fadeInScale 2.5s ease-out 1s forwards;
+        }
+
+        @keyframes fadeInScale {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .opening-title {
+            margin-bottom: 30px;
+        }
+
+        .opening-line {
+            width: 40px;
+            height: 1px;
+            background: var(--muted);
+            margin: 0 auto 30px;
+        }
+
+        .opening-enter {
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            font-size: 0.8rem;
+            color: var(--muted);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .opening-enter:hover {
+            color: var(--white);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 3s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--muted), transparent);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* ===== HERO SECTIONS ===== */
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            will-change: transform;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
+        }
+
+        .hero-text {
+            position: absolute;
+            bottom: 60px;
+            left: 40px;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+
+        .hero-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-text h2 {
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            font-weight: 300;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 15px;
+        }
+
+        .hero-text p {
+            letter-spacing: 3px;
+            font-weight: 300;
+            font-size: 0.75rem;
+            color: var(--dim);
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .hero-text {
+                left: 20px;
+                right: 20px;
+                bottom: 40px;
+            }
+        }
+
+        /* ===== SECTION 3: THE PATTERN ===== */
+        .pattern-section {
+            background: var(--dark);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+        }
+
+        @media (max-width: 768px) {
+            .pattern-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pattern-visual {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pattern-large {
+            width: 150%;
+            height: 150%;
+            background-image: url('images/pattern.svg');
+            background-size: 400px;
+            background-repeat: repeat;
+            opacity: 0.8;
+            animation: rotatePattern 120s linear infinite;
+        }
+
+        @keyframes rotatePattern {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .pattern-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 1s ease-out;
+        }
+
+        .pattern-text.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .pattern-text h2 {
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            font-weight: 300;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 30px;
+        }
+
+        .pattern-text p {
+            letter-spacing: 1px;
+            font-weight: 300;
+            font-size: 0.85rem;
+            color: var(--dim);
+            line-height: 2;
+            max-width: 400px;
+        }
+
+        @media (max-width: 768px) {
+            .pattern-text {
+                padding: 40px 20px;
+                text-align: center;
+                align-items: center;
+            }
+            
+            .pattern-visual {
+                min-height: 50vh;
+            }
+        }
+
+        /* ===== SECTION 5: THE DISPLAY ===== */
+        .display-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .display-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 8s ease-out;
+        }
+
+        .display-section.in-view .display-image {
+            transform: scale(1.1);
+        }
+
+        .display-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .display-text {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out 0.3s;
+        }
+
+        .display-section.in-view .display-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .display-text h2 {
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            font-weight: 300;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 20px;
+        }
+
+        .display-text p {
+            letter-spacing: 4px;
+            font-weight: 300;
+            font-size: 0.75rem;
+            color: var(--dim);
+            text-transform: uppercase;
+        }
+
+        /* ===== SECTION 6: BRAND STATEMENT ===== */
+        .statement-section {
+            background: var(--black);
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .statement-content {
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s ease-out;
+        }
+
+        .statement-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .statement-content h2 {
+            text-transform: uppercase;
+            letter-spacing: 15px;
+            font-weight: 300;
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            margin-bottom: 40px;
+        }
+
+        .statement-content p {
+            letter-spacing: 1px;
+            font-weight: 300;
+            font-size: 0.9rem;
+            color: var(--dim);
+            line-height: 2;
+        }
+
+        /* ===== SECTION 7: FOOTER ===== */
+        .footer {
+            background: var(--black);
+            padding: 80px 20px 40px;
+            text-align: center;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .footer-logo {
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            font-weight: 300;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-links a {
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 400;
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .footer-copy {
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .footer-links {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        /* Parallax on desktop only */
+        @media (min-width: 769px) {
+            .parallax-img {
+                transform: translateY(var(--parallax-offset, 0));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SECTION 1: OPENING -->
+    <section class="section opening" id="opening">
+        <div class="pattern-bg"></div>
+        <div class="opening-content">
+            <h1 class="heading opening-title">WHITE DEVIL</h1>
+            <div class="opening-line"></div>
+            <span class="opening-enter">COLLECTION</span>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: HERO - WHITE BAG -->
+    <section class="section hero-section" id="hero-white">
+        <img src="images/bag-white.jpg" alt="White Devil Original Bag" class="hero-image parallax-img" loading="lazy">
+        <div class="hero-overlay"></div>
+        <div class="hero-text">
+            <h2>THE ORIGINAL</h2>
+            <p>Embossed spiral leather / Chrome hardware</p>
+        </div>
+    </section>
+
+    <!-- SECTION 3: THE PATTERN -->
+    <section class="pattern-section" id="pattern">
+        <div class="pattern-visual">
+            <div class="pattern-large"></div>
+        </div>
+        <div class="pattern-text">
+            <h2>THE MARK</h2>
+            <p>Every spiral is a fingerprint. Every circle, a cycle. The White Devil pattern is rooted in obsession — repetition as ritual, symmetry as disruption.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 4: HERO - BLUE BAG -->
+    <section class="section hero-section" id="hero-blue">
+        <img src="images/bag-blue.jpg" alt="Denim Ritual Bag" class="hero-image parallax-img" loading="lazy">
+        <div class="hero-overlay"></div>
+        <div class="hero-text">
+            <h2>DENIM RITUAL</h2>
+            <p>Jacquard woven pattern / Teal leather trim</p>
+        </div>
+    </section>
+
+    <!-- SECTION 5: THE DISPLAY -->
+    <section class="section display-section" id="display">
+        <img src="images/bag-shelf.jpg" alt="White Devil Collection Display" class="display-image" loading="lazy">
+        <div class="display-overlay"></div>
+        <div class="display-text">
+            <h2>THE COLLECTION</h2>
+            <p>Available in Cream, Blue, Red, Black</p>
+        </div>
+    </section>
+
+    <!-- SECTION 6: BRAND STATEMENT -->
+    <section class="section statement-section" id="statement">
+        <div class="statement-content">
+            <h2>NOT FOR EVERYONE</h2>
+            <p>White Devil is not a fashion brand. It's a pattern. A ritual. A mark. Luxury isn't about price — it's about obsession.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 7: FOOTER -->
+    <footer class="footer">
+        <div class="footer-logo">WHITE DEVIL</div>
+        <div class="footer-links">
+            <a href="#">Instagram</a>
+            <a href="#">Contact</a>
+            <a href="#">Inquiries</a>
+        </div>
+        <div class="footer-copy">© 2026 White Devil. All rights reserved.</div>
+    </footer>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add visible class for animations
+                    const target = entry.target;
+                    
+                    if (target.classList.contains('hero-section')) {
+                        target.querySelector('.hero-text').classList.add('visible');
+                    }
+                    
+                    if (target.classList.contains('pattern-section')) {
+                        target.querySelector('.pattern-text').classList.add('visible');
+                    }
+                    
+                    if (target.classList.contains('display-section')) {
+                        target.classList.add('in-view');
+                    }
+                    
+                    if (target.classList.contains('statement-section')) {
+                        target.querySelector('.statement-content').classList.add('visible');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.hero-section, .pattern-section, .display-section, .statement-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Parallax effect on desktop
+        if (window.innerWidth > 768) {
+            const parallaxImages = document.querySelectorAll('.parallax-img');
+            
+            window.addEventListener('scroll', () => {
+                parallaxImages.forEach(img => {
+                    const section = img.closest('.section');
+                    const rect = section.getBoundingClientRect();
+                    const scrollPercent = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+                    const offset = (scrollPercent - 0.5) * 100;
+                    img.style.setProperty('--parallax-offset', `${offset * 0.3}px`);
+                });
+            });
+        }
+
+        // Smooth scroll on enter click
+        document.querySelector('.opening-enter').addEventListener('click', () => {
+            document.getElementById('hero-white').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+
+</body>
+</html>
