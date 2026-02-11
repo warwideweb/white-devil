@@ -349,220 +349,261 @@
             text-transform: uppercase;
         }
 
-        /* ===== SCENE 5.5: GLASS ZIPPER V9 ===== */
-        .zipper-section {
+        /* ===== SCENE 5.5: APPLE GLASS REVEAL V12 ===== */
+        .glass-section {
             position: relative;
-            height: 400vh;
+            height: 300vh;
             background: #000;
             overflow: hidden;
         }
 
-        .zipper-sticky {
+        .glass-sticky {
             position: sticky;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
             overflow: hidden;
+            perspective: 2000px;
         }
 
-        /* Content behind the zipper */
-        .zipper-content-behind {
+        /* Content behind the glass (bags grid) */
+        .glass-content-behind {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            padding: 8vh 6vw;
+            background: linear-gradient(180deg, #0a0a0a 0%, #000 100%);
+            z-index: 1;
+            opacity: 0;
+            will-change: opacity, filter;
+        }
+
+        .glass-bag-card {
+            aspect-ratio: 3/4;
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border-radius: 16px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            z-index: 1;
-            background: #000;
-            opacity: 0;
-            will-change: opacity, filter, transform;
+            justify-content: center;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
         }
 
-        .zipper-product-img {
-            max-width: 65%;
-            max-height: 45vh;
+        .glass-bag-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .glass-bag-card img {
+            width: 100%;
+            height: 70%;
             object-fit: contain;
+            margin-bottom: 1rem;
         }
 
-        .zipper-title {
-            margin-top: 28px;
-            font-size: clamp(1.3rem, 3.5vw, 2.4rem);
-            letter-spacing: 0.3em;
-            font-weight: 200;
-            text-transform: uppercase;
-            color: #fff;
-        }
-
-        .zipper-subtitle {
-            margin-top: 10px;
-            font-size: clamp(0.6rem, 1.2vw, 0.85rem);
-            letter-spacing: 0.4em;
-            color: rgba(255, 255, 255, 0.5);
+        .glass-bag-card h3 {
+            font-size: clamp(0.7rem, 1.2vw, 1rem);
             font-weight: 300;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
+            margin-bottom: 0.3rem;
         }
 
-        /* Page halves that cover and split */
-        .z-page {
+        .glass-bag-card p {
+            color: rgba(255,255,255,0.4);
+            font-size: clamp(0.55rem, 0.9vw, 0.75rem);
+            letter-spacing: 0.1em;
+        }
+
+        /* The Glass Door Panels */
+        .glass-overlay {
             position: absolute;
-            top: 0;
-            width: 50%;
-            height: 100%;
-            background: #000;
-            z-index: 5;
-            will-change: transform;
-        }
-
-        .z-page-left {
-            left: 0;
-            transform-origin: right center;
-            box-shadow: inset -40px 0 80px -30px rgba(0, 0, 0, 0.95);
-        }
-
-        .z-page-right {
-            right: 0;
-            transform-origin: left center;
-            box-shadow: inset 40px 0 80px -30px rgba(0, 0, 0, 0.95);
-        }
-
-        /* Zipper container */
-        .glass-zipper {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 100%;
+            inset: 0;
+            display: flex;
             z-index: 10;
             pointer-events: none;
         }
 
-        /* Teeth containers */
-        .zipper-teeth-left,
-        .zipper-teeth-right {
-            position: absolute;
-            top: 0;
-            width: 16px;
-            height: 100%;
-            z-index: 11;
-        }
-
-        .zipper-teeth-left {
-            right: 50%;
-            margin-right: 2px;
-        }
-
-        .zipper-teeth-right {
-            left: 50%;
-            margin-left: 2px;
-        }
-
-        /* CHROME metal tooth — solid metallic */
-        .z-tooth {
-            position: absolute;
-            width: 12px;
-            height: 5px;
-            border-radius: 1px;
-            /* Solid chrome gradient */
-            background: linear-gradient(
-                180deg,
-                #e8e8e8 0%,
-                #d0d0d0 20%,
-                #ffffff 40%,
-                #b8b8b8 60%,
-                #909090 80%,
-                #707070 100%
-            );
-            border: 0.5px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.8),
-                0 1px 2px rgba(0, 0, 0, 0.5);
-            will-change: transform, opacity;
-        }
-
-        /* Chrome slider */
-        .zipper-slider {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 15;
-            will-change: top;
-        }
-
-        .slider-body {
-            width: 28px;
-            height: 20px;
-            /* Chrome metal body */
-            background: linear-gradient(
-                180deg,
-                #e0e0e0 0%,
-                #c8c8c8 15%,
-                #f8f8f8 30%,
-                #ffffff 50%,
-                #d0d0d0 70%,
-                #a0a0a0 85%,
-                #808080 100%
-            );
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 4px 4px 5px 5px;
-            box-shadow: 
-                inset 0 2px 0 rgba(255, 255, 255, 0.9),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-                0 3px 10px rgba(0, 0, 0, 0.5);
+        .glass-door {
+            flex: 1;
             position: relative;
-            overflow: hidden;
+            transform-style: preserve-3d;
+            will-change: transform;
         }
 
-        /* Webcam reflection INSIDE slider only */
-        .slider-reflection {
+        .glass-door-left {
+            transform-origin: left center;
+        }
+
+        .glass-door-right {
+            transform-origin: right center;
+        }
+
+        /* The frosted glass panel */
+        .glass-panel {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(255,255,255,0.08) 0%,
+                rgba(255,255,255,0.03) 30%,
+                rgba(255,255,255,0.05) 70%,
+                rgba(255,255,255,0.08) 100%
+            );
+            backdrop-filter: blur(60px) saturate(150%);
+            -webkit-backdrop-filter: blur(60px) saturate(150%);
+            will-change: backdrop-filter;
+        }
+
+        /* Inner edge glow for depth */
+        .glass-door-left .glass-panel {
+            border-right: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 
+                inset -30px 0 60px -20px rgba(0,0,0,0.4),
+                inset -2px 0 8px rgba(255,255,255,0.08),
+                20px 0 40px rgba(0,0,0,0.3);
+        }
+
+        .glass-door-right .glass-panel {
+            border-left: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 
+                inset 30px 0 60px -20px rgba(0,0,0,0.4),
+                inset 2px 0 8px rgba(255,255,255,0.08),
+                -20px 0 40px rgba(0,0,0,0.3);
+        }
+
+        /* Static highlight streak */
+        .glass-panel::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.25;
-            mix-blend-mode: overlay;
-            border-radius: inherit;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                115deg,
+                transparent 0%,
+                transparent 40%,
+                rgba(255,255,255,0.06) 45%,
+                rgba(255,255,255,0.02) 50%,
+                transparent 55%,
+                transparent 100%
+            );
             pointer-events: none;
         }
 
-        /* Chrome pull tab */
-        .slider-pull {
-            width: 10px;
-            height: 18px;
-            margin: 2px auto 0;
+        /* Animated shimmer sweep */
+        .glass-panel::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 80%;
+            height: 100%;
             background: linear-gradient(
-                180deg,
-                #d0d0d0 0%,
-                #f0f0f0 30%,
-                #ffffff 50%,
-                #c0c0c0 70%,
-                #909090 100%
+                90deg,
+                transparent 0%,
+                rgba(255,255,255,0.04) 40%,
+                rgba(255,255,255,0.08) 50%,
+                rgba(255,255,255,0.04) 60%,
+                transparent 100%
             );
-            border: 0.5px solid rgba(255, 255, 255, 0.5);
-            border-radius: 2px 2px 4px 4px;
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.8),
-                0 2px 6px rgba(0, 0, 0, 0.4);
-            position: relative;
+            animation: glassShimmer 8s ease-in-out infinite;
+            pointer-events: none;
         }
 
-        .slider-pull::after {
-            content: '';
+        @keyframes glassShimmer {
+            0%, 100% { left: -150%; opacity: 0; }
+            10% { opacity: 1; }
+            50% { left: 150%; opacity: 1; }
+            60% { opacity: 0; }
+        }
+
+        /* Center seam glow line */
+        .glass-center-seam {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                transparent 0%,
+                rgba(255,255,255,0.2) 15%,
+                rgba(255,255,255,0.4) 50%,
+                rgba(255,255,255,0.2) 85%,
+                transparent 100%
+            );
+            z-index: 20;
+            will-change: opacity;
+        }
+
+        /* Text overlay on glass */
+        .glass-text {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 4px;
-            height: 5px;
-            border-radius: 1px;
-            border: 1px solid rgba(0, 0, 0, 0.3);
-            background: rgba(0, 0, 0, 0.2);
+            z-index: 25;
+            text-align: center;
+            pointer-events: none;
+            will-change: opacity, transform;
+        }
+
+        .glass-text h2 {
+            font-size: clamp(1.8rem, 5vw, 4rem);
+            font-weight: 200;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.9);
+            text-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            margin-bottom: 1rem;
+        }
+
+        .glass-text p {
+            font-size: clamp(0.6rem, 1vw, 0.85rem);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Scroll hint */
+        .glass-scroll-hint {
+            position: absolute;
+            bottom: 8vh;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 25;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            will-change: opacity;
+        }
+
+        .glass-scroll-hint span {
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, transparent 100%);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.4; transform: scaleY(1); }
+            50% { opacity: 1; transform: scaleY(1.2); }
         }
 
         /* ===== SCENE 6: THE CREED ===== */
@@ -651,7 +692,7 @@
             text-transform: uppercase;
         }
 
-        /* ===== MOBILE - ANIMATIONS ENABLED ===== */
+        /* ===== MOBILE RESPONSIVE ===== */
         @media (max-width: 768px) {
             .bag-reveal {
                 width: 85vw;
@@ -663,31 +704,18 @@
             .scene-void { height: 120vh; }
             .scene-birth, .scene-ritual { height: 180vh; }
             .scene-mark { height: 180vh; }
-            .zipper-section { height: 300vh; }
+            .glass-section { height: 250vh; }
             .scene-creed { height: 220vh; }
 
-            .glass-zipper {
-                width: 40px;
+            .glass-content-behind {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                padding: 10vh 4vw;
             }
 
-            .z-tooth {
-                width: 9px;
-                height: 4px;
-            }
-
-            .slider-body {
-                width: 22px;
-                height: 16px;
-            }
-
-            .slider-pull {
-                width: 8px;
-                height: 14px;
-            }
-
-            .zipper-product-img {
-                max-width: 88%;
-                max-height: 45vh;
+            .glass-bag-card {
+                padding: 1rem;
+                border-radius: 12px;
             }
 
             .mark-content {
@@ -804,35 +832,67 @@
         </div>
     </section>
 
-    <!-- SCENE 5.5: GLASS ZIPPER -->
-    <section id="scene-zipper" class="zipper-section" data-pattern-intensity="0.01">
-        <div class="zipper-sticky">
-            <!-- Content behind (revealed as zipper opens) -->
-            <div class="zipper-content-behind" id="zipperContent">
-                <img src="images/bag-shelf.jpg" alt="Collection" class="zipper-product-img">
-                <h2 class="zipper-title">THE COLLECTION</h2>
-                <p class="zipper-subtitle">Cream / Blue / Red / Black</p>
-            </div>
-
-            <!-- Page halves that cover and split -->
-            <div class="z-page z-page-left" id="zPageLeft"></div>
-            <div class="z-page z-page-right" id="zPageRight"></div>
-
-            <!-- Chrome zipper -->
-            <div class="glass-zipper" id="glassZipper">
-                <div class="zipper-teeth-left" id="teethLeft"></div>
-                <div class="zipper-teeth-right" id="teethRight"></div>
-                <!-- Chrome slider with webcam reflection -->
-                <div class="zipper-slider" id="zipperSlider">
-                    <div class="slider-body">
-                        <canvas id="sliderReflection" class="slider-reflection"></canvas>
-                    </div>
-                    <div class="slider-pull"></div>
+    <!-- SCENE 5.5: APPLE GLASS REVEAL -->
+    <section id="scene-glass" class="glass-section" data-pattern-intensity="0.01">
+        <div class="glass-sticky">
+            <!-- Bags grid behind the glass -->
+            <div class="glass-content-behind" id="glassContent">
+                <div class="glass-bag-card">
+                    <img src="images/bag-white.jpg" alt="The Original">
+                    <h3>The Original</h3>
+                    <p>Cream / Chrome</p>
+                </div>
+                <div class="glass-bag-card">
+                    <img src="images/bag-blue.jpg" alt="Denim Ritual">
+                    <h3>Denim Ritual</h3>
+                    <p>Teal / Silver</p>
+                </div>
+                <div class="glass-bag-card">
+                    <img src="images/bag-shelf.jpg" alt="Collection">
+                    <h3>The Collection</h3>
+                    <p>All Colors</p>
+                </div>
+                <div class="glass-bag-card">
+                    <img src="images/bag-white.jpg" alt="Original II">
+                    <h3>Original II</h3>
+                    <p>Pearl White</p>
+                </div>
+                <div class="glass-bag-card">
+                    <img src="images/bag-blue.jpg" alt="Midnight">
+                    <h3>Midnight</h3>
+                    <p>Deep Navy</p>
+                </div>
+                <div class="glass-bag-card">
+                    <img src="images/bag-shelf.jpg" alt="Archive">
+                    <h3>The Archive</h3>
+                    <p>Limited Edition</p>
                 </div>
             </div>
 
-            <!-- Webcam for reflection -->
-            <video id="webcamFeed" playsinline autoplay muted style="display:none;"></video>
+            <!-- Glass overlay that splits open -->
+            <div class="glass-overlay" id="glassOverlay">
+                <div class="glass-door glass-door-left" id="glassDoorLeft">
+                    <div class="glass-panel"></div>
+                </div>
+                <div class="glass-door glass-door-right" id="glassDoorRight">
+                    <div class="glass-panel"></div>
+                </div>
+            </div>
+
+            <!-- Center seam -->
+            <div class="glass-center-seam" id="glassCenterSeam"></div>
+
+            <!-- Text on glass -->
+            <div class="glass-text" id="glassText">
+                <h2>The Collection</h2>
+                <p>Scroll to Reveal</p>
+            </div>
+
+            <!-- Scroll indicator -->
+            <div class="glass-scroll-hint" id="glassScrollHint">
+                <span>Discover</span>
+                <div class="scroll-line"></div>
+            </div>
         </div>
     </section>
 
@@ -897,6 +957,15 @@
             return 1 - Math.min(1, Math.max(0, distFromCenter / travelDistance));
         }
 
+        // Easing functions
+        function easeOutCubic(t) {
+            return 1 - Math.pow(1 - t, 3);
+        }
+
+        function easeInOutQuart(t) {
+            return t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
+        }
+
         // Bag reveal with PEEK tease
         function bindBagReveal(sectionId, revealId, textId) {
             var section = document.getElementById(sectionId);
@@ -914,12 +983,8 @@
             return function() {
                 var prog = getProgress(section);
 
-                // PEEK phase: 5-15% = crack open 4%
                 var peekProgress = Math.max(0, Math.min(1, (prog - 0.05) / 0.1));
-                // MAIN phase: 20-70% = full open
                 var mainProgress = Math.max(0, Math.min(1, (prog - 0.2) / 0.5));
-                
-                // Combined: peek opens 4%, then main opens rest
                 var totalFlap = (peekProgress * 4) + (mainProgress * 98);
 
                 flapTop.style.transform = 'translateY(-' + totalFlap + '%)';
@@ -931,7 +996,6 @@
 
                 if (zipper) zipper.style.opacity = 1 - mainProgress;
 
-                // Image deblurs as flaps open
                 var imgBlur = Math.max(0, 15 * (1 - mainProgress));
                 var imgScale = 0.92 + (mainProgress * 0.08);
                 var imgBrightness = 0.4 + (mainProgress * 0.6);
@@ -939,7 +1003,6 @@
                 img.style.filter = 'blur(' + imgBlur + 'px) brightness(' + imgBrightness + ')';
                 img.style.transform = 'scale(' + imgScale + ')';
 
-                // Text after reveal
                 if (text) {
                     var textProg = Math.max(0, Math.min(1, (prog - 0.65) / 0.35));
                     text.style.opacity = textProg;
@@ -951,121 +1014,25 @@
         var updateWhiteBag = bindBagReveal('scene-birth', 'white-bag-reveal', 'whiteText');
         var updateBlueBag = bindBagReveal('scene-ritual', 'blue-bag-reveal', 'blueText');
 
-        // ===== CHROME ZIPPER V11 =====
-        function initChromeZipper() {
-            var section = document.getElementById('scene-zipper');
+        // ===== APPLE GLASS REVEAL V12 =====
+        function initGlassReveal() {
+            var section = document.getElementById('scene-glass');
             if (!section) return null;
 
-            var teethLeft = document.getElementById('teethLeft');
-            var teethRight = document.getElementById('teethRight');
-            var slider = document.getElementById('zipperSlider');
-            var pageLeft = document.getElementById('zPageLeft');
-            var pageRight = document.getElementById('zPageRight');
-            var contentBehind = document.getElementById('zipperContent');
-            var glassZipper = document.getElementById('glassZipper');
-            var sliderCanvas = document.getElementById('sliderReflection');
-            var video = document.getElementById('webcamFeed');
+            var doorLeft = document.getElementById('glassDoorLeft');
+            var doorRight = document.getElementById('glassDoorRight');
+            var centerSeam = document.getElementById('glassCenterSeam');
+            var glassText = document.getElementById('glassText');
+            var scrollHint = document.getElementById('glassScrollHint');
+            var contentBehind = document.getElementById('glassContent');
+            var panels = document.querySelectorAll('.glass-panel');
 
-            if (!teethLeft || !teethRight || !slider || !pageLeft || !pageRight) {
-                console.warn('Zipper elements missing');
+            if (!doorLeft || !doorRight) {
+                console.warn('Glass elements missing');
                 return null;
             }
 
-            var isMobileZip = window.innerWidth <= 768;
-            var toothSpacing = isMobileZip ? 10 : 8;
             var viewH = window.innerHeight;
-            var numTeeth = Math.ceil(viewH / toothSpacing) + 10;
-
-            // Generate teeth
-            var leftTeeth = [];
-            var rightTeeth = [];
-
-            for (var i = 0; i < numTeeth; i++) {
-                var tL = document.createElement('div');
-                tL.className = 'z-tooth';
-                tL.style.top = (i * toothSpacing) + 'px';
-                tL.style.right = '0';
-                teethLeft.appendChild(tL);
-                leftTeeth.push(tL);
-
-                var tR = document.createElement('div');
-                tR.className = 'z-tooth';
-                tR.style.top = (i * toothSpacing + toothSpacing / 2) + 'px';
-                tR.style.left = '0';
-                teethRight.appendChild(tR);
-                rightTeeth.push(tR);
-            }
-
-            // Slider reflection canvas
-            var sliderCtx = null;
-            if (sliderCanvas) {
-                sliderCanvas.width = 56;
-                sliderCanvas.height = 40;
-                sliderCtx = sliderCanvas.getContext('2d');
-            }
-
-            // Webcam setup
-            var hasWebcam = false;
-            var webcamRequested = false;
-            
-            function requestWebcam() {
-                if (webcamRequested || !navigator.mediaDevices) return;
-                webcamRequested = true;
-                navigator.mediaDevices.getUserMedia({ 
-                    video: { width: 80, height: 60, facingMode: 'user' } 
-                }).then(function(stream) {
-                    video.srcObject = stream;
-                    video.play();
-                    hasWebcam = true;
-                }).catch(function() {
-                    hasWebcam = false;
-                });
-            }
-
-            // Request webcam when section enters
-            if ('IntersectionObserver' in window) {
-                var obs = new IntersectionObserver(function(entries) {
-                    if (entries[0].isIntersecting) {
-                        requestWebcam();
-                        obs.disconnect();
-                    }
-                }, { threshold: 0.1 });
-                obs.observe(section);
-            }
-
-            // Draw webcam reflection on slider
-            function drawSliderReflection() {
-                if (!sliderCtx) return;
-                sliderCtx.clearRect(0, 0, 56, 40);
-                
-                if (hasWebcam && video && video.readyState >= 2) {
-                    sliderCtx.save();
-                    sliderCtx.globalAlpha = 0.4;
-                    // Mirror flip
-                    sliderCtx.translate(56, 0);
-                    sliderCtx.scale(-1, 1);
-                    sliderCtx.drawImage(video, 0, 0, 56, 40);
-                    sliderCtx.restore();
-                } else {
-                    // Animated shine
-                    var time = performance.now() * 0.001;
-                    var sweep = (Math.sin(time) + 1) / 2;
-                    var grad = sliderCtx.createLinearGradient(sweep * 56 - 15, 0, sweep * 56 + 15, 40);
-                    grad.addColorStop(0, 'rgba(255,255,255,0)');
-                    grad.addColorStop(0.5, 'rgba(255,255,255,0.2)');
-                    grad.addColorStop(1, 'rgba(255,255,255,0)');
-                    sliderCtx.fillStyle = grad;
-                    sliderCtx.fillRect(0, 0, 56, 40);
-                }
-            }
-
-            // Reflection loop
-            function reflectionLoop() {
-                drawSliderReflection();
-                requestAnimationFrame(reflectionLoop);
-            }
-            requestAnimationFrame(reflectionLoop);
-
             var lastProgress = -1;
 
             return function() {
@@ -1074,96 +1041,67 @@
                 var scrolled = Math.max(0, -rect.top);
                 var progress = Math.min(1, scrolled / totalScroll);
 
-                if (Math.abs(progress - lastProgress) < 0.002) return;
+                // Skip if no change
+                if (Math.abs(progress - lastProgress) < 0.001) return;
                 lastProgress = progress;
 
-                viewH = window.innerHeight;
+                // Apply smooth easing
+                var easedProgress = easeInOutQuart(progress);
 
-                // SLIDER MOVES FROM TOP TO BOTTOM
-                var sliderY = progress * (viewH - 50);
-                slider.style.top = sliderY + 'px';
+                // === GLASS DOORS ROTATE OPEN (like book pages) ===
+                var maxRotation = 85; // degrees
+                var rotation = easedProgress * maxRotation;
 
-                // Teeth: ABOVE slider = OPEN, BELOW slider = CLOSED
-                var openSpread = isMobileZip ? 15 : 18;
-                var transitionZone = 30;
+                doorLeft.style.transform = 'rotateY(' + rotation + 'deg)';
+                doorRight.style.transform = 'rotateY(-' + rotation + 'deg)';
 
-                leftTeeth.forEach(function(tooth, i) {
-                    var toothY = i * toothSpacing;
-                    var distFromSlider = toothY - sliderY;
-
-                    if (distFromSlider < -transitionZone) {
-                        // ABOVE slider = OPEN
-                        tooth.style.transform = 'translateX(-' + openSpread + 'px)';
-                        tooth.style.opacity = '0.7';
-                    } else if (distFromSlider > transitionZone) {
-                        // BELOW slider = CLOSED (centered)
-                        tooth.style.transform = 'translateX(0)';
-                        tooth.style.opacity = '1';
-                    } else {
-                        // TRANSITION zone
-                        var t = (distFromSlider + transitionZone) / (transitionZone * 2);
-                        var spread = openSpread * (1 - t);
-                        tooth.style.transform = 'translateX(-' + spread + 'px)';
-                        tooth.style.opacity = (0.7 + t * 0.3);
-                    }
+                // === DYNAMIC BLUR REDUCTION as doors open ===
+                var blurAmount = Math.max(5, 60 * (1 - easedProgress * 0.9));
+                panels.forEach(function(panel) {
+                    panel.style.backdropFilter = 'blur(' + blurAmount + 'px) saturate(' + (150 + easedProgress * 50) + '%)';
+                    panel.style.webkitBackdropFilter = 'blur(' + blurAmount + 'px) saturate(' + (150 + easedProgress * 50) + '%)';
                 });
 
-                rightTeeth.forEach(function(tooth, i) {
-                    var toothY = i * toothSpacing + toothSpacing / 2;
-                    var distFromSlider = toothY - sliderY;
+                // === CENTER SEAM fades out ===
+                var seamFade = 1 - easedProgress * 2.5;
+                centerSeam.style.opacity = Math.max(0, seamFade);
 
-                    if (distFromSlider < -transitionZone) {
-                        tooth.style.transform = 'translateX(' + openSpread + 'px)';
-                        tooth.style.opacity = '0.7';
-                    } else if (distFromSlider > transitionZone) {
-                        tooth.style.transform = 'translateX(0)';
-                        tooth.style.opacity = '1';
-                    } else {
-                        var t = (distFromSlider + transitionZone) / (transitionZone * 2);
-                        var spread = openSpread * (1 - t);
-                        tooth.style.transform = 'translateX(' + spread + 'px)';
-                        tooth.style.opacity = (0.7 + t * 0.3);
-                    }
-                });
+                // === TEXT fades and scales out ===
+                var textFade = 1 - easedProgress * 4;
+                glassText.style.opacity = Math.max(0, textFade);
+                glassText.style.transform = 'translate(-50%, -50%) scale(' + (1 - easedProgress * 0.15) + ')';
 
-                // PAGE HALVES SPLIT APART
-                var splitEase = Math.pow(progress, 1.5);
-                var maxSplit = window.innerWidth * 0.55;
-                var splitAmount = splitEase * maxSplit;
-                var curl = progress * 5;
+                // === SCROLL HINT fades quickly ===
+                var hintFade = 1 - easedProgress * 8;
+                scrollHint.style.opacity = Math.max(0, hintFade);
 
-                pageLeft.style.transform = 'translateX(-' + splitAmount + 'px) perspective(1000px) rotateY(' + curl + 'deg)';
-                pageRight.style.transform = 'translateX(' + splitAmount + 'px) perspective(1000px) rotateY(-' + curl + 'deg)';
+                // === CONTENT BEHIND reveals ===
+                var contentFade = Math.max(0, (easedProgress - 0.1) / 0.6);
+                var contentBlur = Math.max(0, 15 * (1 - contentFade));
+                contentBehind.style.opacity = Math.min(1, contentFade);
+                contentBehind.style.filter = 'blur(' + contentBlur + 'px)';
 
-                // Content reveal
-                if (contentBehind) {
-                    var cProg = Math.max(0, (progress - 0.15) / 0.5);
-                    contentBehind.style.opacity = Math.min(1, cProg);
-                    contentBehind.style.filter = 'blur(' + Math.max(0, 12 * (1 - cProg)) + 'px)';
-                    contentBehind.style.transform = 'scale(' + (0.9 + Math.min(1, cProg) * 0.1) + ')';
-                }
-
-                // Zipper fades when fully open
-                if (progress > 0.85) {
-                    var fade = 1 - ((progress - 0.85) / 0.15);
-                    glassZipper.style.opacity = fade;
+                // === DOORS FADE at full open ===
+                if (easedProgress > 0.85) {
+                    var doorFade = 1 - ((easedProgress - 0.85) / 0.15);
+                    doorLeft.style.opacity = doorFade;
+                    doorRight.style.opacity = doorFade;
                 } else {
-                    glassZipper.style.opacity = '1';
+                    doorLeft.style.opacity = 1;
+                    doorRight.style.opacity = 1;
                 }
             };
         }
 
-        var updateChromeZipper = initChromeZipper();
+        var updateGlassReveal = initGlassReveal();
 
         function updateAll() {
             var scrollY = window.scrollY;
             var docHeight = document.documentElement.scrollHeight - window.innerHeight;
             var scrollProg = scrollY / docHeight;
 
-            // Progress bar
             progressBar.style.transform = 'scaleX(' + scrollProg + ')';
 
-            // Pattern intensity
             scenes.forEach(function(scene) {
                 var rect = scene.getBoundingClientRect();
                 if (rect.top < window.innerHeight && rect.bottom > 0) {
@@ -1172,23 +1110,12 @@
                 }
             });
 
-            // Title
             updateVoid();
-
-            // Bag reveals
             if (updateWhiteBag) updateWhiteBag();
             if (updateBlueBag) updateBlueBag();
-            
-            // Chrome zipper
-            if (updateChromeZipper) updateChromeZipper();
-
-            // Pattern section
+            if (updateGlassReveal) updateGlassReveal();
             updateMark();
-
-            // Gallery (desktop only)
             if (!isMobile) updateGallery();
-
-            // Manifesto with parallax depth
             updateCreed();
         }
 
@@ -1250,10 +1177,9 @@
                 var isCurrent = prog >= lineStart && prog < lineEnd;
                 var isPast = prog >= lineEnd;
 
-                // Parallax depth per line (enhanced with Z-depth)
                 var depthMultiplier = 1 + (i * 0.06);
                 var parallaxOffset = distFromCenter * 0.015 * depthMultiplier;
-                var translateZ = -i * 8; // Each line slightly further back
+                var translateZ = -i * 8;
 
                 if (isCurrent) {
                     var lineProg = (prog - lineStart) / (lineEnd - lineStart);
@@ -1279,7 +1205,6 @@
             }
         }, { passive: true });
 
-        // Initial call
         updateAll();
     })();
     </script>
