@@ -17,10 +17,8 @@
             --white: #fff;
             --muted: #666;
             --dim: rgba(255,255,255,0.5);
-            /* Denim - near black with indigo undertone */
             --denim-base: #080808;
             --denim-indigo: rgba(20,25,40,0.3);
-            /* Panel interior */
             --panel-back: #141418;
             --panel-edge: #0c0c10;
         }
@@ -37,7 +35,6 @@
             overflow-x: hidden;
         }
 
-        /* Global noise overlay */
         body::before {
             content: '';
             position: fixed;
@@ -115,13 +112,12 @@
         .gallery-panel p { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--muted); margin-top: 8px; }
 
         /* ============================================================================
-           APPLE GLASS LOUPE - WITH REAL IMAGES BEHIND FROSTED GLASS
+           APPLE GLASS LOUPE
            ============================================================================ */
         .loupe-section { position: relative; height: 500vh; background: #000; }
         .loupe-sticky { position: sticky; top: 0; height: 100vh; display: flex; justify-content: center; align-items: center; }
         .loupe-flex { display: flex; align-items: center; gap: clamp(40px, 8vw, 120px); }
 
-        /* The loupe container - this is the circular viewport */
         .loupe-container {
             position: relative;
             width: clamp(280px, 45vw, 520px);
@@ -131,7 +127,6 @@
             flex-shrink: 0;
         }
 
-        /* Images BEHIND the glass - slightly larger for Ken Burns */
         .loupe-images {
             position: absolute;
             inset: -10%;
@@ -163,7 +158,6 @@
             to { transform: scale(1.12) translate(-1%, -1%); }
         }
 
-        /* Frosted glass overlay ON TOP of images */
         .loupe-glass {
             position: absolute;
             inset: 0;
@@ -178,7 +172,6 @@
             z-index: 5;
         }
 
-        /* Prismatic edge ring - rotates */
         .loupe-container::after {
             content: '';
             position: absolute;
@@ -206,7 +199,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Inner shadow for depth */
         .loupe-shadow {
             position: absolute;
             inset: 0;
@@ -216,7 +208,6 @@
             z-index: 6;
         }
 
-        /* Highlight reflection */
         .loupe-reflection {
             position: absolute;
             inset: 0;
@@ -226,7 +217,6 @@
             z-index: 7;
         }
 
-        /* Outer glow */
         .loupe-glow {
             position: absolute;
             inset: -15px;
@@ -246,8 +236,7 @@
         .loupe-dot.active { background: rgba(255,255,255,0.8); transform: scale(1.4); }
 
         /* ============================================================================
-           THE COLLECTION - LUXURY PAGE FOLD (NO ZIPPER)
-           Pure elegance. Like opening a Hermès portfolio.
+           THE COLLECTION - 3D CUBE/BOOK FOLD WITH DYNAMIC OPACITY
            ============================================================================ */
         .collection-section {
             position: relative;
@@ -255,20 +244,19 @@
             background: #000;
         }
 
-        /* PINNED CONTAINER - perspective creates 3D space */
         .collection-pinned {
             position: sticky;
             top: 0;
             width: 100vw;
             height: 100vh;
             overflow: hidden;
-            -webkit-perspective: 2000px;
-            perspective: 2000px;
+            -webkit-perspective: 1800px;
+            perspective: 1800px;
             -webkit-perspective-origin: center center;
             perspective-origin: center center;
         }
 
-        /* REVEALED CONTENT (behind the panels) - clean editorial space */
+        /* Revealed content */
         .collection-reveal {
             position: absolute;
             inset: 0;
@@ -280,114 +268,112 @@
         }
 
         /* ============================================================================
-           DUAL PANEL SYSTEM - True 3D book fold
+           3D BOOK STRUCTURE - Each panel is a 3D object with front/back faces
            ============================================================================ */
-        .panel {
+        .book-wrapper {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .page {
             position: absolute;
             top: 0;
             width: 50%;
             height: 100%;
             -webkit-transform-style: preserve-3d;
             transform-style: preserve-3d;
-            will-change: transform;
-            z-index: 10;
+            will-change: transform, opacity;
         }
 
-        .panel-left {
+        .page-left {
             left: 0;
-            -webkit-transform-origin: left center;
-            transform-origin: left center;
-        }
-
-        .panel-right {
-            right: 0;
             -webkit-transform-origin: right center;
             transform-origin: right center;
         }
 
-        /* ============================================================================
-           DENIM TEXTURE - Front face of each panel
-           Visible twill weave with indigo undertone
-           ============================================================================ */
-        .panel-front {
+        .page-right {
+            right: 0;
+            -webkit-transform-origin: left center;
+            transform-origin: left center;
+        }
+
+        /* Front face (denim texture) */
+        .page-face {
             position: absolute;
             inset: 0;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             background-color: var(--denim-base);
-            /* Multi-layer twill weave */
             background-image:
-                /* Primary warp threads - diagonal */
                 repeating-linear-gradient(
                     -45deg,
                     transparent 0px,
                     transparent 1px,
-                    rgba(255,255,255,0.035) 1px,
-                    rgba(255,255,255,0.035) 2px
+                    rgba(255,255,255,0.04) 1px,
+                    rgba(255,255,255,0.04) 2px
                 ),
-                /* Secondary weft threads */
                 repeating-linear-gradient(
                     45deg,
                     transparent 0px,
                     transparent 2px,
-                    rgba(255,255,255,0.018) 2px,
-                    rgba(255,255,255,0.018) 3px
+                    rgba(255,255,255,0.02) 2px,
+                    rgba(255,255,255,0.02) 3px
                 ),
-                /* Directional light sheen */
                 linear-gradient(
                     -30deg,
                     rgba(255,255,255,0) 0%,
-                    rgba(255,255,255,0.025) 35%,
+                    rgba(255,255,255,0.03) 35%,
                     rgba(255,255,255,0) 50%,
-                    rgba(255,255,255,0.015) 100%
+                    rgba(255,255,255,0.02) 100%
                 ),
-                /* Indigo undertone - characteristic of black denim */
                 radial-gradient(
                     ellipse at 60% 40%,
                     var(--denim-indigo) 0%,
                     transparent 70%
                 );
-            overflow: hidden;
+            will-change: opacity;
         }
 
-        /* Differentiate panel angles - prevents mirror effect */
-        .panel-left .panel-front {
-            transform: rotate(0.3deg);
-        }
-        .panel-right .panel-front {
-            transform: rotate(-0.2deg);
+        .page-left .page-face {
+            transform: rotateY(0deg);
         }
 
-        /* Fiber noise texture */
-        .panel-front::before {
+        .page-right .page-face {
+            transform: rotateY(0deg);
+        }
+
+        /* Fiber texture */
+        .page-face::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
             mix-blend-mode: overlay;
             pointer-events: none;
         }
 
-        /* Edge fade to black */
-        .panel-left .panel-front::after {
+        /* Edge gradients */
+        .page-left .page-face::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, transparent 12%);
-            pointer-events: none;
-        }
-        .panel-right .panel-front::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to left, rgba(0,0,0,0.7) 0%, transparent 12%);
+            background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, transparent 15%, transparent 85%, rgba(0,0,0,0.15) 100%);
             pointer-events: none;
         }
 
-        /* ============================================================================
-           PANEL BACK - Interior (lighter, like opening a book)
-           ============================================================================ */
-        .panel-back {
+        .page-right .page-face::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to left, rgba(0,0,0,0.6) 0%, transparent 15%, transparent 85%, rgba(0,0,0,0.15) 100%);
+            pointer-events: none;
+        }
+
+        /* Back face */
+        .page-back {
             position: absolute;
             inset: 0;
             -webkit-backface-visibility: hidden;
@@ -397,162 +383,82 @@
             background: linear-gradient(180deg, #1a1a1e 0%, var(--panel-back) 50%, #101014 100%);
         }
 
-        /* Subtle texture on back */
-        .panel-back::before {
-            content: '';
+        /* Dynamic light overlay - controlled by JS */
+        .page-light {
             position: absolute;
             inset: 0;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
             pointer-events: none;
-        }
-
-        /* ============================================================================
-           PANEL EDGE - Visible during rotation (like page thickness)
-           ============================================================================ */
-        .panel-edge {
-            position: absolute;
-            top: 0;
-            width: 6px;
-            height: 100%;
-            background: linear-gradient(180deg, 
-                #1a1a20 0%, 
-                var(--panel-edge) 20%, 
-                #080810 50%, 
-                var(--panel-edge) 80%, 
-                #1a1a20 100%
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255,255,255,0.08) 50%,
+                transparent 100%
             );
-            -webkit-transform-style: preserve-3d;
-            transform-style: preserve-3d;
+            opacity: 0;
+            will-change: opacity, transform;
         }
 
-        .panel-left .panel-edge {
-            right: 0;
-            -webkit-transform: rotateY(90deg) translateZ(3px);
-            transform: rotateY(90deg) translateZ(3px);
-            -webkit-transform-origin: right center;
-            transform-origin: right center;
-        }
-
-        .panel-right .panel-edge {
-            left: 0;
-            -webkit-transform: rotateY(-90deg) translateZ(3px);
-            transform: rotateY(-90deg) translateZ(3px);
-            -webkit-transform-origin: left center;
-            transform-origin: left center;
-        }
-
-        /* ============================================================================
-           DYNAMIC SHADOWS - Cast onto revealed content
-           ============================================================================ */
-        .panel-shadow-cast {
+        /* Shadow cast */
+        .page-shadow {
             position: absolute;
             top: 0;
-            width: 120px;
+            width: 150px;
             height: 100%;
             pointer-events: none;
             opacity: 0;
             z-index: 5;
+            will-change: opacity;
         }
 
-        .panel-left .panel-shadow-cast {
-            right: -120px;
-            background: linear-gradient(to right, 
-                rgba(0,0,0,0.7) 0%, 
-                rgba(0,0,0,0.3) 30%,
-                transparent 100%
-            );
+        .page-left .page-shadow {
+            right: -150px;
+            background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 40%, transparent 100%);
         }
 
-        .panel-right .panel-shadow-cast {
-            left: -120px;
-            background: linear-gradient(to left, 
-                rgba(0,0,0,0.7) 0%, 
-                rgba(0,0,0,0.3) 30%,
-                transparent 100%
-            );
+        .page-right .page-shadow {
+            left: -150px;
+            background: linear-gradient(to left, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 40%, transparent 100%);
         }
 
-        /* ============================================================================
-           LIGHT REFLECTION - Moves across surface during rotation
-           ============================================================================ */
-        .panel-light {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            opacity: 0;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-        }
-
-        .panel-left .panel-light {
-            background: linear-gradient(
-                105deg,
-                transparent 0%,
-                transparent 40%,
-                rgba(255,255,255,0.04) 45%,
-                rgba(255,255,255,0.08) 50%,
-                rgba(255,255,255,0.04) 55%,
-                transparent 60%,
-                transparent 100%
-            );
-        }
-
-        .panel-right .panel-light {
-            background: linear-gradient(
-                -105deg,
-                transparent 0%,
-                transparent 40%,
-                rgba(255,255,255,0.04) 45%,
-                rgba(255,255,255,0.08) 50%,
-                rgba(255,255,255,0.04) 55%,
-                transparent 60%,
-                transparent 100%
-            );
-        }
-
-        /* ============================================================================
-           CENTER FOLD LINE - Subtle crease where panels meet
-           ============================================================================ */
-        .fold-line {
+        /* Center fold */
+        .fold-center {
             position: absolute;
             left: 50%;
             top: 0;
-            width: 2px;
+            width: 4px;
             height: 100%;
             transform: translateX(-50%);
             z-index: 20;
             background: linear-gradient(180deg,
                 transparent 0%,
-                rgba(0,0,0,0.8) 10%,
-                rgba(0,0,0,0.9) 50%,
-                rgba(0,0,0,0.8) 90%,
+                rgba(0,0,0,0.9) 10%,
+                rgba(0,0,0,1) 50%,
+                rgba(0,0,0,0.9) 90%,
                 transparent 100%
             );
-            box-shadow: 
-                -1px 0 0 rgba(255,255,255,0.02),
-                1px 0 0 rgba(255,255,255,0.02);
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
 
-        /* Light seeping through as panels open */
-        .fold-light {
+        /* Light crack */
+        .fold-glow {
             position: absolute;
             left: 50%;
             top: 0;
-            width: 4px;
+            width: 6px;
             height: 0%;
             transform: translateX(-50%);
             z-index: 19;
             background: linear-gradient(180deg,
-                rgba(255,250,240,0.4) 0%,
-                rgba(255,250,240,0.15) 100%
+                rgba(255,250,240,0.5) 0%,
+                rgba(255,250,240,0.2) 100%
             );
-            filter: blur(2px);
+            filter: blur(3px);
             opacity: 0;
         }
 
-        /* ============================================================================
-           TEXT - Splits with panels
-           ============================================================================ */
+        /* Text */
         .collection-text {
             position: absolute;
             top: 50%;
@@ -569,48 +475,16 @@
             letter-spacing: 0.4em;
             text-transform: uppercase;
             color: rgba(255,255,255,0.92);
-            text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+            text-shadow: 0 4px 30px rgba(0,0,0,0.9);
             white-space: nowrap;
-            position: relative;
-        }
-
-        /* Text clips to panels */
-        .text-left, .text-right {
-            position: absolute;
-            top: 50%;
-            font-size: clamp(2rem, 6vw, 5rem);
-            font-weight: 200;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.92);
-            text-shadow: 0 2px 20px rgba(0,0,0,0.8);
-            white-space: nowrap;
-            transform: translateY(-50%);
-            z-index: 30;
-        }
-
-        .text-left {
-            right: 0;
-            text-align: right;
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-        }
-
-        .text-right {
-            left: 0;
-            text-align: left;
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
         }
 
         .collection-subtitle {
-            position: absolute;
-            top: calc(50% + 70px);
-            left: 50%;
-            transform: translateX(-50%);
+            margin-top: 25px;
             font-size: clamp(0.55rem, 1vw, 0.75rem);
             letter-spacing: 0.5em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.4);
-            z-index: 26;
+            color: rgba(255,255,255,0.35);
         }
 
         /* ============================================================================
@@ -743,43 +617,43 @@
         </div>
     </section>
 
-    <!-- THE COLLECTION - LUXURY PAGE FOLD -->
+    <!-- THE COLLECTION - 3D BOOK FOLD -->
     <section class="collection-section" id="collection-section">
         <div class="collection-pinned" id="collectionPinned">
             
-            <!-- Revealed content (behind panels) -->
+            <!-- Revealed content -->
             <div class="collection-reveal" id="collectionReveal"></div>
 
-            <!-- Fold line (center crease) -->
-            <div class="fold-line" id="foldLine"></div>
-            <div class="fold-light" id="foldLight"></div>
+            <!-- Center fold elements -->
+            <div class="fold-center" id="foldCenter"></div>
+            <div class="fold-glow" id="foldGlow"></div>
 
-            <!-- LEFT PANEL -->
-            <div class="panel panel-left" id="panelLeft">
-                <div class="panel-front">
-                    <div class="panel-light" id="lightLeft"></div>
+            <!-- Book wrapper -->
+            <div class="book-wrapper">
+                <!-- LEFT PAGE -->
+                <div class="page page-left" id="pageLeft">
+                    <div class="page-face" id="faceLeft">
+                        <div class="page-light" id="lightLeft"></div>
+                    </div>
+                    <div class="page-back"></div>
+                    <div class="page-shadow" id="shadowLeft"></div>
                 </div>
-                <div class="panel-back"></div>
-                <div class="panel-edge"></div>
-                <div class="panel-shadow-cast" id="shadowLeft"></div>
-                <!-- Text anchored to left panel -->
-                <div class="text-left" id="textLeft">THE COLLECTION</div>
+
+                <!-- RIGHT PAGE -->
+                <div class="page page-right" id="pageRight">
+                    <div class="page-face" id="faceRight">
+                        <div class="page-light" id="lightRight"></div>
+                    </div>
+                    <div class="page-back"></div>
+                    <div class="page-shadow" id="shadowRight"></div>
+                </div>
             </div>
 
-            <!-- RIGHT PANEL -->
-            <div class="panel panel-right" id="panelRight">
-                <div class="panel-front">
-                    <div class="panel-light" id="lightRight"></div>
-                </div>
-                <div class="panel-back"></div>
-                <div class="panel-edge"></div>
-                <div class="panel-shadow-cast" id="shadowRight"></div>
-                <!-- Text anchored to right panel -->
-                <div class="text-right" id="textRight">THE COLLECTION</div>
+            <!-- Text overlay -->
+            <div class="collection-text" id="collectionText">
+                <h2 class="collection-title">THE COLLECTION</h2>
+                <p class="collection-subtitle" id="collectionSubtitle">Scroll to Open</p>
             </div>
-
-            <!-- Subtitle -->
-            <div class="collection-subtitle" id="collectionSubtitle">Scroll to Open</div>
 
         </div>
     </section>
@@ -810,7 +684,7 @@
 
     <script>
     // ============================================================================
-    // WHITE DEVIL - LUXURY SCROLL ANIMATION
+    // WHITE DEVIL - LUXURY SCROLL ANIMATION WITH DYNAMIC OPACITY
     // ============================================================================
     document.addEventListener('DOMContentLoaded', function() {
         gsap.registerPlugin(ScrollTrigger);
@@ -826,9 +700,7 @@
         const galleryTrack = document.getElementById('galleryTrack');
         const manifestoLines = document.querySelectorAll('.manifesto-line');
 
-        // ============================================================================
-        // TITLE ANIMATION
-        // ============================================================================
+        // Title letters
         const titleText = 'WHITE DEVIL';
         heroTitle.innerHTML = titleText.split('').map(c => 
             `<span class="title-letter">${c === ' ' ? '&nbsp;' : c}</span>`
@@ -840,9 +712,7 @@
             return 1 - Math.min(1, Math.max(0, ((r.top + r.height/2) - window.innerHeight/2) / (window.innerHeight * 0.8)));
         }
 
-        // ============================================================================
-        // BAG REVEAL ANIMATIONS
-        // ============================================================================
+        // Bag reveals
         function bindBagReveal(sid, rid, tid) {
             const section = document.getElementById(sid);
             const reveal = document.getElementById(rid);
@@ -871,9 +741,7 @@
         const updateWhiteBag = bindBagReveal('scene-birth', 'white-bag-reveal', 'whiteText');
         const updateBlueBag = bindBagReveal('scene-ritual', 'blue-bag-reveal', 'blueText');
 
-        // ============================================================================
-        // LOUPE - APPLE GLASS WITH CYCLING IMAGES
-        // ============================================================================
+        // Loupe
         const loupeSection = document.getElementById('scene-loupe');
         const loupeImages = document.querySelectorAll('.loupe-img');
         const loupeDescs = document.querySelectorAll('.loupe-desc');
@@ -883,14 +751,12 @@
         let currentLoupeImg = 0;
         let loupeIndex = -1;
 
-        // Crossfade images every 5 seconds
         setInterval(() => {
             loupeImages.forEach(img => img.classList.remove('active'));
             currentLoupeImg = (currentLoupeImg + 1) % loupeImages.length;
             loupeImages[currentLoupeImg].classList.add('active');
         }, 5000);
 
-        // Mouse parallax on loupe
         loupeContainer.addEventListener('mousemove', (e) => {
             const rect = loupeContainer.getBoundingClientRect();
             const x = (e.clientX - rect.left) / rect.width - 0.5;
@@ -909,7 +775,6 @@
             const rect = loupeSection.getBoundingClientRect();
             const progress = Math.min(1, Math.max(0, -rect.top) / (loupeSection.offsetHeight - window.innerHeight));
             const idx = Math.min(2, Math.floor(progress * 3));
-            
             if (idx !== loupeIndex) {
                 loupeIndex = idx;
                 loupeDescs.forEach((d, i) => d.classList.toggle('active', i === idx));
@@ -918,212 +783,133 @@
         }
 
         // ============================================================================
-        // THE COLLECTION - LUXURY 3D PAGE FOLD
-        // No zipper. Pure elegance. Like opening a Hermès portfolio.
+        // THE COLLECTION - 3D BOOK FOLD WITH DYNAMIC OPACITY BASED ON ROTATION
+        // Inspired by the cube rotation technique - opacity changes based on angle
         // ============================================================================
         const collectionSection = document.getElementById('collection-section');
-        const panelLeft = document.getElementById('panelLeft');
-        const panelRight = document.getElementById('panelRight');
-        const collectionReveal = document.getElementById('collectionReveal');
-        const foldLine = document.getElementById('foldLine');
-        const foldLight = document.getElementById('foldLight');
+        const pageLeft = document.getElementById('pageLeft');
+        const pageRight = document.getElementById('pageRight');
+        const faceLeft = document.getElementById('faceLeft');
+        const faceRight = document.getElementById('faceRight');
         const lightLeft = document.getElementById('lightLeft');
         const lightRight = document.getElementById('lightRight');
         const shadowLeft = document.getElementById('shadowLeft');
         const shadowRight = document.getElementById('shadowRight');
-        const textLeft = document.getElementById('textLeft');
-        const textRight = document.getElementById('textRight');
+        const foldCenter = document.getElementById('foldCenter');
+        const foldGlow = document.getElementById('foldGlow');
+        const collectionReveal = document.getElementById('collectionReveal');
+        const collectionText = document.getElementById('collectionText');
         const collectionSubtitle = document.getElementById('collectionSubtitle');
 
-        // Custom easing for luxury feel - slightly weighted, smooth
-        gsap.registerEase("luxuryOpen", function(progress) {
-            // Custom bezier-like curve: slow start, smooth middle, gentle end
-            return progress < 0.5 
-                ? 2 * progress * progress 
-                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-        });
+        // Track rotation values
+        let leftRotation = 0;
+        let rightRotation = 0;
 
-        // Create GSAP timeline for the 3D page fold
-        const foldTL = gsap.timeline({
-            scrollTrigger: {
-                trigger: collectionSection,
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: 2, // Slower scrub for smoother feel
-                anticipatePin: 1
+        // Create ScrollTrigger with onUpdate for dynamic calculations
+        ScrollTrigger.create({
+            trigger: collectionSection,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 1.5,
+            onUpdate: (self) => {
+                const progress = self.progress;
+                
+                // ========== ROTATION CALCULATION ==========
+                // Map progress to rotation: 0 -> 0deg, 1 -> 90deg
+                const maxRotation = 92; // Slightly past 90 for full hide
+                leftRotation = progress * maxRotation;
+                rightRotation = progress * maxRotation;
+                
+                // Apply rotation
+                gsap.set(pageLeft, { rotateY: leftRotation });
+                gsap.set(pageRight, { rotateY: -rightRotation });
+                
+                // ========== DYNAMIC OPACITY BASED ON ROTATION ANGLE ==========
+                // Like the cube example - opacity = 1 at 0deg, 0 at 90deg
+                // Using wrapYoyo-like calculation for smooth falloff
+                const leftAngle = Math.abs(leftRotation);
+                const rightAngle = Math.abs(rightRotation);
+                
+                // Calculate normalized opacity (1 at center, 0 at 90deg)
+                // Smooth curve: use cosine for natural falloff
+                const leftFaceOpacity = Math.max(0, Math.cos(leftAngle * Math.PI / 180));
+                const rightFaceOpacity = Math.max(0, Math.cos(rightAngle * Math.PI / 180));
+                
+                // Apply face opacity
+                gsap.set(faceLeft, { opacity: leftFaceOpacity });
+                gsap.set(faceRight, { opacity: rightFaceOpacity });
+                
+                // ========== DYNAMIC LIGHT REFLECTION ==========
+                // Light moves across surface based on angle
+                // Peak brightness at ~30-45 degrees
+                const lightIntensityLeft = Math.sin(leftAngle * 2 * Math.PI / 180) * 0.8;
+                const lightIntensityRight = Math.sin(rightAngle * 2 * Math.PI / 180) * 0.8;
+                
+                gsap.set(lightLeft, { 
+                    opacity: Math.max(0, lightIntensityLeft),
+                    x: `${leftAngle * 0.5}%`
+                });
+                gsap.set(lightRight, { 
+                    opacity: Math.max(0, lightIntensityRight),
+                    x: `${-rightAngle * 0.5}%`
+                });
+                
+                // ========== DYNAMIC SHADOWS ==========
+                // Shadow intensity increases as panels rotate away
+                const shadowIntensity = Math.sin(progress * Math.PI) * 0.9;
+                gsap.set(shadowLeft, { opacity: shadowIntensity });
+                gsap.set(shadowRight, { opacity: shadowIntensity });
+                
+                // ========== FOLD GLOW ==========
+                // Glow peaks in the middle of the animation
+                const glowProgress = Math.sin(progress * Math.PI);
+                gsap.set(foldGlow, { 
+                    height: `${progress * 100}%`,
+                    opacity: glowProgress * 0.7
+                });
+                
+                // ========== FOLD CENTER ==========
+                // Fade out as panels separate
+                gsap.set(foldCenter, { 
+                    opacity: 1 - progress 
+                });
+                
+                // ========== REVEALED CONTENT ==========
+                // Smooth ease-in for reveal
+                const revealOpacity = gsap.utils.clamp(0, 1, (progress - 0.1) / 0.6);
+                gsap.set(collectionReveal, { opacity: revealOpacity });
+                
+                // ========== TEXT ==========
+                // Fade and scale out as panels open
+                const textOpacity = 1 - gsap.utils.clamp(0, 1, progress * 2);
+                const textScale = 1 - progress * 0.15;
+                gsap.set(collectionText, { 
+                    opacity: textOpacity,
+                    scale: textScale
+                });
+                
+                // Subtitle fades faster
+                gsap.set(collectionSubtitle, { 
+                    opacity: Math.max(0, 1 - progress * 4) 
+                });
+                
+                // ========== PANEL VISIBILITY ==========
+                // Hide panels completely when fully rotated
+                if (progress > 0.95) {
+                    gsap.set([pageLeft, pageRight], { visibility: 'hidden' });
+                } else {
+                    gsap.set([pageLeft, pageRight], { visibility: 'visible' });
+                }
             }
         });
 
-        // ---- PHASE 1: 0-5% - Subtitle fades, fold line light begins ----
-        foldTL.to(collectionSubtitle, { 
-            opacity: 0, 
-            duration: 0.05,
-            ease: 'power2.out'
-        }, 0);
-
-        foldTL.to(foldLight, { 
-            height: '15%', 
-            opacity: 0.3,
-            duration: 0.1,
-            ease: 'power2.out'
-        }, 0);
-
-        // ---- PHASE 2: 5-20% - Panels begin to crack open ----
-        foldTL.to(panelLeft, { 
-            rotateY: -15, 
-            duration: 0.15,
-            ease: 'power2.out'
-        }, 0.05);
-
-        foldTL.to(panelRight, { 
-            rotateY: 15, 
-            duration: 0.15,
-            ease: 'power2.out'
-        }, 0.05);
-
-        foldTL.to(foldLight, { 
-            height: '40%', 
-            opacity: 0.5,
-            duration: 0.15
-        }, 0.05);
-
-        foldTL.to(collectionReveal, { 
-            opacity: 0.2, 
-            duration: 0.15
-        }, 0.1);
-
-        foldTL.to([lightLeft, lightRight], { 
-            opacity: 0.3, 
-            duration: 0.1
-        }, 0.1);
-
-        // ---- PHASE 3: 20-45% - Opening wider ----
-        foldTL.to(panelLeft, { 
-            rotateY: -45, 
-            duration: 0.25,
-            ease: 'power2.inOut'
-        }, 0.2);
-
-        foldTL.to(panelRight, { 
-            rotateY: 45, 
-            duration: 0.25,
-            ease: 'power2.inOut'
-        }, 0.2);
-
-        foldTL.to(foldLight, { 
-            height: '70%', 
-            opacity: 0.7,
-            duration: 0.2
-        }, 0.2);
-
-        foldTL.to(foldLine, { 
-            opacity: 0.3, 
-            duration: 0.15
-        }, 0.25);
-
-        foldTL.to(collectionReveal, { 
-            opacity: 0.5, 
-            duration: 0.25
-        }, 0.25);
-
-        foldTL.to([shadowLeft, shadowRight], { 
-            opacity: 0.6, 
-            duration: 0.2
-        }, 0.25);
-
-        foldTL.to([lightLeft, lightRight], { 
-            opacity: 0.6, 
-            duration: 0.15
-        }, 0.25);
-
-        // ---- PHASE 4: 45-70% - Nearly fully open ----
-        foldTL.to(panelLeft, { 
-            rotateY: -75, 
-            duration: 0.25,
-            ease: 'power2.inOut'
-        }, 0.45);
-
-        foldTL.to(panelRight, { 
-            rotateY: 75, 
-            duration: 0.25,
-            ease: 'power2.inOut'
-        }, 0.45);
-
-        foldTL.to(foldLight, { 
-            height: '100%', 
-            opacity: 0,
-            duration: 0.2
-        }, 0.45);
-
-        foldTL.to(foldLine, { 
-            opacity: 0, 
-            duration: 0.15
-        }, 0.5);
-
-        foldTL.to(collectionReveal, { 
-            opacity: 0.85, 
-            duration: 0.25
-        }, 0.5);
-
-        foldTL.to([lightLeft, lightRight], { 
-            opacity: 0.8, 
-            duration: 0.15
-        }, 0.5);
-
-        // ---- PHASE 5: 70-85% - Panels flatten against edges ----
-        foldTL.to(panelLeft, { 
-            rotateY: -89, 
-            x: '-3%',
-            duration: 0.15,
-            ease: 'power2.out'
-        }, 0.7);
-
-        foldTL.to(panelRight, { 
-            rotateY: 89, 
-            x: '3%',
-            duration: 0.15,
-            ease: 'power2.out'
-        }, 0.7);
-
-        foldTL.to(collectionReveal, { 
-            opacity: 1, 
-            duration: 0.15
-        }, 0.75);
-
-        foldTL.to([shadowLeft, shadowRight], { 
-            opacity: 0.3, 
-            duration: 0.1
-        }, 0.75);
-
-        // ---- PHASE 6: 85-100% - Panels disappear completely ----
-        foldTL.to(panelLeft, { 
-            opacity: 0, 
-            x: '-8%',
-            duration: 0.15,
-            ease: 'power2.out'
-        }, 0.85);
-
-        foldTL.to(panelRight, { 
-            opacity: 0, 
-            x: '8%',
-            duration: 0.15,
-            ease: 'power2.out'
-        }, 0.85);
-
-        foldTL.to([shadowLeft, shadowRight, lightLeft, lightRight], { 
-            opacity: 0, 
-            duration: 0.1
-        }, 0.9);
-
-        // ============================================================================
-        // MAIN SCROLL HANDLER
-        // ============================================================================
+        // Main scroll handler
         function updateAll() {
             const sy = window.scrollY;
             const dh = document.documentElement.scrollHeight - window.innerHeight;
             progressBar.style.transform = `scaleX(${sy / dh})`;
 
-            // Void section
+            // Void
             const vp = getProgress(document.getElementById('scene-void'));
             titleLetters.forEach((l, i) => {
                 const lp = Math.max(0, Math.min(1, vp * titleLetters.length - i));
@@ -1136,11 +922,10 @@
             titleTagline.style.opacity = tp;
             titleTagline.style.transform = `translateY(${(1 - tp) * 40}px)`;
 
-            // Bag reveals
             if (updateWhiteBag) updateWhiteBag();
             if (updateBlueBag) updateBlueBag();
 
-            // Mark section
+            // Mark
             const mp = getProgress(document.getElementById('scene-mark'));
             patternHero.style.opacity = Math.min(1, mp * 2);
             patternHero.style.transform = `translateY(${(1 - Math.min(1, mp * 1.5)) * 60}px) rotate(${mp * 45}deg) scale(${0.8 + mp * 0.3})`;
@@ -1150,7 +935,7 @@
                 l.style.transform = `translateY(${(1 - lp) * 40}px)`;
             });
 
-            // Gallery (horizontal scroll)
+            // Gallery
             if (!isMobile && gallerySection) {
                 const gr = gallerySection.getBoundingClientRect();
                 if (gr.top <= 0 && gr.bottom >= window.innerHeight) {
@@ -1159,10 +944,9 @@
                 }
             }
 
-            // Loupe descriptions
             updateLoupe();
 
-            // Creed manifesto
+            // Creed
             const cp = getProgress(document.getElementById('scene-creed'));
             const cr = document.getElementById('scene-creed').getBoundingClientRect();
             const dfc = (cr.top + cr.height / 2) - (window.innerHeight / 2);
