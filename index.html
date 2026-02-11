@@ -36,7 +36,73 @@
             overflow-x: hidden;
         }
 
-        /* Utility */
+        /* ===== FILM GRAIN OVERLAY ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            right: -50%;
+            bottom: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            animation: grain 0.5s steps(1) infinite;
+            mix-blend-mode: overlay;
+        }
+
+        @keyframes grain {
+            0% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -10%); }
+            20% { transform: translate(-15%, 5%); }
+            30% { transform: translate(7%, -25%); }
+            40% { transform: translate(-5%, 25%); }
+            50% { transform: translate(-15%, 10%); }
+            60% { transform: translate(15%, 0%); }
+            70% { transform: translate(0%, 15%); }
+            80% { transform: translate(3%, 35%); }
+            90% { transform: translate(-10%, 10%); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* ===== SCROLL PROGRESS BAR ===== */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.5);
+            z-index: 99998;
+            transform-origin: left;
+            transform: scaleX(0);
+            width: 100%;
+        }
+
+        /* ===== CUSTOM CURSOR (desktop) ===== */
+        .custom-cursor {
+            width: 12px;
+            height: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 99997;
+            transition: transform 0.15s ease-out, width 0.3s, height 0.3s, border-color 0.3s, background 0.3s;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+            display: none;
+        }
+
+        .custom-cursor.hover {
+            width: 50px;
+            height: 50px;
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ===== UTILITY ===== */
         .section {
             min-height: 100vh;
             display: flex;
@@ -47,7 +113,7 @@
             overflow: hidden;
         }
 
-        /* Typography */
+        /* ===== TYPOGRAPHY ===== */
         .heading {
             text-transform: uppercase;
             letter-spacing: 15px;
@@ -63,21 +129,36 @@
             color: var(--dim);
         }
 
-        .label {
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            font-weight: 400;
-            font-size: 0.7rem;
-            color: var(--muted);
+        /* Split reveal text */
+        .split-reveal {
+            opacity: 0;
         }
 
-        .body-text {
-            letter-spacing: 1px;
-            font-weight: 300;
-            font-size: 0.9rem;
-            color: var(--dim);
-            max-width: 400px;
-            line-height: 1.8;
+        .split-reveal span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .split-reveal.revealed span {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Clip path reveal for images */
+        .clip-reveal {
+            clip-path: circle(0%);
+            transition: clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .clip-reveal.visible {
+            clip-path: circle(100%);
+        }
+
+        /* Magnetic class */
+        .magnetic {
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         /* ===== SECTION 1: OPENING ===== */
@@ -172,6 +253,19 @@
         .hero-section {
             position: relative;
             overflow: hidden;
+            background: var(--black);
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
+            pointer-events: none;
+            z-index: 1;
         }
 
         .hero-image {
@@ -183,20 +277,19 @@
             will-change: transform;
         }
 
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
-        }
-
         .hero-text {
             position: absolute;
-            bottom: 60px;
+            bottom: 80px;
             left: 40px;
             z-index: 2;
             opacity: 0;
             transform: translateY(30px);
             transition: all 1s ease-out;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 25px 35px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .hero-text.visible {
@@ -220,15 +313,23 @@
             text-transform: uppercase;
         }
 
+        /* MOBILE HERO FIX */
         @media (max-width: 768px) {
+            .hero-image {
+                object-fit: contain !important;
+                object-position: center center !important;
+                background: var(--black) !important;
+            }
+
             .hero-text {
                 left: 20px;
                 right: 20px;
                 bottom: 40px;
+                padding: 20px;
             }
         }
 
-        /* ===== SECTION 3: THE PATTERN ===== */
+        /* ===== SECTION 3: THE PATTERN (SPINNING LOGO PRESERVED) ===== */
         .pattern-section {
             background: var(--dark);
             display: grid;
@@ -250,6 +351,7 @@
             justify-content: center;
         }
 
+        /* KEEP THE SPINNING PATTERN */
         .pattern-large {
             width: 150%;
             height: 150%;
@@ -313,6 +415,7 @@
         .display-section {
             position: relative;
             overflow: hidden;
+            background: var(--cream);
         }
 
         .display-image {
@@ -331,7 +434,7 @@
         .display-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .display-text {
@@ -341,6 +444,11 @@
             opacity: 0;
             transform: translateY(30px);
             transition: all 1s ease-out 0.3s;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 30px 50px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
         }
 
         .display-section.in-view .display-text {
@@ -363,6 +471,17 @@
             font-size: 0.75rem;
             color: rgba(0, 0, 0, 0.6);
             text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .display-image {
+                object-fit: contain !important;
+                background: var(--cream) !important;
+            }
+
+            .display-text {
+                padding: 20px 25px;
+            }
         }
 
         /* ===== SECTION 6: LOOKBOOK ===== */
@@ -438,7 +557,7 @@
             line-height: 2;
         }
 
-        /* ===== SECTION 7: FOOTER ===== */
+        /* ===== FOOTER ===== */
         .footer {
             background: var(--black);
             padding: 80px 20px 40px;
@@ -489,23 +608,42 @@
             }
         }
 
-        /* Parallax on desktop only */
-        @media (min-width: 769px) {
-            .parallax-img {
-                transform: translateY(var(--parallax-offset, 0));
+        /* ===== SCROLL-DRIVEN ANIMATIONS (2026 CSS) ===== */
+        @supports (animation-timeline: scroll()) {
+            .hero-image {
+                animation: scaleReveal linear both;
+                animation-timeline: view();
+                animation-range: entry 0% entry 100%;
+            }
+
+            @keyframes scaleReveal {
+                from {
+                    transform: scale(0.9);
+                    filter: blur(5px);
+                }
+                to {
+                    transform: scale(1);
+                    filter: blur(0);
+                }
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- SCROLL PROGRESS BAR -->
+    <div class="scroll-progress"></div>
+
+    <!-- CUSTOM CURSOR (desktop only) -->
+    <div class="custom-cursor"></div>
+
     <!-- SECTION 1: OPENING -->
     <section class="section opening" id="opening">
         <div class="pattern-bg"></div>
         <div class="opening-content">
-            <h1 class="heading opening-title">WHITE DEVIL</h1>
+            <h1 class="heading opening-title split-reveal magnetic">WHITE DEVIL</h1>
             <div class="opening-line"></div>
-            <span class="opening-enter">COLLECTION</span>
+            <span class="opening-enter magnetic">COLLECTION</span>
         </div>
         <div class="scroll-indicator">
             <div class="scroll-line"></div>
@@ -514,31 +652,29 @@
 
     <!-- SECTION 2: HERO - WHITE BAG -->
     <section class="section hero-section" id="hero-white">
-        <img src="images/bag-white.jpg" alt="White Devil Original Bag" class="hero-image parallax-img" loading="lazy">
-        <div class="hero-overlay"></div>
+        <img src="images/bag-white.jpg" alt="White Devil Original Bag" class="hero-image clip-reveal" loading="lazy">
         <div class="hero-text">
-            <h2>THE ORIGINAL</h2>
+            <h2 class="split-reveal">THE ORIGINAL</h2>
             <p>Embossed spiral leather / Chrome hardware</p>
         </div>
     </section>
 
-    <!-- SECTION 3: THE PATTERN -->
+    <!-- SECTION 3: THE PATTERN (SPINNING LOGO KEPT) -->
     <section class="pattern-section" id="pattern">
         <div class="pattern-visual">
             <div class="pattern-large"></div>
         </div>
         <div class="pattern-text">
-            <h2>THE MARK</h2>
+            <h2 class="split-reveal">THE MARK</h2>
             <p>The spiral pattern is obsession made visible. Repetition as ritual. Symmetry as disruption. Each circle connects to the next — infinite, hypnotic, unmistakable. This is not decoration. This is identity.</p>
         </div>
     </section>
 
     <!-- SECTION 4: HERO - BLUE BAG -->
     <section class="section hero-section" id="hero-blue">
-        <img src="images/bag-blue.jpg" alt="Denim Ritual Bag" class="hero-image parallax-img" loading="lazy">
-        <div class="hero-overlay"></div>
+        <img src="images/bag-blue.jpg" alt="Denim Ritual Bag" class="hero-image clip-reveal" loading="lazy">
         <div class="hero-text">
-            <h2>DENIM RITUAL</h2>
+            <h2 class="split-reveal">DENIM RITUAL</h2>
             <p>Jacquard woven pattern / Teal leather trim</p>
         </div>
     </section>
@@ -548,7 +684,7 @@
         <img src="images/bag-shelf.jpg" alt="White Devil Collection Display" class="display-image" loading="lazy">
         <div class="display-overlay"></div>
         <div class="display-text">
-            <h2>THE COLLECTION</h2>
+            <h2 class="split-reveal">THE COLLECTION</h2>
             <p>Available in Cream, Blue, Red, Black</p>
         </div>
     </section>
@@ -574,79 +710,166 @@
     <!-- SECTION 7: BRAND STATEMENT -->
     <section class="section statement-section" id="statement">
         <div class="statement-content">
-            <h2>BORN FROM OBSESSION</h2>
+            <h2 class="split-reveal">BORN FROM OBSESSION</h2>
             <p>Design without function is useless. Function without beauty is soulless. I wanted to make a bag that carried weight — not just physically, but in story, in detail, in craft.</p>
             <p style="margin-top: 30px;">Each bag is hand-tailored in Bangkok. Suede interiors. Stainless steel lettering. Polished steel plates hidden inside like jewelry to secure the handles. No corners cut. No shortcuts.</p>
         </div>
     </section>
 
-    <!-- SECTION 7: FOOTER -->
+    <!-- FOOTER -->
     <footer class="footer">
-        <div class="footer-logo">WHITE DEVIL</div>
+        <div class="footer-logo magnetic">WHITE DEVIL</div>
         <div class="footer-links">
-            <a href="#">Instagram</a>
-            <a href="#">Contact</a>
-            <a href="#">Inquiries</a>
+            <a href="#" class="magnetic">Instagram</a>
+            <a href="#" class="magnetic">Contact</a>
+            <a href="#" class="magnetic">Inquiries</a>
         </div>
         <div class="footer-copy">© 2026 White Devil. All rights reserved.</div>
     </footer>
 
     <script>
-        // Intersection Observer for scroll animations
-        const observerOptions = {
+        // ===== SPLIT TEXT ANIMATION =====
+        function splitText(element) {
+            var text = element.textContent;
+            element.textContent = '';
+            element.style.opacity = '1';
+            text.split('').forEach(function(char, i) {
+                var span = document.createElement('span');
+                span.textContent = char === ' ' ? '\u00A0' : char;
+                span.style.transitionDelay = (i * 0.03) + 's';
+                element.appendChild(span);
+            });
+        }
+
+        document.querySelectorAll('.split-reveal').forEach(function(el) {
+            splitText(el);
+        });
+
+        // ===== INTERSECTION OBSERVER FOR ALL ANIMATIONS =====
+        var observerOptions = {
             threshold: 0.2,
             rootMargin: '0px'
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
-                    // Add visible class for animations
-                    const target = entry.target;
+                    var target = entry.target;
                     
+                    // Split text reveal
+                    if (target.classList.contains('split-reveal')) {
+                        target.classList.add('revealed');
+                    }
+                    
+                    // Clip path reveal for images
+                    if (target.classList.contains('clip-reveal')) {
+                        target.classList.add('visible');
+                    }
+                    
+                    // Hero text
                     if (target.classList.contains('hero-section')) {
-                        target.querySelector('.hero-text').classList.add('visible');
+                        var heroText = target.querySelector('.hero-text');
+                        if (heroText) heroText.classList.add('visible');
+                        var clipImg = target.querySelector('.clip-reveal');
+                        if (clipImg) clipImg.classList.add('visible');
+                        var splitH2 = target.querySelector('.split-reveal');
+                        if (splitH2) splitH2.classList.add('revealed');
                     }
                     
+                    // Pattern section
                     if (target.classList.contains('pattern-section')) {
-                        target.querySelector('.pattern-text').classList.add('visible');
+                        var patternText = target.querySelector('.pattern-text');
+                        if (patternText) patternText.classList.add('visible');
+                        var splitH2 = target.querySelector('.split-reveal');
+                        if (splitH2) splitH2.classList.add('revealed');
                     }
                     
+                    // Display section
                     if (target.classList.contains('display-section')) {
                         target.classList.add('in-view');
+                        var splitH2 = target.querySelector('.split-reveal');
+                        if (splitH2) splitH2.classList.add('revealed');
                     }
                     
+                    // Statement section
                     if (target.classList.contains('statement-section')) {
-                        target.querySelector('.statement-content').classList.add('visible');
+                        var content = target.querySelector('.statement-content');
+                        if (content) content.classList.add('visible');
+                        var splitH2 = target.querySelector('.split-reveal');
+                        if (splitH2) splitH2.classList.add('revealed');
+                    }
+                    
+                    // Opening title
+                    if (target.classList.contains('opening')) {
+                        var splitTitle = target.querySelector('.split-reveal');
+                        if (splitTitle) {
+                            setTimeout(function() {
+                                splitTitle.classList.add('revealed');
+                            }, 1500);
+                        }
                     }
                 }
             });
         }, observerOptions);
 
-        // Observe all sections
-        document.querySelectorAll('.hero-section, .pattern-section, .display-section, .statement-section').forEach(section => {
-            observer.observe(section);
+        // Observe all animated elements
+        document.querySelectorAll('.hero-section, .pattern-section, .display-section, .statement-section, .opening, .split-reveal, .clip-reveal').forEach(function(el) {
+            observer.observe(el);
         });
 
-        // Parallax effect on desktop
-        if (window.innerWidth > 768) {
-            const parallaxImages = document.querySelectorAll('.parallax-img');
+        // ===== SCROLL PROGRESS BAR =====
+        window.addEventListener('scroll', function() {
+            var scrollTop = window.scrollY;
+            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            var progress = scrollTop / docHeight;
+            document.querySelector('.scroll-progress').style.transform = 'scaleX(' + progress + ')';
+        });
+
+        // ===== SMOOTH SCROLL ON ENTER =====
+        document.querySelector('.opening-enter').addEventListener('click', function() {
+            document.getElementById('hero-white').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // ===== DESKTOP ONLY EFFECTS =====
+        if (!('ontouchstart' in window) && window.innerWidth > 768) {
             
-            window.addEventListener('scroll', () => {
-                parallaxImages.forEach(img => {
-                    const section = img.closest('.section');
-                    const rect = section.getBoundingClientRect();
-                    const scrollPercent = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-                    const offset = (scrollPercent - 0.5) * 100;
-                    img.style.setProperty('--parallax-offset', `${offset * 0.3}px`);
+            // Custom cursor
+            var cursor = document.querySelector('.custom-cursor');
+            cursor.style.display = 'block';
+            
+            document.addEventListener('mousemove', function(e) {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            document.querySelectorAll('a, button, .magnetic, .opening-enter').forEach(function(el) {
+                el.addEventListener('mouseenter', function() {
+                    cursor.classList.add('hover');
+                });
+                el.addEventListener('mouseleave', function() {
+                    cursor.classList.remove('hover');
+                });
+            });
+
+            // Hide default cursor
+            document.body.style.cursor = 'none';
+            document.querySelectorAll('a, button').forEach(function(el) {
+                el.style.cursor = 'none';
+            });
+
+            // Magnetic effect
+            document.querySelectorAll('.magnetic').forEach(function(el) {
+                el.addEventListener('mousemove', function(e) {
+                    var rect = el.getBoundingClientRect();
+                    var x = e.clientX - rect.left - rect.width / 2;
+                    var y = e.clientY - rect.top - rect.height / 2;
+                    el.style.transform = 'translate(' + (x * 0.15) + 'px, ' + (y * 0.15) + 'px)';
+                });
+                el.addEventListener('mouseleave', function() {
+                    el.style.transform = 'translate(0, 0)';
                 });
             });
         }
-
-        // Smooth scroll on enter click
-        document.querySelector('.opening-enter').addEventListener('click', () => {
-            document.getElementById('hero-white').scrollIntoView({ behavior: 'smooth' });
-        });
     </script>
 
 </body>
