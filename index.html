@@ -581,6 +581,7 @@
                 gsap.set(carousel, { rotateY: rotation });
 
                 // Update each item's opacity based on angle to camera
+                // CENTER = focal point (full), LEFT/RIGHT = faded but visible
                 items.forEach((item, i) => {
                     const itemAngle = i * anglePerItem;
                     const currentAngle = gsap.utils.wrap(0, 360, rotation + itemAngle);
@@ -588,15 +589,33 @@
                     if (angleDiff > 180) angleDiff -= 360;
                     const absAngle = Math.abs(angleDiff);
                     
-                    // Opacity: full when facing (0°), fade at sides
-                    const opacity = absAngle < 90 ? Math.pow(Math.cos(absAngle * Math.PI / 180), 0.5) : 0;
+                    // Opacity: CENTER (0-20°) = 1, SIDES (20-90°) = faded, BACK = hidden
+                    let opacity;
+                    if (absAngle < 20) {
+                        // Center focal point - full opacity
+                        opacity = 1;
+                    } else if (absAngle < 90) {
+                        // Left/right sides - faded but visible (0.25 to 0.15)
+                        opacity = 0.25 - ((absAngle - 20) / 70) * 0.15;
+                    } else {
+                        // Back - hidden
+                        opacity = 0;
+                    }
                     
-                    // Scale: slightly larger when in front
-                    const scale = 0.85 + (0.15 * Math.max(0, 1 - absAngle / 60));
+                    // Scale: center is larger, sides are smaller
+                    const scale = absAngle < 20 ? 1.05 : (0.8 - (absAngle / 180) * 0.1);
+                    
+                    // Z-index: center on top
+                    const zIndex = absAngle < 30 ? 10 : 1;
+                    
+                    // Brightness: center is bright, sides are darker
+                    const brightness = absAngle < 20 ? 1 : (0.4 - (absAngle / 180) * 0.2);
                     
                     gsap.set(item, { 
                         opacity: opacity,
                         scale: scale,
+                        zIndex: zIndex,
+                        filter: `brightness(${brightness})`,
                         visibility: opacity > 0.05 ? 'visible' : 'hidden'
                     });
                 });
