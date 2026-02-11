@@ -19,15 +19,10 @@
             --dim: rgba(255,255,255,0.5);
             /* Denim - near black with indigo undertone */
             --denim-base: #080808;
-            /* Gold zipper */
-            --gold-darkest: #4A3F1F;
-            --gold-dark: #6B5A2E;
-            --gold-mid: #A08930;
-            --gold-light: #C9A84C;
-            --gold-bright: #D4AF37;
-            --gold-highlight: #F5E6A3;
-            /* Stitch gold */
-            --stitch-gold: #C4A44A;
+            --denim-indigo: rgba(20,25,40,0.3);
+            /* Panel interior */
+            --panel-back: #141418;
+            --panel-edge: #0c0c10;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -251,7 +246,8 @@
         .loupe-dot.active { background: rgba(255,255,255,0.8); transform: scale(1.4); }
 
         /* ============================================================================
-           THE COLLECTION - DENIM BOOK FOLD (TRUE 3D)
+           THE COLLECTION - LUXURY PAGE FOLD (NO ZIPPER)
+           Pure elegance. Like opening a Hermès portfolio.
            ============================================================================ */
         .collection-section {
             position: relative;
@@ -259,421 +255,362 @@
             background: #000;
         }
 
-        /* Scroll spacer that contains the pinned element */
-        .collection-scroll-spacer {
-            height: 400vh;
-        }
-
-        /* PINNED CONTAINER - THIS MUST HAVE PERSPECTIVE */
+        /* PINNED CONTAINER - perspective creates 3D space */
         .collection-pinned {
             position: sticky;
             top: 0;
             width: 100vw;
             height: 100vh;
             overflow: hidden;
-            /* CRITICAL: Perspective must be on DIRECT parent of 3D elements */
-            -webkit-perspective: 1500px;
-            perspective: 1500px;
+            -webkit-perspective: 2000px;
+            perspective: 2000px;
             -webkit-perspective-origin: center center;
             perspective-origin: center center;
         }
 
-        /* REVEALED CONTENT (behind the denim doors) */
+        /* REVEALED CONTENT (behind the panels) - clean editorial space */
         .collection-reveal {
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at 50% 40%, rgba(30,25,15,0.4) 0%, transparent 60%), #050505;
+            background: 
+                radial-gradient(ellipse at 50% 35%, rgba(40,35,25,0.25) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, #0a0a0a 0%, #030303 60%, #000 100%);
             opacity: 0;
             z-index: 1;
         }
 
-        /* LEFT DENIM PANEL */
-        .panel-left {
+        /* ============================================================================
+           DUAL PANEL SYSTEM - True 3D book fold
+           ============================================================================ */
+        .panel {
             position: absolute;
-            left: 0;
             top: 0;
             width: 50%;
             height: 100%;
-            /* CRITICAL: transform-origin for book fold */
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            will-change: transform;
+            z-index: 10;
+        }
+
+        .panel-left {
+            left: 0;
             -webkit-transform-origin: left center;
             transform-origin: left center;
-            /* CRITICAL: preserve-3d for children */
-            -webkit-transform-style: preserve-3d;
-            transform-style: preserve-3d;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            z-index: 10;
-            will-change: transform;
         }
 
-        /* RIGHT DENIM PANEL */
         .panel-right {
-            position: absolute;
             right: 0;
-            top: 0;
-            width: 50%;
-            height: 100%;
             -webkit-transform-origin: right center;
             transform-origin: right center;
-            -webkit-transform-style: preserve-3d;
-            transform-style: preserve-3d;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            z-index: 10;
-            will-change: transform;
         }
 
         /* ============================================================================
-           DENIM TEXTURE - VISIBLE TWILL WEAVE
-           This is the key visual. Multiple layers create realistic fabric.
+           DENIM TEXTURE - Front face of each panel
+           Visible twill weave with indigo undertone
            ============================================================================ */
-        .denim-front {
+        .panel-front {
             position: absolute;
             inset: 0;
-            /* Layer 1: Base color */
-            background-color: #080808;
-            /* Layers 2-4: Twill weave + sheen + indigo undertone */
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            background-color: var(--denim-base);
+            /* Multi-layer twill weave */
             background-image:
-                /* Warp threads — primary diagonal */
+                /* Primary warp threads - diagonal */
                 repeating-linear-gradient(
                     -45deg,
-                    transparent,
+                    transparent 0px,
                     transparent 1px,
-                    rgba(255,255,255,0.03) 1px,
-                    rgba(255,255,255,0.03) 2px
+                    rgba(255,255,255,0.035) 1px,
+                    rgba(255,255,255,0.035) 2px
                 ),
-                /* Weft threads — perpendicular crossing */
+                /* Secondary weft threads */
                 repeating-linear-gradient(
                     45deg,
-                    transparent,
+                    transparent 0px,
                     transparent 2px,
-                    rgba(255,255,255,0.015) 2px,
-                    rgba(255,255,255,0.015) 3px
+                    rgba(255,255,255,0.018) 2px,
+                    rgba(255,255,255,0.018) 3px
                 ),
-                /* Directional sheen */
+                /* Directional light sheen */
                 linear-gradient(
-                    -45deg,
-                    rgba(255,255,255,0.0) 0%,
-                    rgba(255,255,255,0.02) 40%,
-                    rgba(255,255,255,0.0) 60%,
+                    -30deg,
+                    rgba(255,255,255,0) 0%,
+                    rgba(255,255,255,0.025) 35%,
+                    rgba(255,255,255,0) 50%,
                     rgba(255,255,255,0.015) 100%
                 ),
-                /* Indigo undertone */
+                /* Indigo undertone - characteristic of black denim */
                 radial-gradient(
-                    ellipse at 50% 50%,
-                    rgba(20,25,40,0.3) 0%,
-                    rgba(8,8,8,0) 70%
+                    ellipse at 60% 40%,
+                    var(--denim-indigo) 0%,
+                    transparent 70%
                 );
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-        }
-
-        /* Panel differentiation - slightly different weave angles */
-        .panel-left .denim-front {
-            transform: rotate(0.5deg);
-        }
-        .panel-right .denim-front {
-            transform: rotate(-0.3deg);
-        }
-
-        /* Fiber noise overlay */
-        .denim-front::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-            opacity: 0.5;
-            pointer-events: none;
-            mix-blend-mode: overlay;
-        }
-
-        /* Edge fade to pure black */
-        .panel-left .denim-front::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to right, #000 0%, transparent 15%, transparent 100%);
-            pointer-events: none;
-        }
-        .panel-right .denim-front::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to left, #000 0%, transparent 15%, transparent 100%);
-            pointer-events: none;
-        }
-
-        /* Panel back face (lighter denim visible when rotated past 90deg) */
-        .denim-back {
-            position: absolute;
-            inset: 0;
-            background: #151515;
-            -webkit-transform: rotateY(180deg);
-            transform: rotateY(180deg);
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-        }
-
-        /* Panel edge thickness (visible during rotation) */
-        .panel-edge {
-            position: absolute;
-            top: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, #151520 0%, #0a0a10 50%, #151520 100%);
-        }
-        .panel-left .panel-edge {
-            right: -2px;
-            box-shadow: -3px 0 15px rgba(0,0,0,0.8);
-        }
-        .panel-right .panel-edge {
-            left: -2px;
-            box-shadow: 3px 0 15px rgba(0,0,0,0.8);
-        }
-
-        /* Shadow cast onto revealed content */
-        .panel-shadow {
-            position: absolute;
-            top: 0;
-            width: 40px;
-            height: 100%;
-            pointer-events: none;
-        }
-        .panel-left .panel-shadow {
-            right: -40px;
-            background: linear-gradient(to right, rgba(0,0,0,0.6), transparent);
-        }
-        .panel-right .panel-shadow {
-            left: -40px;
-            background: linear-gradient(to left, rgba(0,0,0,0.6), transparent);
-        }
-
-        /* ============================================================================
-           CENTER SEAM - GOLD DOUBLE STITCHING
-           ============================================================================ */
-        .center-seam {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 8px;
-            transform: translateX(-50%);
-            z-index: 15;
-            background: linear-gradient(90deg, rgba(0,0,0,0.9), rgba(10,10,12,0.6) 50%, rgba(0,0,0,0.9));
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
-        }
-
-        /* Left stitch row */
-        .center-seam::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 1px;
-            width: 2px;
-            background: repeating-linear-gradient(
-                to bottom,
-                transparent 0px,
-                transparent 3px,
-                var(--stitch-gold) 3px,
-                var(--stitch-gold) 7px,
-                transparent 7px,
-                transparent 12px
-            );
-        }
-
-        /* Right stitch row (offset) */
-        .center-seam::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            right: 1px;
-            width: 2px;
-            background: repeating-linear-gradient(
-                to bottom,
-                transparent 0px,
-                transparent 9px,
-                var(--stitch-gold) 9px,
-                var(--stitch-gold) 13px,
-                transparent 13px,
-                transparent 18px
-            );
-            opacity: 0.7;
-        }
-
-        /* Groove shadow between stitch rows */
-        .seam-groove {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background: rgba(0,0,0,0.8);
-        }
-
-        /* ============================================================================
-           GOLD ZIPPER - REALISTIC METALLIC
-           ============================================================================ */
-        .zipper-assembly {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            transform: translateX(-50%);
-            z-index: 50;
-            height: 100%;
-            width: 20px;
-        }
-
-        /* The zipper pull (the tab you grab) */
-        .zipper-pull {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 18px;
-            height: 26px;
-            border-radius: 3px 3px 5px 5px;
-            /* Metallic gold gradient - multiple color stops for realism */
-            background: linear-gradient(
-                160deg,
-                var(--gold-darkest) 0%,
-                #8B7535 15%,
-                var(--gold-light) 30%,
-                var(--gold-highlight) 45%,
-                var(--gold-bright) 55%,
-                var(--gold-mid) 70%,
-                var(--gold-dark) 85%,
-                var(--gold-darkest) 100%
-            );
-            box-shadow:
-                0 2px 4px rgba(0,0,0,0.6),
-                inset 0 1px 0 rgba(255,230,150,0.3),
-                inset 0 -1px 0 rgba(0,0,0,0.3);
-            z-index: 20;
             overflow: hidden;
         }
 
-        /* Shimmer animation on zipper pull */
-        .zipper-pull::after {
+        /* Differentiate panel angles - prevents mirror effect */
+        .panel-left .panel-front {
+            transform: rotate(0.3deg);
+        }
+        .panel-right .panel-front {
+            transform: rotate(-0.2deg);
+        }
+
+        /* Fiber noise texture */
+        .panel-front::before {
             content: '';
             position: absolute;
             inset: 0;
-            border-radius: inherit;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+            mix-blend-mode: overlay;
+            pointer-events: none;
+        }
+
+        /* Edge fade to black */
+        .panel-left .panel-front::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, transparent 12%);
+            pointer-events: none;
+        }
+        .panel-right .panel-front::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to left, rgba(0,0,0,0.7) 0%, transparent 12%);
+            pointer-events: none;
+        }
+
+        /* ============================================================================
+           PANEL BACK - Interior (lighter, like opening a book)
+           ============================================================================ */
+        .panel-back {
+            position: absolute;
+            inset: 0;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transform: rotateY(180deg);
+            transform: rotateY(180deg);
+            background: linear-gradient(180deg, #1a1a1e 0%, var(--panel-back) 50%, #101014 100%);
+        }
+
+        /* Subtle texture on back */
+        .panel-back::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        /* ============================================================================
+           PANEL EDGE - Visible during rotation (like page thickness)
+           ============================================================================ */
+        .panel-edge {
+            position: absolute;
+            top: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(180deg, 
+                #1a1a20 0%, 
+                var(--panel-edge) 20%, 
+                #080810 50%, 
+                var(--panel-edge) 80%, 
+                #1a1a20 100%
+            );
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+        }
+
+        .panel-left .panel-edge {
+            right: 0;
+            -webkit-transform: rotateY(90deg) translateZ(3px);
+            transform: rotateY(90deg) translateZ(3px);
+            -webkit-transform-origin: right center;
+            transform-origin: right center;
+        }
+
+        .panel-right .panel-edge {
+            left: 0;
+            -webkit-transform: rotateY(-90deg) translateZ(3px);
+            transform: rotateY(-90deg) translateZ(3px);
+            -webkit-transform-origin: left center;
+            transform-origin: left center;
+        }
+
+        /* ============================================================================
+           DYNAMIC SHADOWS - Cast onto revealed content
+           ============================================================================ */
+        .panel-shadow-cast {
+            position: absolute;
+            top: 0;
+            width: 120px;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 5;
+        }
+
+        .panel-left .panel-shadow-cast {
+            right: -120px;
+            background: linear-gradient(to right, 
+                rgba(0,0,0,0.7) 0%, 
+                rgba(0,0,0,0.3) 30%,
+                transparent 100%
+            );
+        }
+
+        .panel-right .panel-shadow-cast {
+            left: -120px;
+            background: linear-gradient(to left, 
+                rgba(0,0,0,0.7) 0%, 
+                rgba(0,0,0,0.3) 30%,
+                transparent 100%
+            );
+        }
+
+        /* ============================================================================
+           LIGHT REFLECTION - Moves across surface during rotation
+           ============================================================================ */
+        .panel-light {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .panel-left .panel-light {
             background: linear-gradient(
                 105deg,
                 transparent 0%,
                 transparent 40%,
-                rgba(255,240,180,0.25) 45%,
-                rgba(255,240,180,0.35) 50%,
-                rgba(255,240,180,0.25) 55%,
+                rgba(255,255,255,0.04) 45%,
+                rgba(255,255,255,0.08) 50%,
+                rgba(255,255,255,0.04) 55%,
                 transparent 60%,
                 transparent 100%
             );
-            animation: shimmer 3s ease-in-out infinite;
         }
 
-        @keyframes shimmer {
-            0%, 100% { transform: translateX(-100%); }
-            50% { transform: translateX(100%); }
-        }
-
-        /* Zipper pull hole */
-        .zipper-pull::before {
-            content: '';
-            position: absolute;
-            top: 4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 6px;
-            height: 4px;
-            border-radius: 2px;
-            background: rgba(0,0,0,0.5);
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
-        }
-
-        /* Zipper teeth - closed section (below pull) */
-        .zipper-teeth-closed {
-            position: absolute;
-            top: 46px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 10px;
-            height: calc(100% - 46px);
-            background: repeating-linear-gradient(
-                to bottom,
-                transparent 0px,
-                transparent 2px,
-                var(--gold-mid) 2px,
-                var(--gold-mid) 4px,
-                transparent 4px,
-                transparent 6px
+        .panel-right .panel-light {
+            background: linear-gradient(
+                -105deg,
+                transparent 0%,
+                transparent 40%,
+                rgba(255,255,255,0.04) 45%,
+                rgba(255,255,255,0.08) 50%,
+                rgba(255,255,255,0.04) 55%,
+                transparent 60%,
+                transparent 100%
             );
-            opacity: 0.5;
         }
 
         /* ============================================================================
-           TEXT ON DENIM
+           CENTER FOLD LINE - Subtle crease where panels meet
            ============================================================================ */
-        .denim-text-wrapper {
+        .fold-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            transform: translateX(-50%);
+            z-index: 20;
+            background: linear-gradient(180deg,
+                transparent 0%,
+                rgba(0,0,0,0.8) 10%,
+                rgba(0,0,0,0.9) 50%,
+                rgba(0,0,0,0.8) 90%,
+                transparent 100%
+            );
+            box-shadow: 
+                -1px 0 0 rgba(255,255,255,0.02),
+                1px 0 0 rgba(255,255,255,0.02);
+        }
+
+        /* Light seeping through as panels open */
+        .fold-light {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 4px;
+            height: 0%;
+            transform: translateX(-50%);
+            z-index: 19;
+            background: linear-gradient(180deg,
+                rgba(255,250,240,0.4) 0%,
+                rgba(255,250,240,0.15) 100%
+            );
+            filter: blur(2px);
+            opacity: 0;
+        }
+
+        /* ============================================================================
+           TEXT - Splits with panels
+           ============================================================================ */
+        .collection-text {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 30;
+            z-index: 25;
             text-align: center;
             pointer-events: none;
         }
 
-        .denim-title {
-            font-size: clamp(2rem, 6vw, 4.5rem);
+        .collection-title {
+            font-size: clamp(2rem, 6vw, 5rem);
             font-weight: 200;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.9);
-            text-shadow: 0 2px 15px rgba(0,0,0,0.8);
-            white-space: nowrap;
-        }
-
-        /* Split text for each panel */
-        .split-text-left, .split-text-right {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: clamp(2rem, 6vw, 4.5rem);
-            font-weight: 200;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.9);
-            text-shadow: 0 2px 15px rgba(0,0,0,0.8);
-            white-space: nowrap;
-            overflow: hidden;
-            width: 50vw;
-        }
-
-        .split-text-left {
-            right: 0;
-            text-align: right;
-            clip-path: inset(0 0 0 0);
-        }
-
-        .split-text-right {
-            left: 0;
-            text-align: left;
-            clip-path: inset(0 0 0 0);
-        }
-
-        .denim-subtitle {
-            position: absolute;
-            top: calc(50% + 60px);
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: clamp(0.6rem, 1.2vw, 0.85rem);
             letter-spacing: 0.4em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.5);
-            z-index: 31;
+            color: rgba(255,255,255,0.92);
+            text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+            white-space: nowrap;
+            position: relative;
+        }
+
+        /* Text clips to panels */
+        .text-left, .text-right {
+            position: absolute;
+            top: 50%;
+            font-size: clamp(2rem, 6vw, 5rem);
+            font-weight: 200;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.92);
+            text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+            white-space: nowrap;
+            transform: translateY(-50%);
+            z-index: 30;
+        }
+
+        .text-left {
+            right: 0;
+            text-align: right;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .text-right {
+            left: 0;
+            text-align: left;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .collection-subtitle {
+            position: absolute;
+            top: calc(50% + 70px);
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: clamp(0.55rem, 1vw, 0.75rem);
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            z-index: 26;
         }
 
         /* ============================================================================
@@ -777,20 +714,17 @@
         </div>
     </section>
 
-    <!-- APPLE GLASS LOUPE - IMAGES BEHIND FROSTED GLASS -->
+    <!-- APPLE GLASS LOUPE -->
     <section id="scene-loupe" class="loupe-section">
         <div class="loupe-sticky">
             <div class="loupe-flex">
-                <!-- The circular viewport -->
                 <div class="loupe-container" id="loupeContainer">
                     <div class="loupe-glow"></div>
-                    <!-- Images BEHIND the glass -->
                     <div class="loupe-images" id="loupeImages">
                         <img src="images/product-1.jpg" class="loupe-img active" alt="Product 1">
                         <img src="images/product-2.jpg" class="loupe-img" alt="Product 2">
                         <img src="images/product-3.jpg" class="loupe-img" alt="Product 3">
                     </div>
-                    <!-- Frosted glass ON TOP -->
                     <div class="loupe-glass"></div>
                     <div class="loupe-shadow"></div>
                     <div class="loupe-reflection"></div>
@@ -809,50 +743,44 @@
         </div>
     </section>
 
-    <!-- THE COLLECTION - DENIM BOOK FOLD (TRUE 3D PERSPECTIVE) -->
+    <!-- THE COLLECTION - LUXURY PAGE FOLD -->
     <section class="collection-section" id="collection-section">
-        <div class="collection-scroll-spacer">
-            <!-- PINNED CONTAINER WITH PERSPECTIVE -->
-            <div class="collection-pinned" id="collectionPinned">
-                
-                <!-- REVEALED CONTENT (behind the panels) -->
-                <div class="collection-reveal" id="collectionReveal"></div>
+        <div class="collection-pinned" id="collectionPinned">
+            
+            <!-- Revealed content (behind panels) -->
+            <div class="collection-reveal" id="collectionReveal"></div>
 
-                <!-- LEFT PANEL -->
-                <div class="panel-left" id="panelLeft">
-                    <div class="denim-front"></div>
-                    <div class="denim-back"></div>
-                    <div class="panel-edge"></div>
-                    <div class="panel-shadow"></div>
-                    <!-- Left half of text -->
-                    <div class="split-text-left" id="textLeft">THE COLLECTION</div>
+            <!-- Fold line (center crease) -->
+            <div class="fold-line" id="foldLine"></div>
+            <div class="fold-light" id="foldLight"></div>
+
+            <!-- LEFT PANEL -->
+            <div class="panel panel-left" id="panelLeft">
+                <div class="panel-front">
+                    <div class="panel-light" id="lightLeft"></div>
                 </div>
-
-                <!-- RIGHT PANEL -->
-                <div class="panel-right" id="panelRight">
-                    <div class="denim-front"></div>
-                    <div class="denim-back"></div>
-                    <div class="panel-edge"></div>
-                    <div class="panel-shadow"></div>
-                    <!-- Right half of text -->
-                    <div class="split-text-right" id="textRight">THE COLLECTION</div>
-                </div>
-
-                <!-- CENTER SEAM WITH GOLD STITCHING -->
-                <div class="center-seam" id="centerSeam">
-                    <div class="seam-groove"></div>
-                </div>
-
-                <!-- GOLD ZIPPER ASSEMBLY -->
-                <div class="zipper-assembly" id="zipperAssembly">
-                    <div class="zipper-pull" id="zipperPull"></div>
-                    <div class="zipper-teeth-closed"></div>
-                </div>
-
-                <!-- Scroll instruction -->
-                <div class="denim-subtitle" id="denimSubtitle">Scroll to Open</div>
-
+                <div class="panel-back"></div>
+                <div class="panel-edge"></div>
+                <div class="panel-shadow-cast" id="shadowLeft"></div>
+                <!-- Text anchored to left panel -->
+                <div class="text-left" id="textLeft">THE COLLECTION</div>
             </div>
+
+            <!-- RIGHT PANEL -->
+            <div class="panel panel-right" id="panelRight">
+                <div class="panel-front">
+                    <div class="panel-light" id="lightRight"></div>
+                </div>
+                <div class="panel-back"></div>
+                <div class="panel-edge"></div>
+                <div class="panel-shadow-cast" id="shadowRight"></div>
+                <!-- Text anchored to right panel -->
+                <div class="text-right" id="textRight">THE COLLECTION</div>
+            </div>
+
+            <!-- Subtitle -->
+            <div class="collection-subtitle" id="collectionSubtitle">Scroll to Open</div>
+
         </div>
     </section>
 
@@ -882,7 +810,7 @@
 
     <script>
     // ============================================================================
-    // WHITE DEVIL - SCROLL ANIMATION SYSTEM
+    // WHITE DEVIL - LUXURY SCROLL ANIMATION
     // ============================================================================
     document.addEventListener('DOMContentLoaded', function() {
         gsap.registerPlugin(ScrollTrigger);
@@ -990,72 +918,202 @@
         }
 
         // ============================================================================
-        // THE COLLECTION - 3D BOOK FOLD WITH GSAP
+        // THE COLLECTION - LUXURY 3D PAGE FOLD
+        // No zipper. Pure elegance. Like opening a Hermès portfolio.
         // ============================================================================
         const collectionSection = document.getElementById('collection-section');
         const panelLeft = document.getElementById('panelLeft');
         const panelRight = document.getElementById('panelRight');
-        const centerSeam = document.getElementById('centerSeam');
-        const zipperAssembly = document.getElementById('zipperAssembly');
-        const zipperPull = document.getElementById('zipperPull');
         const collectionReveal = document.getElementById('collectionReveal');
+        const foldLine = document.getElementById('foldLine');
+        const foldLight = document.getElementById('foldLight');
+        const lightLeft = document.getElementById('lightLeft');
+        const lightRight = document.getElementById('lightRight');
+        const shadowLeft = document.getElementById('shadowLeft');
+        const shadowRight = document.getElementById('shadowRight');
         const textLeft = document.getElementById('textLeft');
         const textRight = document.getElementById('textRight');
-        const denimSubtitle = document.getElementById('denimSubtitle');
+        const collectionSubtitle = document.getElementById('collectionSubtitle');
 
-        // Create GSAP timeline for the 3D book fold
-        const bookTL = gsap.timeline({
+        // Custom easing for luxury feel - slightly weighted, smooth
+        gsap.registerEase("luxuryOpen", function(progress) {
+            // Custom bezier-like curve: slow start, smooth middle, gentle end
+            return progress < 0.5 
+                ? 2 * progress * progress 
+                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+        });
+
+        // Create GSAP timeline for the 3D page fold
+        const foldTL = gsap.timeline({
             scrollTrigger: {
                 trigger: collectionSection,
                 start: 'top top',
                 end: 'bottom bottom',
-                scrub: 1.5,
+                scrub: 2, // Slower scrub for smoother feel
                 anticipatePin: 1
             }
         });
 
-        // ---- PHASE 1: 0-10% - Zipper starts descending, subtitle fades ----
-        bookTL.to(denimSubtitle, { opacity: 0, duration: 0.08 }, 0);
-        bookTL.to(zipperPull, { y: window.innerHeight * 0.15, duration: 0.1, ease: 'power1.in' }, 0);
+        // ---- PHASE 1: 0-5% - Subtitle fades, fold line light begins ----
+        foldTL.to(collectionSubtitle, { 
+            opacity: 0, 
+            duration: 0.05,
+            ease: 'power2.out'
+        }, 0);
 
-        // ---- PHASE 2: 10-25% - Panels begin to crack open ----
-        bookTL.to(zipperPull, { y: window.innerHeight * 0.35, duration: 0.15, ease: 'power2.inOut' }, 0.1);
-        bookTL.to(panelLeft, { rotateY: -25, duration: 0.15, ease: 'power2.out' }, 0.1);
-        bookTL.to(panelRight, { rotateY: 25, duration: 0.15, ease: 'power2.out' }, 0.1);
-        bookTL.to(collectionReveal, { opacity: 0.3, duration: 0.15 }, 0.15);
+        foldTL.to(foldLight, { 
+            height: '15%', 
+            opacity: 0.3,
+            duration: 0.1,
+            ease: 'power2.out'
+        }, 0);
 
-        // ---- PHASE 3: 25-50% - Significant opening ----
-        bookTL.to(zipperPull, { y: window.innerHeight * 0.6, duration: 0.25, ease: 'power2.inOut' }, 0.25);
-        bookTL.to(panelLeft, { rotateY: -55, duration: 0.25, ease: 'power2.inOut' }, 0.25);
-        bookTL.to(panelRight, { rotateY: 55, duration: 0.25, ease: 'power2.inOut' }, 0.25);
-        bookTL.to(centerSeam, { opacity: 0.4, duration: 0.2 }, 0.3);
-        bookTL.to(collectionReveal, { opacity: 0.7, duration: 0.25 }, 0.35);
+        // ---- PHASE 2: 5-20% - Panels begin to crack open ----
+        foldTL.to(panelLeft, { 
+            rotateY: -15, 
+            duration: 0.15,
+            ease: 'power2.out'
+        }, 0.05);
 
-        // ---- PHASE 4: 50-75% - Nearly fully open ----
-        bookTL.to(zipperAssembly, { opacity: 0, duration: 0.2 }, 0.5);
-        bookTL.to(panelLeft, { rotateY: -80, duration: 0.25, ease: 'power2.inOut' }, 0.5);
-        bookTL.to(panelRight, { rotateY: 80, duration: 0.25, ease: 'power2.inOut' }, 0.5);
-        bookTL.to(centerSeam, { opacity: 0, duration: 0.15 }, 0.55);
-        bookTL.to(collectionReveal, { opacity: 1, duration: 0.25 }, 0.55);
+        foldTL.to(panelRight, { 
+            rotateY: 15, 
+            duration: 0.15,
+            ease: 'power2.out'
+        }, 0.05);
 
-        // ---- PHASE 5: 75-90% - Panels flatten against sides ----
-        bookTL.to(panelLeft, { rotateY: -88, x: '-5%', duration: 0.15 }, 0.75);
-        bookTL.to(panelRight, { rotateY: 88, x: '5%', duration: 0.15 }, 0.75);
+        foldTL.to(foldLight, { 
+            height: '40%', 
+            opacity: 0.5,
+            duration: 0.15
+        }, 0.05);
 
-        // ---- PHASE 6: 90-100% - Panels fade out completely ----
-        bookTL.to(panelLeft, { opacity: 0, x: '-10%', duration: 0.1 }, 0.9);
-        bookTL.to(panelRight, { opacity: 0, x: '10%', duration: 0.1 }, 0.9);
+        foldTL.to(collectionReveal, { 
+            opacity: 0.2, 
+            duration: 0.15
+        }, 0.1);
 
-        // ---- Moving gradient angle on zipper as it descends ----
-        ScrollTrigger.create({
-            trigger: collectionSection,
-            start: 'top top',
-            end: 'bottom bottom',
-            onUpdate: (self) => {
-                const gradAngle = 140 + (self.progress * 40);
-                zipperPull.style.background = `linear-gradient(${gradAngle}deg, #4A3F1F 0%, #8B7535 15%, #C9A84C 30%, #F5E6A3 45%, #D4AF37 55%, #A08930 70%, #6B5A2E 85%, #4A3F1F 100%)`;
-            }
-        });
+        foldTL.to([lightLeft, lightRight], { 
+            opacity: 0.3, 
+            duration: 0.1
+        }, 0.1);
+
+        // ---- PHASE 3: 20-45% - Opening wider ----
+        foldTL.to(panelLeft, { 
+            rotateY: -45, 
+            duration: 0.25,
+            ease: 'power2.inOut'
+        }, 0.2);
+
+        foldTL.to(panelRight, { 
+            rotateY: 45, 
+            duration: 0.25,
+            ease: 'power2.inOut'
+        }, 0.2);
+
+        foldTL.to(foldLight, { 
+            height: '70%', 
+            opacity: 0.7,
+            duration: 0.2
+        }, 0.2);
+
+        foldTL.to(foldLine, { 
+            opacity: 0.3, 
+            duration: 0.15
+        }, 0.25);
+
+        foldTL.to(collectionReveal, { 
+            opacity: 0.5, 
+            duration: 0.25
+        }, 0.25);
+
+        foldTL.to([shadowLeft, shadowRight], { 
+            opacity: 0.6, 
+            duration: 0.2
+        }, 0.25);
+
+        foldTL.to([lightLeft, lightRight], { 
+            opacity: 0.6, 
+            duration: 0.15
+        }, 0.25);
+
+        // ---- PHASE 4: 45-70% - Nearly fully open ----
+        foldTL.to(panelLeft, { 
+            rotateY: -75, 
+            duration: 0.25,
+            ease: 'power2.inOut'
+        }, 0.45);
+
+        foldTL.to(panelRight, { 
+            rotateY: 75, 
+            duration: 0.25,
+            ease: 'power2.inOut'
+        }, 0.45);
+
+        foldTL.to(foldLight, { 
+            height: '100%', 
+            opacity: 0,
+            duration: 0.2
+        }, 0.45);
+
+        foldTL.to(foldLine, { 
+            opacity: 0, 
+            duration: 0.15
+        }, 0.5);
+
+        foldTL.to(collectionReveal, { 
+            opacity: 0.85, 
+            duration: 0.25
+        }, 0.5);
+
+        foldTL.to([lightLeft, lightRight], { 
+            opacity: 0.8, 
+            duration: 0.15
+        }, 0.5);
+
+        // ---- PHASE 5: 70-85% - Panels flatten against edges ----
+        foldTL.to(panelLeft, { 
+            rotateY: -89, 
+            x: '-3%',
+            duration: 0.15,
+            ease: 'power2.out'
+        }, 0.7);
+
+        foldTL.to(panelRight, { 
+            rotateY: 89, 
+            x: '3%',
+            duration: 0.15,
+            ease: 'power2.out'
+        }, 0.7);
+
+        foldTL.to(collectionReveal, { 
+            opacity: 1, 
+            duration: 0.15
+        }, 0.75);
+
+        foldTL.to([shadowLeft, shadowRight], { 
+            opacity: 0.3, 
+            duration: 0.1
+        }, 0.75);
+
+        // ---- PHASE 6: 85-100% - Panels disappear completely ----
+        foldTL.to(panelLeft, { 
+            opacity: 0, 
+            x: '-8%',
+            duration: 0.15,
+            ease: 'power2.out'
+        }, 0.85);
+
+        foldTL.to(panelRight, { 
+            opacity: 0, 
+            x: '8%',
+            duration: 0.15,
+            ease: 'power2.out'
+        }, 0.85);
+
+        foldTL.to([shadowLeft, shadowRight, lightLeft, lightRight], { 
+            opacity: 0, 
+            duration: 0.1
+        }, 0.9);
 
         // ============================================================================
         // MAIN SCROLL HANDLER
