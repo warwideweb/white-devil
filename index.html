@@ -349,9 +349,9 @@
             text-transform: uppercase;
         }
 
-        /* ===== SCENE 5.5: THE COLLECTION (Premium Zipper) ===== */
+        /* ===== SCENE 5.5: THE COLLECTION (Chrome Zipper) ===== */
         .scene-collection {
-            height: 250vh;
+            height: 280vh;
             background-color: #000000;
         }
 
@@ -365,17 +365,15 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            background: #000000;
         }
 
-        /* The revealed content behind the zipper */
+        /* Content behind the zipper */
         .zipper-reveal {
             position: relative;
             width: 100%;
             height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            background: #000000;
         }
 
         .zipper-reveal .reveal-content {
@@ -387,14 +385,15 @@
             justify-content: center;
             align-items: center;
             z-index: 1;
-            filter: blur(8px) brightness(0.5);
-            transform: scale(0.96);
-            will-change: transform, filter;
+            background: #000000;
+            opacity: 0;
+            transform: scale(0.98);
+            will-change: transform, opacity;
         }
 
         .zipper-reveal .reveal-product {
-            width: 70vmin;
-            max-width: 500px;
+            width: 65vmin;
+            max-width: 480px;
             max-height: 50vh;
             object-fit: contain;
         }
@@ -405,184 +404,235 @@
         }
 
         .zipper-reveal .collection-text h2 {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-size: clamp(1.4rem, 3.5vw, 2.2rem);
             font-weight: 200;
-            letter-spacing: 0.25em;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
             margin-bottom: 12px;
         }
 
         .zipper-reveal .collection-text p {
-            font-size: 0.7rem;
-            letter-spacing: 0.35em;
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
             text-transform: uppercase;
             color: var(--dim);
         }
 
-        /* Fabric panels that split apart */
+        /* Fabric panels - pure black, teeth on edges */
         .zipper-fabric {
             position: absolute;
             top: 0;
-            width: 50%;
+            width: 50.5%;
             height: 100%;
-            background: #000;
-            z-index: 5;
+            background: #000000;
+            z-index: 10;
             will-change: transform;
+            overflow: visible;
         }
 
         .zipper-fabric-left {
             left: 0;
-            background: linear-gradient(to right, #000 0%, #000 85%, #0a0a0a 100%);
-            border-right: 1px solid rgba(255,255,255,0.03);
+            transform-origin: right center;
         }
 
         .zipper-fabric-right {
             right: 0;
-            background: linear-gradient(to left, #000 0%, #000 85%, #0a0a0a 100%);
-            border-left: 1px solid rgba(255,255,255,0.03);
+            transform-origin: left center;
         }
 
-        /* Zipper track container */
-        .zipper-track {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            width: 40px;
-            height: 100%;
-            transform: translateX(-50%);
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        /* Zipper teeth - left side */
-        .zipper-teeth-left, .zipper-teeth-right {
+        /* Chrome teeth strip on fabric edges */
+        .teeth-strip {
             position: absolute;
             top: 0;
-            width: 12px;
+            width: 14px;
             height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0;
-            will-change: transform, opacity;
+            z-index: 11;
         }
 
-        .zipper-teeth-left {
-            left: 6px;
+        .zipper-fabric-left .teeth-strip {
+            right: -7px;
         }
 
-        .zipper-teeth-right {
-            right: 6px;
+        .zipper-fabric-right .teeth-strip {
+            left: -7px;
         }
 
-        .zipper-tooth {
-            width: 10px;
-            height: 6px;
-            background: linear-gradient(to bottom, #c9a84c 0%, #a8893d 50%, #8a7030 100%);
+        /* Individual chrome tooth */
+        .chrome-tooth {
+            width: 100%;
+            height: 5px;
+            margin: 1.5px 0;
+            position: relative;
+            /* Chrome gradient - reflective metal */
+            background: linear-gradient(
+                135deg,
+                #2a2a2a 0%,
+                #4a4a4a 10%,
+                #8a8a8a 20%,
+                #e8e8e8 35%,
+                #ffffff 50%,
+                #e8e8e8 65%,
+                #8a8a8a 80%,
+                #4a4a4a 90%,
+                #2a2a2a 100%
+            );
             border-radius: 1px;
-            margin: 1px 0;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
-            flex-shrink: 0;
+            box-shadow: 
+                0 1px 1px rgba(0,0,0,0.5),
+                inset 0 0.5px 0 rgba(255,255,255,0.4);
         }
 
-        .zipper-teeth-left .zipper-tooth {
-            border-radius: 1px 3px 3px 1px;
-            margin-right: -2px;
+        .zipper-fabric-left .chrome-tooth {
+            border-radius: 1px 2px 2px 1px;
         }
 
-        .zipper-teeth-right .zipper-tooth {
-            border-radius: 3px 1px 1px 3px;
-            margin-left: -2px;
+        .zipper-fabric-right .chrome-tooth {
+            border-radius: 2px 1px 1px 2px;
         }
 
-        /* Zipper pull/slider */
+        /* Chrome zipper pull */
         .zipper-pull {
             position: absolute;
             left: 50%;
-            top: 0;
+            top: -40px;
             transform: translateX(-50%);
-            z-index: 15;
+            z-index: 20;
             will-change: top;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .zipper-pull.visible {
+            opacity: 1;
         }
 
         .zipper-slider {
-            width: 24px;
-            height: 32px;
-            background: linear-gradient(to bottom, #d4af37 0%, #c9a84c 30%, #a8893d 70%, #8a7030 100%);
-            border-radius: 4px 4px 6px 6px;
+            width: 22px;
+            height: 28px;
             position: relative;
+            /* Chrome/silver gradient */
+            background: linear-gradient(
+                180deg,
+                #e8e8e8 0%,
+                #d0d0d0 15%,
+                #f5f5f5 30%,
+                #ffffff 50%,
+                #d0d0d0 70%,
+                #a0a0a0 85%,
+                #808080 100%
+            );
+            border-radius: 3px 3px 5px 5px;
             box-shadow: 
-                0 2px 4px rgba(0,0,0,0.5),
-                0 4px 8px rgba(0,0,0,0.3),
-                inset 0 2px 4px rgba(255,255,255,0.3),
-                inset 0 -2px 4px rgba(0,0,0,0.2);
+                0 2px 6px rgba(0,0,0,0.6),
+                0 4px 12px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.8),
+                inset 0 -1px 0 rgba(0,0,0,0.2);
         }
 
+        /* Reflective shine sweep */
         .zipper-slider::before {
             content: '';
             position: absolute;
-            top: 4px;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            height: 40%;
+            background: linear-gradient(
+                180deg,
+                rgba(255,255,255,0.6) 0%,
+                rgba(255,255,255,0.2) 50%,
+                transparent 100%
+            );
+            border-radius: 2px 2px 50% 50%;
+        }
+
+        /* Center hole */
+        .zipper-slider::after {
+            content: '';
+            position: absolute;
+            top: 6px;
             left: 50%;
             transform: translateX(-50%);
-            width: 8px;
-            height: 8px;
-            background: linear-gradient(to bottom, #1a1a1a 0%, #0a0a0a 100%);
+            width: 6px;
+            height: 6px;
+            background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
             border-radius: 50%;
             box-shadow: inset 0 1px 2px rgba(255,255,255,0.1);
         }
 
         .zipper-tab {
-            width: 14px;
-            height: 20px;
-            background: linear-gradient(to bottom, #d4af37 0%, #b8962f 100%);
-            border-radius: 2px 2px 4px 4px;
-            margin: 2px auto 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            width: 12px;
+            height: 22px;
+            margin: 1px auto 0;
             position: relative;
+            /* Chrome tab */
+            background: linear-gradient(
+                180deg,
+                #d0d0d0 0%,
+                #f0f0f0 30%,
+                #ffffff 50%,
+                #c0c0c0 70%,
+                #909090 100%
+            );
+            border-radius: 2px 2px 4px 4px;
+            box-shadow: 
+                0 3px 6px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.5);
         }
 
+        /* Tab hole */
         .zipper-tab::before {
             content: '';
             position: absolute;
-            top: 3px;
+            top: 4px;
             left: 50%;
             transform: translateX(-50%);
-            width: 6px;
-            height: 6px;
-            border: 2px solid #0a0a0a;
+            width: 5px;
+            height: 5px;
+            border: 1.5px solid #0a0a0a;
             border-radius: 50%;
             background: transparent;
         }
 
-        /* Center seam (closed zipper track) */
+        /* Moving shine effect on slider */
+        .zipper-shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255,255,255,0.3) 50%,
+                transparent 100%
+            );
+            animation: shineMove 3s ease-in-out infinite;
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        @keyframes shineMove {
+            0%, 100% { left: -100%; }
+            50% { left: 100%; }
+        }
+
+        /* Center seam - subtle chrome line when closed */
         .zipper-seam {
             position: absolute;
             left: 50%;
             top: 0;
             width: 2px;
             height: 100%;
-            background: linear-gradient(to bottom, 
-                rgba(201, 168, 76, 0.8) 0%,
-                rgba(201, 168, 76, 0.6) 100%
+            background: linear-gradient(
+                180deg,
+                rgba(150,150,150,0.3) 0%,
+                rgba(200,200,200,0.4) 50%,
+                rgba(150,150,150,0.3) 100%
             );
             transform: translateX(-50%);
-            z-index: 8;
-            will-change: clip-path;
-        }
-
-        /* Subtle fabric texture overlay */
-        .zipper-fabric::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(
-                90deg,
-                transparent 0px,
-                transparent 2px,
-                rgba(255,255,255,0.01) 2px,
-                rgba(255,255,255,0.01) 4px
-            );
-            pointer-events: none;
+            z-index: 12;
+            will-change: opacity;
         }
 
         /* ===== SCENE 6: THE CREED ===== */
@@ -683,27 +733,39 @@
             .scene-void { height: 120vh; }
             .scene-birth, .scene-ritual { height: 180vh; }
             .scene-mark { height: 180vh; }
-            .scene-collection { height: 220vh; }
+            .scene-collection { height: 250vh; }
             .scene-creed { height: 220vh; }
 
             .zipper-reveal .reveal-product {
-                width: 80vw;
-                max-width: 350px;
+                width: 75vw;
+                max-width: 320px;
             }
 
             .zipper-slider {
-                width: 20px;
-                height: 28px;
+                width: 18px;
+                height: 24px;
             }
 
             .zipper-tab {
-                width: 12px;
-                height: 16px;
+                width: 10px;
+                height: 18px;
             }
 
-            .zipper-tooth {
-                width: 8px;
-                height: 5px;
+            .chrome-tooth {
+                height: 4px;
+                margin: 1px 0;
+            }
+
+            .teeth-strip {
+                width: 10px;
+            }
+
+            .zipper-fabric-left .teeth-strip {
+                right: -5px;
+            }
+
+            .zipper-fabric-right .teeth-strip {
+                left: -5px;
             }
 
             .mark-content {
@@ -821,11 +883,11 @@
     </section>
 
     <!-- SCENE 5.5: THE COLLECTION -->
-    <section class="scene scene-collection" id="scene-collection" data-pattern-intensity="0.03">
+    <section class="scene scene-collection" id="scene-collection" data-pattern-intensity="0.02">
         <div class="collection-content">
             <div class="zipper-reveal" id="collection-reveal">
                 <!-- Content behind the zipper -->
-                <div class="reveal-content">
+                <div class="reveal-content" id="reveal-content">
                     <img src="images/bag-shelf.jpg" class="reveal-product" alt="White Devil Collection">
                     <div class="collection-text">
                         <h2>THE COLLECTION</h2>
@@ -833,24 +895,23 @@
                     </div>
                 </div>
 
-                <!-- Fabric panels that split -->
-                <div class="zipper-fabric zipper-fabric-left"></div>
-                <div class="zipper-fabric zipper-fabric-right"></div>
+                <!-- Center seam (visible when closed) -->
+                <div class="zipper-seam" id="zipper-seam"></div>
 
-                <!-- Zipper mechanism -->
-                <div class="zipper-track">
-                    <!-- Center seam (visible when closed) -->
-                    <div class="zipper-seam" id="zipper-seam"></div>
-                    
-                    <!-- Teeth containers -->
-                    <div class="zipper-teeth-left" id="teeth-left"></div>
-                    <div class="zipper-teeth-right" id="teeth-right"></div>
-                    
-                    <!-- Zipper pull -->
-                    <div class="zipper-pull" id="zipper-pull">
-                        <div class="zipper-slider"></div>
-                        <div class="zipper-tab"></div>
+                <!-- Fabric panels with teeth on edges -->
+                <div class="zipper-fabric zipper-fabric-left" id="fabric-left">
+                    <div class="teeth-strip" id="teeth-left"></div>
+                </div>
+                <div class="zipper-fabric zipper-fabric-right" id="fabric-right">
+                    <div class="teeth-strip" id="teeth-right"></div>
+                </div>
+
+                <!-- Chrome zipper pull -->
+                <div class="zipper-pull" id="zipper-pull">
+                    <div class="zipper-slider">
+                        <div class="zipper-shine"></div>
                     </div>
+                    <div class="zipper-tab"></div>
                 </div>
             </div>
         </div>
@@ -971,7 +1032,7 @@
         var updateWhiteBag = bindBagReveal('scene-birth', 'white-bag-reveal', 'whiteText');
         var updateBlueBag = bindBagReveal('scene-ritual', 'blue-bag-reveal', 'blueText');
 
-        // Premium zipper reveal for Collection
+        // Chrome zipper reveal for Collection
         function bindCollectionReveal() {
             var section = document.getElementById('scene-collection');
             var reveal = document.getElementById('collection-reveal');
@@ -980,9 +1041,9 @@
                 return null;
             }
 
-            var content = reveal.querySelector('.reveal-content');
-            var fabricLeft = reveal.querySelector('.zipper-fabric-left');
-            var fabricRight = reveal.querySelector('.zipper-fabric-right');
+            var content = document.getElementById('reveal-content');
+            var fabricLeft = document.getElementById('fabric-left');
+            var fabricRight = document.getElementById('fabric-right');
             var zipperPull = document.getElementById('zipper-pull');
             var zipperSeam = document.getElementById('zipper-seam');
             var teethLeft = document.getElementById('teeth-left');
@@ -993,68 +1054,70 @@
                 return null;
             }
 
-            // Generate zipper teeth
-            var toothCount = Math.ceil(window.innerHeight / 8);
+            // Generate chrome teeth on fabric edges
+            var toothCount = Math.ceil(window.innerHeight / 7);
             for (var t = 0; t < toothCount; t++) {
                 var toothL = document.createElement('div');
-                toothL.className = 'zipper-tooth';
+                toothL.className = 'chrome-tooth';
                 teethLeft.appendChild(toothL);
                 
                 var toothR = document.createElement('div');
-                toothR.className = 'zipper-tooth';
+                toothR.className = 'chrome-tooth';
                 teethRight.appendChild(toothR);
             }
 
-            var allTeethLeft = teethLeft.querySelectorAll('.zipper-tooth');
-            var allTeethRight = teethRight.querySelectorAll('.zipper-tooth');
+            var lastProgress = -1;
 
             return function() {
                 var rect = section.getBoundingClientRect();
                 var viewH = window.innerHeight;
+                
+                // Start animation when section enters viewport
+                var enterProgress = Math.max(0, Math.min(1, (viewH - rect.top) / viewH));
+                
+                // Main progress based on scroll through section
                 var scrollInSection = -rect.top;
                 var sectionHeight = section.offsetHeight - viewH;
                 var progress = Math.max(0, Math.min(1, scrollInSection / sectionHeight));
 
-                // Zipper pull moves down the page
-                var pullY = progress * (viewH - 60);
-                zipperPull.style.top = pullY + 'px';
+                // Avoid redundant updates
+                if (Math.abs(progress - lastProgress) < 0.001) return;
+                lastProgress = progress;
 
-                // Seam shrinks from top as zipper opens
-                if (zipperSeam) {
-                    zipperSeam.style.clipPath = 'inset(' + (progress * 100) + '% 0 0 0)';
+                // Zipper pull fades in as section approaches
+                if (enterProgress > 0.3) {
+                    zipperPull.classList.add('visible');
+                } else {
+                    zipperPull.classList.remove('visible');
                 }
 
-                // Teeth separate above the pull point
-                allTeethLeft.forEach(function(tooth, i) {
-                    var toothY = i * 8;
-                    var toothProgress = Math.max(0, Math.min(1, (pullY - toothY) / 50));
-                    var separation = toothProgress * 15;
-                    tooth.style.transform = 'translateX(-' + separation + 'px)';
-                    tooth.style.opacity = 1 - (toothProgress * 0.3);
-                });
+                // Pull position - starts at top, moves down
+                var pullStartDelay = 0.05;
+                var pullProgress = Math.max(0, Math.min(1, (progress - pullStartDelay) / 0.7));
+                var pullY = pullProgress * (viewH - 50);
+                zipperPull.style.top = pullY + 'px';
 
-                allTeethRight.forEach(function(tooth, i) {
-                    var toothY = i * 8;
-                    var toothProgress = Math.max(0, Math.min(1, (pullY - toothY) / 50));
-                    var separation = toothProgress * 15;
-                    tooth.style.transform = 'translateX(' + separation + 'px)';
-                    tooth.style.opacity = 1 - (toothProgress * 0.3);
-                });
+                // Seam fades out as zipper opens
+                if (zipperSeam) {
+                    zipperSeam.style.opacity = 1 - (pullProgress * 1.5);
+                }
 
-                // Fabric panels split apart (eased)
-                var fabricProgress = Math.pow(progress, 0.7); // ease out
-                var fabricSplit = fabricProgress * 55; // max 55% each side
+                // Fabric panels split apart - eased motion
+                var fabricDelay = 0.08;
+                var fabricProgress = Math.max(0, Math.min(1, (progress - fabricDelay) / 0.65));
+                var easedFabric = 1 - Math.pow(1 - fabricProgress, 2.5); // ease out cubic
+                var fabricSplit = easedFabric * 52;
+                
                 fabricLeft.style.transform = 'translateX(-' + fabricSplit + '%)';
                 fabricRight.style.transform = 'translateX(' + fabricSplit + '%)';
 
-                // Content reveals
-                var revealProgress = Math.max(0, Math.min(1, (progress - 0.2) / 0.6));
-                var blur = Math.max(0, 8 * (1 - revealProgress));
-                var scale = 0.96 + (revealProgress * 0.04);
-                var brightness = 0.5 + (revealProgress * 0.5);
-
-                content.style.filter = 'blur(' + blur + 'px) brightness(' + brightness + ')';
-                content.style.transform = 'scale(' + scale + ')';
+                // Content reveals behind - fades in and scales
+                var contentDelay = 0.15;
+                var contentProgress = Math.max(0, Math.min(1, (progress - contentDelay) / 0.6));
+                var easedContent = 1 - Math.pow(1 - contentProgress, 2);
+                
+                content.style.opacity = easedContent;
+                content.style.transform = 'scale(' + (0.98 + (easedContent * 0.02)) + ')';
             };
         }
 
